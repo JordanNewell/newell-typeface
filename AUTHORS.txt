@@ -1,0 +1,9 @@
+Newell Display Typeface
+=======================
+
+Designer:     Jordan Newell
+Engineer:     Jordan Newell (parametric generation)
+Contact:      jordan@jordannewell.com
+Year:         2026
+License:      SIL Open Font License 1.1
+Trademark:    "Newell" and the Newell logotype are trademarks of Jordan Newell.
