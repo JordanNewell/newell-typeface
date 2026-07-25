@@ -51,38 +51,62 @@ def expand_hline(spec):
 
 
 def expand_diag(spec):
-    """45-degree parallelogram of width STROKE_WIDTH.
+    """45-degree parallelogram with horizontal terminal edges.
 
-    The diagonal runs from (x0, y0) to (x1, y1). The parallelogram is
-    centered on that line. Raises ValueError if abs(dx) != abs(dy).
+    The two terminals are horizontal edges (aligned with cap height /
+    baseline) of equal length, connected by two 45-degree sides. This
+    makes the diagonal join cleanly with vertical rails (no overshoot
+    above cap height or below baseline).
+
+    Required fields:
+      top_y, top_x0, top_x1  -- the upper horizontal edge
+      bot_y, bot_x0, bot_x1  -- the lower horizontal edge
+
+    The generator validates that the four corners form a valid
+    45-degree parallelogram with parallel horizontal terminals of
+    equal length.
     """
-    x0 = spec["x0"]
-    y0 = spec["y0"]
-    x1 = spec["x1"]
-    y1 = spec["y1"]
-    dx = x1 - x0
-    dy = y1 - y0
-    if abs(abs(dx) - abs(dy)) > 0:
+    top_y = spec["top_y"]
+    top_x0 = spec["top_x0"]
+    top_x1 = spec["top_x1"]
+    bot_y = spec["bot_y"]
+    bot_x0 = spec["bot_x0"]
+    bot_x1 = spec["bot_x1"]
+
+    if top_y == bot_y:
+        raise ValueError(f"diag degenerate: top_y == bot_y == {top_y}")
+
+    top_len = top_x1 - top_x0
+    bot_len = bot_x1 - bot_x0
+    if top_len != bot_len:
         raise ValueError(
-            "diag primitive must be exactly 45 degrees; "
-            f"got dx={dx}, dy={dy} for {spec}"
+            f"diag terminals must be parallel and equal length; "
+            f"top={top_len}, bot={bot_len}"
         )
 
-    # Direction along the stroke (unit vector).
-    length = (dx * dx + dy * dy) ** 0.5
-    ux, uy = dx / length, dy / length
-    # Perpendicular (rotated 90 CCW). The sign choice just flips which
-    # side the two offset corners land on; the polygon is closed either
-    # way and union() does not care about winding.
-    px, py = -uy, ux
+    dy = abs(top_y - bot_y)
+    left_dx = abs(top_x0 - bot_x0)
+    right_dx = abs(top_x1 - bot_x1)
+    if left_dx != dy:
+        raise ValueError(
+            f"diag left side must be 45 degrees; "
+            f"|dx|={left_dx}, |dy|={dy}"
+        )
+    if right_dx != dy:
+        raise ValueError(
+            f"diag right side must be 45 degrees; "
+            f"|dx|={right_dx}, |dy|={dy}"
+        )
 
-    # The two endpoints of the centerline are the midpoint of each
-    # squared terminal. Offset by +-perp * HALF on each side.
-    a = (x0 + px * _HALF, y0 + py * _HALF)
-    b = (x0 - px * _HALF, y0 - py * _HALF)
-    c = (x1 - px * _HALF, y1 - py * _HALF)
-    d = (x1 + px * _HALF, y1 + py * _HALF)
-    return [a, b, c, d]
+    # Return corners clockwise. The winding doesn't actually matter
+    # because booleanOperations' union normalizes, but a consistent
+    # order helps debugging.
+    return [
+        (top_x0, top_y),
+        (top_x1, top_y),
+        (bot_x1, bot_y),
+        (bot_x0, bot_y),
+    ]
 
 
 _PRIMITIVE_EXPANDERS = {

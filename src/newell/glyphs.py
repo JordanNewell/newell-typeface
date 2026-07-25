@@ -21,6 +21,15 @@ BASELINE = 0
 STROKE = 110
 SIDE_BEARING = 90
 
+# When a diagonal's horizontal terminal coincides exactly with a rail's
+# top/bottom edge, booleanOperations.union() treats them as touching but
+# not overlapping (zero-width intersection) and emits them as separate
+# contours. We extend each diag terminal by _DIAG_OVERLAP units on each
+# side so the union has a small but non-zero overlap region. The
+# resulting 1-unit protrusions at the corners are sub-pixel at any
+# reasonable render size (1/1000 of the em).
+_DIAG_OVERLAP = 1.0
+
 
 def _advance(bbox_width):
     """Default advance = left + bbox_width + right side bearings."""
@@ -29,11 +38,17 @@ def _advance(bbox_width):
 
 # ---------------------------------------------------------------------------
 # N: two vertical rails + signature 45-degree diagonal.
-# Rail centers 700 units apart so the diagonal is exactly 45 degrees.
+# The diagonal has horizontal terminals that span each rail's full width,
+# so the union joins cleanly at the corners (no overshoot past cap height
+# or baseline). Perpendicular thickness of the diagonal is 110/sqrt(2).
 # ---------------------------------------------------------------------------
-_N_LEFT_X = SIDE_BEARING + STROKE / 2          # 145
-_N_RIGHT_X = _N_LEFT_X + CAP_HEIGHT            # 845
-_N_BBOX = (_N_RIGHT_X + STROKE / 2) - (_N_LEFT_X - STROKE / 2)  # 810
+_N_LEFT_X = SIDE_BEARING + STROKE / 2          # 145 (center)
+_N_RIGHT_X = _N_LEFT_X + CAP_HEIGHT            # 845 (center)
+_N_LEFT_EDGE = _N_LEFT_X - STROKE / 2          # 90
+_N_LEFT_RIGHT = _N_LEFT_X + STROKE / 2         # 200
+_N_RIGHT_LEFT = _N_RIGHT_X - STROKE / 2        # 790
+_N_RIGHT_EDGE = _N_RIGHT_X + STROKE / 2        # 900
+_N_BBOX = _N_RIGHT_EDGE - _N_LEFT_EDGE         # 810
 N = {
     "name": "N",
     "unicode": "U+004E",
@@ -41,8 +56,18 @@ N = {
     "primitives": [
         {"type": "vline", "x": _N_LEFT_X, "y0": BASELINE, "y1": CAP_HEIGHT},
         {"type": "vline", "x": _N_RIGHT_X, "y0": BASELINE, "y1": CAP_HEIGHT},
-        {"type": "diag", "x0": _N_LEFT_X, "y0": CAP_HEIGHT,
-         "x1": _N_RIGHT_X, "y1": BASELINE},
+        # Diagonal: top edge sits on cap height across the left rail
+        # (x=90 to 200); bottom edge sits on baseline across the right
+        # rail (x=790 to 900). Terminals extend _DIAG_OVERLAP past the
+        # rail width on each side so union() merges cleanly with the
+        # rails (no zero-width intersection). dx=dy=700 on both sides.
+        {"type": "diag",
+         "top_y": CAP_HEIGHT,
+         "top_x0": _N_LEFT_EDGE - _DIAG_OVERLAP,
+         "top_x1": _N_LEFT_RIGHT + _DIAG_OVERLAP,
+         "bot_y": BASELINE,
+         "bot_x0": _N_RIGHT_LEFT - _DIAG_OVERLAP,
+         "bot_x1": _N_RIGHT_EDGE + _DIAG_OVERLAP},
     ],
 }
 

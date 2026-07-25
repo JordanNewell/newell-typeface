@@ -81,13 +81,31 @@ A bar centered vertically on `y`, extending from `x0` to `x1`.
 
 ### 5.3 Diagonal
 
+A 45° parallelogram whose **terminal edges are horizontal** (aligned
+with cap height / baseline / rail tops). This is what makes diagonals
+join cleanly with vertical rails: the terminal edge spans the same
+horizontal extent as the rail width, so the union has no overshoot.
+
 ```json
-{"type": "diag", "x0": 100, "y0": 700, "x1": 500, "y1": 0,
- "start": "top-left", "end": "top-right"}
+{"type": "diag",
+ "top_y": 700,  "top_x0": 90,  "top_x1": 200,
+ "bot_y": 0,    "bot_x0": 790, "bot_x1": 900}
 ```
 
-A 45° stroke of width 110, from `(x0, y0)` to `(x1, y1)`. The
-generator asserts `|x1 - x0| == |y1 - y0|`.
+- `top_y` / `bot_y`: y-coordinates of the two horizontal terminal edges.
+- `top_x0`/`top_x1`: horizontal extent of the top edge.
+- `bot_x0`/`bot_x1`: horizontal extent of the bottom edge.
+
+**Validation** (the generator asserts all of these):
+1. `top_y != bot_y` (non-degenerate).
+2. `(top_x1 - top_x0) == (bot_x1 - bot_x0)` (parallel terminals of equal length).
+3. `abs(top_x0 - bot_x0) == abs(top_y - bot_y)` (left edge at exactly 45°).
+4. `abs(top_x1 - bot_x1) == abs(top_y - bot_y)` (right edge at exactly 45°).
+
+The horizontal terminal extent equals the rail width (110), so the
+perpendicular stroke width of a diagonal is `110 / √2 ≈ 77.8`. This is
+geometrically necessary for clean joints and matches what other
+geometric sans-serifs (Eurostile, Bank Gothic) do.
 
 ### 5.4 Junction
 
