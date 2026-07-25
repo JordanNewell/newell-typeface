@@ -58,18 +58,28 @@
     <string>Z_.glif</string>
     <key>ampersand</key>
     <string>ampersand.glif</string>
+    <key>arrowleft</key>
+    <string>arrowleft.glif</string>
+    <key>arrowright</key>
+    <string>arrowright.glif</string>
     <key>at</key>
     <string>at.glif</string>
+    <key>bullet</key>
+    <string>bullet.glif</string>
     <key>colon</key>
     <string>colon.glif</string>
     <key>comma</key>
     <string>comma.glif</string>
+    <key>cross</key>
+    <string>cross.glif</string>
     <key>dollar</key>
     <string>dollar.glif</string>
     <key>eight</key>
     <string>eight.glif</string>
     <key>emdash</key>
     <string>emdash.glif</string>
+    <key>endash</key>
+    <string>endash.glif</string>
     <key>equal</key>
     <string>equal.glif</string>
     <key>exclam</key>
@@ -84,6 +94,10 @@
     <string>hyphen.glif</string>
     <key>less</key>
     <string>less.glif</string>
+    <key>lightning</key>
+    <string>lightning.glif</string>
+    <key>middledot</key>
+    <string>middledot.glif</string>
     <key>nine</key>
     <string>nine.glif</string>
     <key>numbersign</key>
@@ -106,6 +120,8 @@
     <string>quotedblleft.glif</string>
     <key>quotedblright</key>
     <string>quotedblright.glif</string>
+    <key>quoteleft</key>
+    <string>quoteleft.glif</string>
     <key>quotesingle</key>
     <string>quotesingle.glif</string>
     <key>semicolon</key>
@@ -118,6 +134,10 @@
     <string>slash.glif</string>
     <key>space</key>
     <string>space.glif</string>
+    <key>star</key>
+    <string>star.glif</string>
+    <key>starOutlined</key>
+    <string>starO_utlined.glif</string>
     <key>three</key>
     <string>three.glif</string>
     <key>two</key>

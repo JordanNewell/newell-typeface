@@ -12,8 +12,12 @@ from newell.generator import build_glyph, draw_contours_into_glyph, union_primit
 
 FAMILY_NAME = "Newell"
 STYLE_NAME = "Regular"
+# UFO fontTools only exposes versionMajor.versionMinor (no third field), so
+# v0.1.1 of the project maps to versionMajor=0, versionMinor=2 in the font
+# binary metadata (the minor field bumps on each post-v0.1 update; the third
+# digit is implicit and tracked in CHANGELOG.md / git tags).
 VERSION_MAJOR = 0
-VERSION_MINOR = 1
+VERSION_MINOR = 2
 COPYRIGHT = "Copyright 2026 Jordan Newell"
 
 UNITS_PER_EM = 1000
