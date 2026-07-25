@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Try Newell — type your own text and see it rendered live at five sizes with color, spacing, and line-height controls.">
+  <meta name="author" content="Jordan Newell">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Try Newell — Interactive Type Tester">
+  <meta property="og:description" content="Type your own text and see it rendered live in Newell at five sizes.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jordannewell.github.io/newell-typeface/try.html">
+  <meta property="og:image" content="https://jordannewell.github.io/newell-typeface/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Newell">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Try Newell — Interactive Type Tester">
+  <meta name="twitter:description" content="Type your own text and see it rendered live in Newell at five sizes.">
+  <meta name="twitter:image" content="https://jordannewell.github.io/newell-typeface/assets/og.png">
+  <title>Try — Newell</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Crect x='18' y='15' width='10' height='70' fill='%2300FF66'/%3E%3Crect x='72' y='15' width='10' height='70' fill='%2300FF66'/%3E%3Cpolygon points='18,15 28,15 82,85 72,85' fill='%2300FF66'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+  <link rel="shortcut icon" href="assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#000000">
+  <style>
+    @font-face {
+      font-family: "Newell";
+      src: url("releases/Newell-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg:           #000000;
+      --bg-elevated:  #0a0a0a;
+      --green:        #00FF66;
+      --green-soft:   rgba(0, 255, 102, 0.08);
+      --green-line:   rgba(0, 255, 102, 0.25);
+      --text:         #e8e8e8;
+      --text-dim:     #a0a0a0;
+      --muted:        #5a5a5a;
+      --rule:         #1a1a1a;
+      --sans:         system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --mono:         ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: var(--green);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease;
+    }
+    a:hover { border-bottom-color: var(--green); }
+
+    /* ---------- top bar ---------- */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .topbar .brand { color: var(--text); font-weight: 600; }
+    .topbar .brand span { color: var(--green); }
+    .topbar nav { display: flex; gap: 2rem; }
+    .topbar nav a { color: var(--text-dim); border-bottom: none; }
+    .topbar nav a:hover { color: var(--green); }
+    .topbar nav a.active { color: var(--green); }
+    .topbar .status {
+      color: var(--green);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .topbar .status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.35; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .topbar .status::before { animation: none; }
+    }
+
+    /* ---------- page intro ---------- */
+    .intro {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem 2rem 0;
+      width: 100%;
+    }
+    .intro .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .intro .eyebrow .accent { color: var(--green); }
+    .intro h1 {
+      font-family: "Newell", var(--sans);
+      font-weight: 400;
+      color: var(--green);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.8rem;
+    }
+    .intro p {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      max-width: 60ch;
+    }
+
+    /* ---------- layout ---------- */
+    main {
+      flex: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2.5rem 2rem 5rem;
+      width: 100%;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 2rem;
+      align-items: start;
+    }
+    @media (max-width: 960px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+
+    /* ---------- input + preview column ---------- */
+    .stage-col { min-width: 0; }
+
+    .input-wrap {
+      margin-bottom: 1.5rem;
+    }
+    .input-wrap label {
+      display: block;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+    }
+    .input-wrap textarea {
+      width: 100%;
+      min-height: 88px;
+      padding: 1rem 1.25rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--rule);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      line-height: 1.5;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.15s ease;
+      resize: vertical;
+    }
+    .input-wrap textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px var(--green);
+    }
+    .input-wrap textarea::placeholder { color: var(--muted); }
+    .input-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+    }
+    .input-meta .count.warn { color: #ff6b6b; }
+
+    /* ---------- preview stage ---------- */
+    .stage {
+      background: var(--bg-elevated);
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+    }
+    .band {
+      padding: 1.5rem 1.5rem;
+      border-bottom: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 88px 1fr;
+      gap: 1rem;
+      align-items: start;
+    }
+    .band:last-child { border-bottom: 0; }
+    .band .label {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding-top: 0.5rem;
+    }
+    .band .label strong {
+      display: block;
+      color: var(--green);
+      font-weight: 500;
+      margin-bottom: 0.2rem;
+    }
+    .band .render {
+      font-family: "Newell", var(--sans);
+      font-weight: 400;
+      color: var(--green);
+      word-break: break-word;
+      overflow-wrap: anywhere;
+      min-width: 0;
+      transition: background 0.1s ease, color 0.1s ease;
+    }
+    .band--200 .render { font-size: clamp(80px, 14vw, 200px); line-height: 1; }
+    .band--128 .render { font-size: clamp(60px, 11vw, 128px); line-height: 1; }
+    .band--64  .render { font-size: 64px; line-height: 1; }
+    .band--32  .render { font-size: 32px; line-height: 1.1; }
+    .band--16  .render { font-size: 16px; line-height: 1.3; }
+    @media (max-width: 600px) {
+      .band { grid-template-columns: 1fr; gap: 0.5rem; padding: 1.25rem 1rem; }
+      .band .label { padding-top: 0; }
+    }
+
+    /* ---------- controls panel ---------- */
+    .controls {
+      position: sticky;
+      top: 1rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--rule);
+      border-radius: 2px;
+      padding: 1.5rem 1.25rem;
+    }
+    .controls h2 {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .control {
+      margin-bottom: 1.25rem;
+    }
+    .control .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.45rem;
+    }
+    .control label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .control .val {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--green);
+      letter-spacing: 0.05em;
+    }
+
+    /* color pickers */
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .color-row input[type="color"] {
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border: 1px solid var(--rule);
+      background: transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    .color-row input[type="color"]::-webkit-color-swatch-wrapper { padding: 2px; }
+    .color-row input[type="color"]::-webkit-color-swatch { border: none; border-radius: 1px; }
+    .color-row input[type="color"]::-moz-color-swatch { border: none; border-radius: 1px; }
+    .color-row input[type="text"] {
+      flex: 1;
+      min-width: 0;
+      padding: 0.55rem 0.6rem;
+      background: var(--bg);
+      border: 1px solid var(--rule);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.05em;
+      border-radius: 2px;
+      outline: none;
+      text-transform: uppercase;
+    }
+    .color-row input[type="text"]:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px var(--green);
+    }
+
+    /* sliders */
+    input[type="range"] {
+      width: 100%;
+      height: 4px;
+      background: var(--rule);
+      border-radius: 2px;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 14px;
+      height: 14px;
+      background: var(--green);
+      border-radius: 50%;
+      border: 0;
+      box-shadow: 0 0 6px var(--green-line);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 14px;
+      height: 14px;
+      background: var(--green);
+      border-radius: 50%;
+      border: 0;
+    }
+    input[type="range"]:focus-visible {
+      box-shadow: 0 0 0 2px var(--green-line);
+    }
+
+    /* toggle */
+    .toggle {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+    }
+    .toggle input { position: absolute; opacity: 0; pointer-events: none; }
+    .toggle .switch {
+      width: 36px;
+      height: 20px;
+      background: var(--rule);
+      border-radius: 10px;
+      position: relative;
+      transition: background 0.15s ease;
+      flex: 0 0 auto;
+    }
+    .toggle .switch::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      background: var(--text-dim);
+      border-radius: 50%;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .toggle input:checked + .switch { background: var(--green-line); }
+    .toggle input:checked + .switch::after {
+      transform: translateX(16px);
+      background: var(--green);
+    }
+    .toggle input:focus-visible + .switch {
+      box-shadow: 0 0 0 2px var(--green-line);
+    }
+    .toggle .lbl {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* actions */
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--rule);
+    }
+    .btn-mini {
+      padding: 0.65rem 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border: 1px solid var(--rule);
+      color: var(--text-dim);
+      background: transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+    }
+    .btn-mini:hover {
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .btn-mini--primary {
+      border-color: var(--green);
+      color: var(--green);
+    }
+    .btn-mini--primary:hover {
+      background: var(--green);
+      color: var(--bg);
+    }
+    .btn-mini:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .btn-mini:disabled:hover {
+      border-color: var(--rule);
+      color: var(--text-dim);
+      background: transparent;
+    }
+    .copy-msg {
+      grid-column: 1 / -1;
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      color: var(--green);
+      min-height: 1em;
+      text-align: center;
+    }
+    .copy-msg.error { color: #ff6b6b; }
+
+    /* ---------- footer ---------- */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2.5rem 1.5rem 2rem;
+      background: var(--bg);
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    footer .row {
+      margin-bottom: 0.65rem;
+      line-height: 1.8;
+    }
+    footer a {
+      color: var(--text-dim);
+      border-bottom: none;
+      transition: color 0.15s ease;
+    }
+    footer a:hover { color: var(--green); }
+    footer .sep { margin: 0 0.65em; color: var(--rule); }
+    footer .copy {
+      margin-top: 0.85rem;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+    }
+    footer .copy .bolt { color: var(--green); margin: 0 0.4em; }
+    footer .social {
+      margin-top: 1.25rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      font-size: 1.15rem;
+    }
+    footer .social a {
+      opacity: 0.6;
+      transition: opacity 0.15s ease, color 0.15s ease;
+      text-decoration: none;
+      border-bottom: none;
+    }
+    footer .social a:hover { opacity: 1; color: var(--green); }
+
+    @media (max-width: 600px) {
+      .topbar nav { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">NEWELL <span>/</span> TYPEFACE</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="try.html" class="active">Try</a>
+      <a href="specimen/">Specimen</a>
+      <a href="https://github.com/JordanNewell/newell-typeface">GitHub</a>
+    </nav>
+    <div class="status">v0.1.0-ALPHA</div>
+  </header>
+
+  <section class="intro">
+    <div class="eyebrow">Interactive <span class="accent">/</span> Type Tester</div>
+    <h1>TRY THE TYPE.</h1>
+    <p>
+      Type your own text. See it rendered live in Newell at five sizes,
+      from body to hero. Adjust color, letter-spacing, and line-height.
+      v0.1 ships uppercase, digits, and punctuation only — lowercase
+      lands in v0.2.
+    </p>
+  </section>
+
+  <main>
+    <div class="layout">
+
+      <!-- input + preview -->
+      <div class="stage-col">
+        <div class="input-wrap">
+          <label for="text-input">Your text</label>
+          <textarea id="text-input" maxlength="200" placeholder="Type something..." spellcheck="false" autocomplete="off">NEWELL</textarea>
+          <div class="input-meta">
+            <span>max 200 chars · uppercase + digits + punctuation</span>
+            <span class="count" id="char-count">6 / 200</span>
+          </div>
+        </div>
+
+        <div class="stage" id="stage">
+          <div class="band band--200">
+            <div class="label"><strong>200</strong>HERO</div>
+            <div class="render" data-size="200"></div>
+          </div>
+          <div class="band band--128">
+            <div class="label"><strong>128</strong>DISPLAY</div>
+            <div class="render" data-size="128"></div>
+          </div>
+          <div class="band band--64">
+            <div class="label"><strong>64</strong>HEAD</div>
+            <div class="render" data-size="64"></div>
+          </div>
+          <div class="band band--32">
+            <div class="label"><strong>32</strong>SUBHEAD</div>
+            <div class="render" data-size="32"></div>
+          </div>
+          <div class="band band--16">
+            <div class="label"><strong>16</strong>BODY</div>
+            <div class="render" data-size="16"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- controls -->
+      <aside class="controls" aria-label="Type controls">
+        <h2>Controls</h2>
+
+        <div class="control">
+          <div class="row">
+            <label for="fg-color">Foreground</label>
+          </div>
+          <div class="color-row">
+            <input type="color" id="fg-color" value="#00FF66" aria-label="Foreground color picker">
+            <input type="text" id="fg-text" value="#00FF66" maxlength="7" aria-label="Foreground color hex value" spellcheck="false">
+          </div>
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <label for="bg-color">Background</label>
+          </div>
+          <div class="color-row">
+            <input type="color" id="bg-color" value="#000000" aria-label="Background color picker">
+            <input type="text" id="bg-text" value="#000000" maxlength="7" aria-label="Background color hex value" spellcheck="false">
+          </div>
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <label for="tracking">Letter-spacing</label>
+            <span class="val" id="tracking-val">0.02em</span>
+          </div>
+          <input type="range" id="tracking" min="-0.05" max="0.2" step="0.005" value="0.02" aria-label="Letter spacing">
+        </div>
+
+        <div class="control">
+          <div class="row">
+            <label for="leading">Line-height</label>
+            <span class="val" id="leading-val">1.00</span>
+          </div>
+          <input type="range" id="leading" min="0.8" max="2.0" step="0.05" value="1.0" aria-label="Line height">
+        </div>
+
+        <div class="control">
+          <label class="toggle">
+            <input type="checkbox" id="uppercase" checked>
+            <span class="switch" aria-hidden="true"></span>
+            <span class="lbl">Uppercase</span>
+          </label>
+        </div>
+
+        <div class="actions">
+          <button class="btn-mini btn-mini--primary" id="copy-btn" type="button">Copy as HTML</button>
+          <button class="btn-mini" id="reset-btn" type="button">Reset</button>
+          <p class="copy-msg" id="copy-msg" role="status" aria-live="polite"></p>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <footer>
+    <p class="row">
+      <a href="https://github.com/JordanNewell/newell-typeface">github</a>
+      <span class="sep">·</span>
+      <a href="index.html">home</a>
+      <span class="sep">·</span>
+      <a href="about.html">about</a>
+      <span class="sep">·</span>
+      <a href="try.html">try</a>
+      <span class="sep">·</span>
+      <a href="specimen/">specimen</a>
+      <span class="sep">·</span>
+      <a href="https://github.com/JordanNewell/newell-typeface/releases/tag/v0.1.0-alpha">download</a>
+      <span class="sep">·</span>
+      <a href="mailto:jordan@jordannewell.com">contact</a>
+    </p>
+    <p class="row">
+      <a href="OFL.txt">ofl</a>
+      <span class="sep">·</span>
+      <a href="ROADMAP.md">roadmap</a>
+      <span class="sep">·</span>
+      <a href="SPEC.md">spec</a>
+      <span class="sep">·</span>
+      <a href="CHANGELOG.md">changelog</a>
+      <span class="sep">·</span>
+      <span>v0.1.0-alpha</span>
+    </p>
+    <p class="copy">© 2026 Jordan Newell <span class="bolt">⚡</span> Newell is a trademark of Jordan Newell <span class="bolt">⚡</span> <a href="OFL.txt">SIL OFL 1.1</a></p>
+    <div class="social">
+      <a href="https://github.com/JordanNewell" aria-label="GitHub" title="GitHub">🐙</a>
+      <a href="https://github.com/sponsors/JordanNewell" aria-label="Sponsor" title="Sponsor on GitHub">🤍</a>
+      <a href="https://buymeacoffee.com/jordannewell" aria-label="Buy me a coffee" title="Buy me a coffee">☕</a>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      "use strict";
+
+      var STORAGE_KEY = "newell-try-settings-v1";
+
+      var DEFAULTS = {
+        text: "NEWELL",
+        fg: "#00FF66",
+        bg: "#000000",
+        tracking: 0.02,
+        leading: 1.0,
+        uppercase: true
+      };
+
+      // ---- element refs ----
+      var textInput   = document.getElementById("text-input");
+      var charCount   = document.getElementById("char-count");
+      var fgColor     = document.getElementById("fg-color");
+      var fgText      = document.getElementById("fg-text");
+      var bgColor     = document.getElementById("bg-color");
+      var bgText      = document.getElementById("bg-text");
+      var tracking    = document.getElementById("tracking");
+      var trackingVal = document.getElementById("tracking-val");
+      var leading     = document.getElementById("leading");
+      var leadingVal  = document.getElementById("leading-val");
+      var upperToggle = document.getElementById("uppercase");
+      var copyBtn     = document.getElementById("copy-btn");
+      var copyMsg     = document.getElementById("copy-msg");
+      var resetBtn    = document.getElementById("reset-btn");
+      var stage       = document.getElementById("stage");
+      var renders     = stage.querySelectorAll(".render");
+
+      // ---- helpers ----
+      function escapeHTML(s) {
+        return s.replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;");
+      }
+
+      function escapeAttr(s) {
+        return s.replace(/&/g, "&amp;")
+                .replace(/"/g, "&quot;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+      }
+
+      function isValidHex(h) {
+        return /^#[0-9a-fA-F]{6}$/.test(h);
+      }
+
+      function normalizeHex(h) {
+        if (!h) return null;
+        h = h.trim();
+        if (h.charAt(0) !== "#" ) h = "#" + h;
+        return isValidHex(h) ? h.toUpperCase() : null;
+      }
+
+      function formatEm(v) {
+        return parseFloat(v).toFixed(3).replace(/0+$/, "").replace(/\.$/, "") + "em";
+      }
+
+      function formatNum(v) {
+        return parseFloat(v).toFixed(2);
+      }
+
+      // ---- persistence ----
+      function loadSettings() {
+        try {
+          var raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return null;
+          var s = JSON.parse(raw);
+          if (typeof s !== "object" || s === null) return null;
+          return s;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function saveSettings(s) {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
+        } catch (e) {
+          // storage may be unavailable (private mode, quota) — non-fatal
+        }
+      }
+
+      // ---- render ----
+      function readState() {
+        return {
+          text: textInput.value,
+          fg: fgColor.value.toUpperCase(),
+          bg: bgColor.value.toUpperCase(),
+          tracking: parseFloat(tracking.value),
+          leading: parseFloat(leading.value),
+          uppercase: upperToggle.checked
+        };
+      }
+
+      function displayText(rawText, uppercase) {
+        var t = rawText.length ? rawText : " ";
+        return uppercase ? t.toUpperCase() : t;
+      }
+
+      function render() {
+        var s = readState();
+        var shown = displayText(s.text, s.uppercase);
+
+        // stage background
+        stage.style.background = s.bg;
+
+        // each band
+        for (var i = 0; i < renders.length; i++) {
+          var el = renders[i];
+          el.textContent = shown;
+          el.style.color = s.fg;
+          el.style.letterSpacing = s.tracking + "em";
+          el.style.lineHeight = s.leading;
+        }
+
+        // char count
+        var len = s.text.length;
+        charCount.textContent = len + " / 200";
+        charCount.classList.toggle("warn", len >= 190);
+
+        // value readouts
+        trackingVal.textContent = formatEm(s.tracking);
+        leadingVal.textContent = formatNum(s.leading);
+
+        // sync hex text fields
+        if (fgText.value.toUpperCase() !== s.fg) fgText.value = s.fg;
+        if (bgText.value.toUpperCase() !== s.bg) bgText.value = s.bg;
+        fgColor.value = s.fg;
+        bgColor.value = s.bg;
+
+        // persist
+        saveSettings({
+          text: s.text,
+          fg: s.fg,
+          bg: s.bg,
+          tracking: s.tracking,
+          leading: s.leading,
+          uppercase: s.uppercase
+        });
+      }
+
+      // ---- copy as HTML ----
+      function buildSnippet(s) {
+        var shown = escapeHTML(displayText(s.text, s.uppercase));
+        var href = "https://jordannewell.github.io/newell-typeface/releases/Newell-Regular.woff2";
+        var css = [
+          "@font-face {",
+          "  font-family: 'Newell';",
+          "  src: url('" + href + "') format('woff2');",
+          "  font-weight: 400; font-style: normal; font-display: swap;",
+          "}",
+          ".newell {",
+          "  font-family: 'Newell', system-ui, sans-serif;",
+          "  font-weight: 400;",
+          "  color: " + s.fg + ";",
+          "  background: " + s.bg + ";",
+          "  letter-spacing: " + formatEm(s.tracking) + ";",
+          "  line-height: " + formatNum(s.leading) + ";",
+          s.uppercase ? "  text-transform: uppercase;" : "",
+          "}"
+        ].join("\n").replace(/\n\n+/g, "\n");
+
+        return "<!-- Newell typeface · SIL OFL 1.1 · https://github.com/JordanNewell/newell-typeface -->\n" +
+               "<style>\n" + css + "\n</style>\n\n" +
+               "<link rel=\"stylesheet\" href=\"" + escapeAttr(href) + "\">\n\n" +
+               "<span class=\"newell\">" + shown + "</span>\n";
+      }
+
+      function showCopyMsg(text, isError) {
+        copyMsg.textContent = text;
+        copyMsg.classList.toggle("error", !!isError);
+        clearTimeout(showCopyMsg._t);
+        showCopyMsg._t = setTimeout(function() {
+          copyMsg.textContent = "";
+        }, 2400);
+      }
+
+      function onCopy() {
+        var snippet = buildSnippet(readState());
+        function onSuccess() { showCopyMsg("Copied snippet to clipboard."); }
+        function onFail()    { showCopyMsg("Copy failed — select and copy manually.", true); }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(snippet).then(onSuccess, function() {
+            fallbackCopy(snippet, onSuccess, onFail);
+          });
+        } else {
+          fallbackCopy(snippet, onSuccess, onFail);
+        }
+      }
+
+      function fallbackCopy(text, onOk, onErr) {
+        try {
+          var ta = document.createElement("textarea");
+          ta.value = text;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "absolute";
+          ta.style.left = "-9999px";
+          document.body.appendChild(ta);
+          ta.select();
+          var ok = document.execCommand("copy");
+          document.body.removeChild(ta);
+          if (ok) onOk(); else onErr();
+        } catch (e) {
+          onErr();
+        }
+      }
+
+      // ---- reset ----
+      function onReset() {
+        textInput.value  = DEFAULTS.text;
+        fgColor.value    = DEFAULTS.fg;
+        fgText.value     = DEFAULTS.fg;
+        bgColor.value    = DEFAULTS.bg;
+        bgText.value     = DEFAULTS.bg;
+        tracking.value   = DEFAULTS.tracking;
+        leading.value    = DEFAULTS.leading;
+        upperToggle.checked = DEFAULTS.uppercase;
+        render();
+      }
+
+      // ---- color text input sync ----
+      function bindColorPair(picker, text) {
+        text.addEventListener("input", function() {
+          var norm = normalizeHex(text.value);
+          if (norm) {
+            picker.value = norm;
+            render();
+          }
+        });
+        text.addEventListener("blur", function() {
+          // restore canonical value on blur
+          var norm = normalizeHex(text.value);
+          if (!norm) text.value = picker.value.toUpperCase();
+        });
+        picker.addEventListener("input", function() {
+          text.value = picker.value.toUpperCase();
+          render();
+        });
+      }
+
+      // ---- init ----
+      function applySettings(s) {
+        if (!s) return;
+        if (typeof s.text === "string") textInput.value = s.text.slice(0, 200);
+        if (typeof s.fg === "string") {
+          var fg = normalizeHex(s.fg);
+          if (fg) { fgColor.value = fg; fgText.value = fg; }
+        }
+        if (typeof s.bg === "string") {
+          var bg = normalizeHex(s.bg);
+          if (bg) { bgColor.value = bg; bgText.value = bg; }
+        }
+        if (typeof s.tracking === "number" && !isNaN(s.tracking)) {
+          tracking.value = Math.max(-0.05, Math.min(0.2, s.tracking));
+        }
+        if (typeof s.leading === "number" && !isNaN(s.leading)) {
+          leading.value = Math.max(0.8, Math.min(2.0, s.leading));
+        }
+        if (typeof s.uppercase === "boolean") upperToggle.checked = s.uppercase;
+      }
+
+      function init() {
+        applySettings(loadSettings());
+
+        textInput.addEventListener("input", render);
+        tracking.addEventListener("input", render);
+        leading.addEventListener("input", render);
+        upperToggle.addEventListener("change", render);
+        bindColorPair(fgColor, fgText);
+        bindColorPair(bgColor, bgText);
+        copyBtn.addEventListener("click", onCopy);
+        resetBtn.addEventListener("click", onReset);
+
+        render();
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Newell — a geometric display typeface built from parallel rails and 45-degree diagonals. Designed and engineered by Jordan Newell.">
+  <meta name="author" content="Jordan Newell">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Newell — Geometric Display Typeface">
+  <meta property="og:description" content="A geometric display typeface built from parallel rails and 45-degree diagonals. Designed by Jordan Newell.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jordannewell.github.io/newell-typeface/">
+  <meta property="og:image" content="https://jordannewell.github.io/newell-typeface/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Newell">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Newell — Geometric Display Typeface">
+  <meta name="twitter:description" content="A geometric display typeface built from parallel rails and 45-degree diagonals.">
+  <meta name="twitter:image" content="https://jordannewell.github.io/newell-typeface/assets/og.png">
+  <title>Newell — A Geometric Display Typeface</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Crect x='18' y='15' width='10' height='70' fill='%2300FF66'/%3E%3Crect x='72' y='15' width='10' height='70' fill='%2300FF66'/%3E%3Cpolygon points='18,15 28,15 82,85 72,85' fill='%2300FF66'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+  <link rel="shortcut icon" href="assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#000000">
+  <style>
+    @font-face {
+      font-family: "Newell";
+      src: url("releases/Newell-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg:           #000000;
+      --bg-elevated:  #0a0a0a;
+      --green:        #00FF66;
+      --green-soft:   rgba(0, 255, 102, 0.08);
+      --green-line:   rgba(0, 255, 102, 0.25);
+      --text:         #e8e8e8;
+      --text-dim:     #a0a0a0;
+      --muted:        #5a5a5a;
+      --rule:         #1a1a1a;
+      --sans:         system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --mono:         ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: var(--green);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease;
+    }
+    a:hover { border-bottom-color: var(--green); }
+
+    /* ---------- top bar ---------- */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .topbar .brand { color: var(--text); font-weight: 600; }
+    .topbar .brand span { color: var(--green); }
+    .topbar nav { display: flex; gap: 2rem; }
+    .topbar nav a { color: var(--text-dim); border-bottom: none; }
+    .topbar nav a:hover { color: var(--green); }
+    .topbar .status {
+      color: var(--green);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .topbar .status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%      { opacity: 0.35; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .topbar .status::before { animation: none; }
+    }
+
+    /* ---------- hero ---------- */
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 2rem 6rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .hero .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 3rem;
+    }
+    .hero .eyebrow .accent { color: var(--green); }
+
+    .hero h1 {
+      font-family: "Newell", var(--sans);
+      font-weight: 400;
+      color: var(--green);
+      font-size: clamp(4rem, 18vw, 16rem);
+      line-height: 0.9;
+      letter-spacing: 0.01em;
+      margin-bottom: 2rem;
+      text-shadow: 0 0 60px rgba(0, 255, 102, 0.18);
+    }
+
+    .hero .brand-logo {
+      width: clamp(220px, 32vw, 380px);
+      height: auto;
+      margin-bottom: 2.5rem;
+      filter: drop-shadow(0 0 50px rgba(0, 255, 102, 0.22));
+    }
+
+    /* ---------- logo assembly animation ---------- */
+    /* The logo is wrapped in a relative container. Three decorative
+       primitives (two vertical rails + one diagonal) animate in before
+       the full image fades over them, reinforcing "engineered, not
+       drawn" by making the construction literal. */
+    .logo-stage {
+      position: relative;
+      width: clamp(220px, 32vw, 380px);
+      height: clamp(220px, 32vw, 380px);
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo-stage .brand-logo {
+      position: relative;
+      z-index: 2;
+      margin-bottom: 0;
+      opacity: 0;
+      transform: scale(0.92);
+      will-change: opacity, transform;
+    }
+    /* Decorative rails + diagonal sit underneath the final logo. Their
+       x/y positions echo the structure of the N in the logo itself:
+       a left rail, a right rail offset ~30px, and a 45-degree diagonal
+       sweeping from top-left to bottom-right. */
+    .logo-stage .prim {
+      position: absolute;
+      z-index: 1;
+      background: var(--green);
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity, transform;
+    }
+    .logo-stage .prim.rail1 {
+      width: 10px;
+      height: 70%;
+      left: 18%;
+      top: 15%;
+    }
+    .logo-stage .prim.rail2 {
+      width: 10px;
+      height: 70%;
+      left: calc(18% + 30px);
+      top: 15%;
+    }
+    .logo-stage .prim.diag {
+      width: 14px;
+      top: 15%;
+      left: 18%;
+      height: 100%; /* gets clipped by transform/rotate */
+      transform-origin: top left;
+      transform: rotate(45deg) translateX(-30%) scaleY(0);
+    }
+    /* Stage-assembled keyframes (only run when body has .anim-ready) */
+    body.anim-ready .logo-stage .prim.rail1 {
+      animation: primFade 0.6s ease 0s forwards;
+    }
+    body.anim-ready .logo-stage .prim.rail2 {
+      animation: primFade 0.6s ease 0.4s forwards;
+    }
+    body.anim-ready .logo-stage .prim.diag {
+      animation: diagSlide 0.6s ease 0.6s forwards;
+    }
+    body.anim-ready .logo-stage .brand-logo {
+      animation: logoReveal 0.5s ease 1.0s forwards;
+    }
+    body.anim-ready .hero .tagline {
+      animation: taglineFade 0.5s ease 1.5s both;
+    }
+    @keyframes primFade {
+      from { opacity: 0; }
+      to   { opacity: 0.55; }
+    }
+    @keyframes diagSlide {
+      from { transform: rotate(45deg) translateX(-30%) scaleY(0); opacity: 0; }
+      to   { transform: rotate(45deg) translateX(0) scaleY(1); opacity: 0.5; }
+    }
+    @keyframes logoReveal {
+      from { opacity: 0; transform: scale(0.92); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    @keyframes taglineFade {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    /* Initial hidden state for tagline (only when anim is going to run) */
+    body.anim-ready .hero .tagline {
+      opacity: 0;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      body.anim-ready .logo-stage .prim { display: none; }
+      body.anim-ready .logo-stage .brand-logo {
+        opacity: 1; transform: none; animation: none;
+      }
+      body.anim-ready .hero .tagline {
+        opacity: 1; transform: none; animation: none;
+      }
+    }
+
+    .hero .tagline {
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      color: var(--text);
+      font-weight: 400;
+      max-width: 36ch;
+      line-height: 1.5;
+      margin-bottom: 3rem;
+    }
+    .hero .tagline strong {
+      color: var(--green);
+      font-weight: 500;
+    }
+
+    .hero .cta-row {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 4rem;
+    }
+
+    /* ---------- email signup ---------- */
+    .signup {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      width: 100%;
+      max-width: 480px;
+    }
+    .signup input[type="email"] {
+      flex: 1 1 280px;
+      padding: 0.95rem 1.25rem;
+      background: var(--bg-elevated);
+      border: 1px solid var(--rule);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      border-radius: 2px;
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .signup input[type="email"]:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px var(--green);
+    }
+    .signup input[type="email"]::placeholder { color: var(--muted); }
+    .signup .btn { flex: 0 0 auto; }
+    .signup-msg {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-align: center;
+      width: 100%;
+      min-height: 1.2em;
+      color: var(--green);
+      transition: opacity 0.2s ease;
+    }
+    .signup-msg.error { color: #ff6b6b; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.95rem 1.75rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: 1px solid var(--green);
+      color: var(--green);
+      background: transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, border-bottom-color 0.15s ease;
+      border-bottom: 1px solid var(--green);
+    }
+    .btn:hover { background: var(--green); color: var(--bg); border-bottom-color: var(--green); }
+    .btn--ghost { border-color: var(--rule); color: var(--text-dim); border-bottom-color: var(--rule); }
+    .btn--ghost:hover { background: transparent; color: var(--green); border-color: var(--green); border-bottom-color: var(--green); }
+
+    .hero .meta {
+      display: flex;
+      gap: 3rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .hero .meta span strong { color: var(--text); font-weight: 500; display: block; font-size: 1rem; letter-spacing: 0.05em; margin-top: 0.4rem; text-transform: none; font-family: var(--sans); }
+
+    /* ---------- principles strip ---------- */
+    .principles {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 3rem;
+      border-top: 1px solid var(--rule);
+    }
+    .principle {
+      padding: 0;
+    }
+    .principle .num {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+    .principle h3 {
+      font-family: "Newell", var(--sans);
+      font-weight: 400;
+      color: var(--green);
+      font-size: 1.6rem;
+      line-height: 1.05;
+      margin-bottom: 0.8rem;
+    }
+    .principle p {
+      color: var(--text-dim);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      max-width: 32ch;
+    }
+
+    /* ---------- dna strip ---------- */
+    .dna {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2rem;
+      border-top: 1px solid var(--rule);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .dna .copy h2 {
+      font-family: "Newell", var(--sans);
+      font-weight: 400;
+      color: var(--green);
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.05;
+      margin-bottom: 1.5rem;
+    }
+    .dna .copy p {
+      color: var(--text-dim);
+      font-size: 1.05rem;
+      line-height: 1.6;
+      max-width: 48ch;
+      margin-bottom: 1rem;
+    }
+    .dna .copy a.more {
+      display: inline-block;
+      margin-top: 1rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .dna .visual {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    .dna .visual svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: var(--bg-elevated);
+      border: 1px solid var(--rule);
+      aspect-ratio: 1;
+    }
+    .dna .visual .caption {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+    .dna .visual .cell { display: flex; flex-direction: column; }
+    @media (max-width: 720px) {
+      .dna { grid-template-columns: 1fr; }
+    }
+
+    /* ---------- footer (matches jordannewell.com pattern) ---------- */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2.5rem 1.5rem 2rem;
+      background: var(--bg);
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    footer .row {
+      margin-bottom: 0.65rem;
+      line-height: 1.8;
+    }
+    footer a {
+      color: var(--text-dim);
+      border-bottom: none;
+      transition: color 0.15s ease;
+    }
+    footer a:hover { color: var(--green); }
+    footer .sep { margin: 0 0.65em; color: var(--rule); }
+    footer .copy {
+      margin-top: 0.85rem;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+    }
+    footer .copy .bolt { color: var(--green); margin: 0 0.4em; }
+    footer .social {
+      margin-top: 1.25rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      font-size: 1.15rem;
+    }
+    footer .social a {
+      opacity: 0.6;
+      transition: opacity 0.15s ease, color 0.15s ease;
+      text-decoration: none;
+      border-bottom: none;
+    }
+    footer .social a:hover { opacity: 1; color: var(--green); }
+
+    /* ---------- mouse-follow rail background ---------- */
+    /* A fixed full-viewport canvas behind everything (z-index -1).
+       Renders ~40 ghostly vertical green rails that drift gently
+       based on cursor x-position. Falls back to static rails on
+       touch devices and when prefers-reduced-motion is set. */
+    #rail-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      .topbar nav { display: none; }
+      .hero { padding: 3rem 1.5rem 4rem; }
+      .principles, .dna { padding: 4rem 1.5rem; }
+      .hero .meta { gap: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="rail-bg" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="brand">NEWELL <span>/</span> TYPEFACE</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="try.html">Try</a>
+      <a href="specimen/">Specimen</a>
+      <a href="https://github.com/JordanNewell/newell-typeface">GitHub</a>
+    </nav>
+    <div class="status">PRE-RELEASE</div>
+  </header>
+
+  <main class="hero">
+    <div class="eyebrow">v0.1.0-<span class="accent">alpha</span> &nbsp;·&nbsp; available now</div>
+
+    <div class="logo-stage" aria-label="Newell logo">
+      <div class="prim rail1" aria-hidden="true"></div>
+      <div class="prim rail2" aria-hidden="true"></div>
+      <div class="prim diag" aria-hidden="true"></div>
+      <img src="assets/logo.png" alt="Newell — geometric display typeface logo" class="brand-logo" width="380" height="380">
+    </div>
+
+    <p class="tagline">
+      A geometric display typeface built from <strong>parallel rails</strong>
+      and <strong>45-degree diagonals</strong>. No curves. No rounded
+      terminals. Engineered, not drawn.
+    </p>
+
+    <form class="signup" id="signup" action="https://formspree.io/f/REPLACE_ME" method="POST" novalidate>
+      <input type="email" name="email" id="email" placeholder="you@domain.com" autocomplete="email" required aria-label="Email address">
+      <input type="hidden" name="_subject" value="Newell typeface — notify me">
+      <input type="hidden" name="source" value="coming-soon-hero">
+      <button type="submit" class="btn">Get notified</button>
+      <p class="signup-msg" id="signup-msg" role="status" aria-live="polite"></p>
+    </form>
+
+    <div class="cta-row">
+      <a class="btn btn--ghost" href="https://github.com/JordanNewell/newell-typeface/releases/tag/v0.1.0-alpha">Download v0.1.0-alpha</a>
+      <a class="btn btn--ghost" href="about.html">Read about the DNA →</a>
+    </div>
+
+    <div class="meta">
+      <span>License<strong>OFL 1.1</strong></span>
+      <span>Files<strong>OTF · TTF · WOFF2</strong></span>
+      <span>Size<strong>1.8 KB web</strong></span>
+      <span>Designed by<strong>Jordan Newell</strong></span>
+    </div>
+  </main>
+
+  <section class="principles">
+    <div class="principle">
+      <div class="num">01</div>
+      <h3>MONOLINE</h3>
+      <p>Every stroke is 110 units wide. Every terminal is squared. One weight, one rhythm.</p>
+    </div>
+    <div class="principle">
+      <div class="num">02</div>
+      <h3>45° ONLY</h3>
+      <p>Diagonals are exactly 45 degrees. The generator asserts it and refuses anything else.</p>
+    </div>
+    <div class="principle">
+      <div class="num">03</div>
+      <h3>PARAMETRIC</h3>
+      <p>Glyphs are generated from declarative rules, not hand-drawn. The alphabet inherits one grammar.</p>
+    </div>
+  </section>
+
+  <section class="dna">
+    <div class="copy">
+      <h2>Three primitives.<br>One alphabet.</h2>
+      <p>
+        Every Newell glyph is composed from the same vocabulary: a vertical
+        rail, a horizontal rail, and a 45-degree diagonal. Squared terminals
+        join them. There is nothing else.
+      </p>
+      <p>
+        The result reads as "engineered" rather than "drawn" — closer to a
+        barcode or a circuit diagram than to a humanist serif.
+      </p>
+      <a class="more" href="about.html">More about the DNA →</a>
+    </div>
+    <div class="visual">
+      <div class="cell">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="40" y="10" width="20" height="80" fill="#00FF66"/>
+        </svg>
+        <div class="caption">RAIL · V</div>
+      </div>
+      <div class="cell">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="10" y="40" width="80" height="20" fill="#00FF66"/>
+        </svg>
+        <div class="caption">RAIL · H</div>
+      </div>
+      <div class="cell">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="40" y="10" width="20" height="80" fill="#00FF66"/>
+          <rect x="60" y="10" width="20" height="80" fill="#00FF66" opacity="0"/>
+          <polygon points="40,10 60,10 80,90 60,90" fill="#00FF66"/>
+        </svg>
+        <div class="caption">DIAG · 45°</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p class="row">
+      <a href="https://github.com/JordanNewell/newell-typeface">github</a>
+      <span class="sep">·</span>
+      <a href="about.html">about</a>
+      <span class="sep">·</span>
+      <a href="try.html">try</a>
+      <span class="sep">·</span>
+      <a href="specimen/">specimen</a>
+      <span class="sep">·</span>
+      <a href="https://github.com/JordanNewell/newell-typeface/releases/tag/v0.1.0-alpha">download</a>
+      <span class="sep">·</span>
+      <a href="mailto:jordan@jordannewell.com">contact</a>
+    </p>
+    <p class="row">
+      <a href="OFL.txt">ofl</a>
+      <span class="sep">·</span>
+      <a href="ROADMAP.md">roadmap</a>
+      <span class="sep">·</span>
+      <a href="SPEC.md">spec</a>
+      <span class="sep">·</span>
+      <a href="CHANGELOG.md">changelog</a>
+      <span class="sep">·</span>
+      <span>v0.1.0-alpha</span>
+    </p>
+    <p class="copy">© 2026 Jordan Newell <span class="bolt">⚡</span> Newell is a trademark of Jordan Newell <span class="bolt">⚡</span> <a href="OFL.txt">SIL OFL 1.1</a></p>
+    <div class="social">
+      <a href="https://github.com/JordanNewell" aria-label="GitHub" title="GitHub">🐙</a>
+      <a href="https://github.com/sponsors/JordanNewell" aria-label="Sponsor" title="Sponsor on GitHub">🤍</a>
+      <a href="https://buymeacoffee.com/jordannewell" aria-label="Buy me a coffee" title="Buy me a coffee">☕</a>
+    </div>
+  </footer>
+
+  <script>
+    // Email signup handler. Defaults to a "demo success" message if no
+    // real backend is wired (action still points at Formspree placeholder).
+    // When you replace the form action with a real Formspree/Buttondown/
+    // ConvertKit endpoint, this will POST and report success/failure.
+    (function() {
+      var form = document.getElementById('signup');
+      var msg  = document.getElementById('signup-msg');
+      var realBackend = form.action.indexOf('REPLACE_ME') === -1;
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var email = document.getElementById('email').value.trim();
+        if (!email || email.indexOf('@') === -1) {
+          msg.textContent = 'Enter a valid email address.';
+          msg.classList.add('error');
+          return;
+        }
+        msg.classList.remove('error');
+
+        if (!realBackend) {
+          // Local/demo mode — just acknowledge. Replace the form action
+          // with a real endpoint to enable actual collection.
+          msg.textContent = 'Thanks — we\'ll let you know when v0.2 lands.';
+          document.getElementById('email').value = '';
+          return;
+        }
+
+        // Real backend mode.
+        msg.textContent = 'Subscribing…';
+        fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        }).then(function(r) {
+          if (r.ok) {
+            msg.textContent = 'Thanks — check your inbox to confirm.';
+            document.getElementById('email').value = '';
+          } else {
+            msg.textContent = 'Something went wrong. Try again.';
+            msg.classList.add('error');
+          }
+        }).catch(function() {
+          msg.textContent = 'Network error. Try again.';
+          msg.classList.add('error');
+        });
+      });
+    })();
+
+    // Trigger the logo assembly animation once the image is ready.
+    // The animation is defined in CSS under body.anim-ready; we add
+    // that class as soon as the logo <img> has finished loading (or
+    // immediately if prefers-reduced-motion is set, in which case the
+    // CSS collapses the decorative primitives and shows the logo).
+    (function() {
+      var reduce = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var logo = document.querySelector('.logo-stage .brand-logo');
+      function ready() { document.body.classList.add('anim-ready'); }
+      if (reduce || !logo) { ready(); return; }
+      if (logo.complete) { ready(); }
+      else { logo.addEventListener('load', ready); }
+    })();
+
+    // Mouse-follow rail background. ~40 thin vertical green rails drift
+    // horizontally based on cursor x. Lerp toward target for smoothness;
+    // 30fps cap via rAF timestamp gate. Static on touch / reduced-motion.
+    (function() {
+      var canvas = document.getElementById('rail-bg');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var reduce = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var RAILS = 40, dpr = window.devicePixelRatio || 1;
+      var rails = []; // {x, opacity}
+      var w = 0, h = 0, target = 0, current = 0;
+
+      function resize() {
+        w = canvas.clientWidth; h = canvas.clientHeight;
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        rails = [];
+        for (var i = 0; i < RAILS; i++) {
+          rails.push({
+            x: Math.random() * w,
+            opacity: 0.02 + Math.random() * 0.06
+          });
+        }
+        draw(0);
+      }
+      function draw(offset) {
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#00FF66';
+        for (var i = 0; i < rails.length; i++) {
+          var r = rails[i];
+          ctx.globalAlpha = r.opacity;
+          ctx.fillRect(r.x + offset, 0, 1, h);
+        }
+        ctx.globalAlpha = 1;
+      }
+      if (!reduce) {
+        window.addEventListener('mousemove', function(e) {
+          // -1 (cursor far left) .. +1 (cursor far right)
+          target = (e.clientX / window.innerWidth - 0.5) * 2 * 10;
+        }, { passive: true });
+        var last = 0;
+        (function loop(t) {
+          requestAnimationFrame(loop);
+          if (t - last < 33) return; // ~30fps cap
+          last = t;
+          current += (target - current) * 0.05;
+          if (Math.abs(target - current) > 0.05) draw(current);
+        })(0);
+      }
+      window.addEventListener('resize', resize, { passive: true });
+      resize();
+    })();
+  </script>
+
+</body>
+</html>
