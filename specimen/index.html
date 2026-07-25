@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Newell — a geometric display typeface built from parallel rails and 45° diagonals. Precision. Movement. Connection.">
+  <meta name="author" content="Jordan Newell">
+  <meta name="color-scheme" content="dark">
+  <title>Newell — Geometric Display Typeface</title>
+  <style>
+    /* ------------------------------------------------------------------
+       Newell specimen — single-file, no external requests at runtime.
+       Font is served from ../releases/ relative to this page.
+       ------------------------------------------------------------------ */
+
+    @font-face {
+      font-family: "Newell";
+      src: url("../releases/Newell-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg:           #000000;
+      --bg-elevated:  #0a0a0a;
+      --green:        #00FF66;
+      --green-dim:    rgba(0, 255, 102, 0.15);
+      --text:         #e8e8e8;
+      --muted:        #666666;
+      --rule:         #1a1a1a;
+      --sans:         system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --mono:         ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.6;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    .wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .wrap--narrow { max-width: 760px; }
+
+    section { padding: 6rem 0; border-top: 1px solid var(--rule); }
+    section:first-of-type { border-top: none; }
+
+    h1, h2, h3 {
+      font-family: "Newell", var(--sans);
+      font-weight: 400;
+      color: var(--green);
+      margin: 0;
+      letter-spacing: 0.02em;
+      line-height: 1.05;
+    }
+
+    h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      margin-bottom: 2rem;
+    }
+
+    .label {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    p { margin: 0 0 1.25rem; max-width: 60ch; }
+
+    a {
+      color: var(--green);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease;
+    }
+    a:hover { border-bottom-color: var(--green); }
+
+    code {
+      font-family: var(--mono);
+      font-size: 0.85em;
+      color: var(--green);
+      background: var(--green-dim);
+      padding: 0.1em 0.4em;
+      border-radius: 2px;
+    }
+
+    /* ------------------------------------------------------------------
+       Hero
+       ------------------------------------------------------------------ */
+
+    .hero {
+      padding: 9rem 0 7rem;
+      border-top: none;
+    }
+
+    .hero__logo {
+      display: block;
+      margin-bottom: 2.5rem;
+      width: 72px;
+      height: 72px;
+    }
+
+    .hero__title {
+      font-size: clamp(4rem, 18vw, 12rem);
+      letter-spacing: 0.04em;
+      line-height: 0.9;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero__tagline {
+      font-family: "Newell", var(--sans);
+      color: var(--text);
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      letter-spacing: 0.08em;
+      margin-bottom: 2rem;
+    }
+
+    .hero__desc {
+      color: var(--text);
+      font-size: clamp(1rem, 1.6vw, 1.2rem);
+      max-width: 52ch;
+      margin: 0;
+    }
+
+    .hero__meta {
+      margin-top: 3rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      font-family: var(--mono);
+      font-size: 0.8rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+    .hero__meta span { display: inline-flex; gap: 0.5rem; }
+    .hero__meta b { color: var(--green); font-weight: 400; }
+
+    /* ------------------------------------------------------------------
+       Alphabet grid
+       ------------------------------------------------------------------ */
+
+    .alphabet {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+    }
+
+    .alphabet__cell {
+      background: var(--bg);
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Newell", var(--sans);
+      color: var(--green);
+      font-size: clamp(2rem, 5vw, 3rem);
+      position: relative;
+    }
+
+    .alphabet__cell::after {
+      content: attr(data-name);
+      position: absolute;
+      bottom: 0.4rem;
+      right: 0.5rem;
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      color: var(--muted);
+      letter-spacing: 0;
+    }
+
+    /* ------------------------------------------------------------------
+       Row of glyphs (numerals, punctuation)
+       ------------------------------------------------------------------ */
+
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      font-family: "Newell", var(--sans);
+      color: var(--green);
+      font-size: clamp(2rem, 5vw, 3rem);
+      line-height: 1.4;
+    }
+    .row > * { min-width: 1.2ch; text-align: center; }
+
+    /* ------------------------------------------------------------------
+       Sample headline
+       ------------------------------------------------------------------ */
+
+    .headline {
+      font-family: "Newell", var(--sans);
+      color: var(--green);
+      font-size: clamp(1.75rem, 5.5vw, 4rem);
+      line-height: 1.15;
+      letter-spacing: 0.03em;
+      margin: 0;
+    }
+
+    /* ------------------------------------------------------------------
+       Type scale
+       ------------------------------------------------------------------ */
+
+    .scale-row {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      font-family: "Newell", var(--sans);
+      color: var(--green);
+    }
+    .scale-row > div {
+      display: flex;
+      align-items: baseline;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .scale-row .g {
+      line-height: 1;
+      letter-spacing: 0.02em;
+    }
+    .scale-row .px {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      min-width: 4ch;
+    }
+
+    /* ------------------------------------------------------------------
+       Construction notes
+       ------------------------------------------------------------------ */
+
+    .notes p { color: var(--text); }
+    .notes strong { color: var(--green); font-weight: 400; }
+    .notes ul { padding-left: 1.25rem; color: var(--text); }
+    .notes li { margin-bottom: 0.5rem; }
+    .notes li::marker { color: var(--green); }
+
+    .primitive-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin: 2rem 0;
+    }
+    .primitive {
+      background: var(--bg-elevated);
+      padding: 1.5rem;
+    }
+    .primitive svg { display: block; margin-bottom: 1rem; }
+    .primitive h3 {
+      font-family: var(--sans);
+      font-size: 1rem;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.02em;
+    }
+    .primitive p {
+      font-size: 0.875rem;
+      color: var(--muted);
+      margin: 0;
+      max-width: none;
+    }
+
+    /* ------------------------------------------------------------------
+       Limitations
+       ------------------------------------------------------------------ */
+
+    .limits {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.75rem;
+    }
+    .limits li {
+      padding-left: 1.5rem;
+      position: relative;
+      color: var(--text);
+    }
+    .limits li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: var(--green);
+    }
+    .limits b { color: var(--green); font-weight: 400; }
+
+    /* ------------------------------------------------------------------
+       Downloads
+       ------------------------------------------------------------------ */
+
+    .downloads {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      margin: 2rem 0;
+    }
+    .download {
+      background: var(--bg-elevated);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .download a {
+      font-family: "Newell", var(--sans);
+      font-size: 1.5rem;
+      color: var(--green);
+      border-bottom: none;
+    }
+    .download a:hover { border-bottom-color: var(--green); }
+    .download .size {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+    }
+
+    .license-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 1.5rem;
+    }
+
+    /* ------------------------------------------------------------------
+       Footer
+       ------------------------------------------------------------------ */
+
+    footer {
+      padding: 3rem 0 4rem;
+      border-top: 1px solid var(--rule);
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+    footer p { margin: 0 0 0.5rem; max-width: none; }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--green); border-bottom-color: var(--green); }
+
+    /* ------------------------------------------------------------------
+       Reduced motion / print
+       ------------------------------------------------------------------ */
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+
+    @media print {
+      body { background: #fff; color: #000; }
+      h1, h2, h3, .headline, .alphabet__cell, .row, .scale-row, .download a {
+        color: #000;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero">
+    <div class="wrap">
+      <!-- Inline Newell "N" mark: vertical rails + signature 45° diagonal.
+           Drawn in a 1000-unit viewBox mirroring the font's em, stroke 110. -->
+      <svg class="hero__logo" viewBox="0 0 1000 1000" role="img" aria-label="Newell N mark">
+        <g fill="#00FF66">
+          <!-- Left vertical rail -->
+          <rect x="90" y="100" width="110" height="800"/>
+          <!-- Right vertical rail -->
+          <rect x="800" y="100" width="110" height="800"/>
+          <!-- Signature diagonal: top-of-left to bottom-of-right,
+               with horizontal terminal edges (per SPEC.md §5.3). -->
+          <polygon points="90,100 200,100 910,900 800,900"/>
+        </g>
+      </svg>
+
+      <h1 class="hero__title">NEWELL</h1>
+      <p class="hero__tagline">Precision. Movement. Connection.</p>
+      <p class="hero__desc">
+        A geometric display typeface built from parallel rails and 45° diagonals.
+      </p>
+
+      <div class="hero__meta">
+        <span><b>v0.1.0-alpha</b></span>
+        <span>61 glyphs</span>
+        <span>OFL-1.1</span>
+        <span>Regular</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================== ALPHABET ===================== -->
+  <section id="alphabet" aria-labelledby="alphabet-h">
+    <div class="wrap">
+      <span class="label">01 — Alphabet</span>
+      <h2 id="alphabet-h">A&ndash;Z</h2>
+      <div class="alphabet" aria-label="Uppercase Latin alphabet">
+        <span class="alphabet__cell" data-name="A">A</span>
+        <span class="alphabet__cell" data-name="B">B</span>
+        <span class="alphabet__cell" data-name="C">C</span>
+        <span class="alphabet__cell" data-name="D">D</span>
+        <span class="alphabet__cell" data-name="E">E</span>
+        <span class="alphabet__cell" data-name="F">F</span>
+        <span class="alphabet__cell" data-name="G">G</span>
+        <span class="alphabet__cell" data-name="H">H</span>
+        <span class="alphabet__cell" data-name="I">I</span>
+        <span class="alphabet__cell" data-name="J">J</span>
+        <span class="alphabet__cell" data-name="K">K</span>
+        <span class="alphabet__cell" data-name="L">L</span>
+        <span class="alphabet__cell" data-name="M">M</span>
+        <span class="alphabet__cell" data-name="N">N</span>
+        <span class="alphabet__cell" data-name="O">O</span>
+        <span class="alphabet__cell" data-name="P">P</span>
+        <span class="alphabet__cell" data-name="Q">Q</span>
+        <span class="alphabet__cell" data-name="R">R</span>
+        <span class="alphabet__cell" data-name="S">S</span>
+        <span class="alphabet__cell" data-name="T">T</span>
+        <span class="alphabet__cell" data-name="U">U</span>
+        <span class="alphabet__cell" data-name="V">V</span>
+        <span class="alphabet__cell" data-name="W">W</span>
+        <span class="alphabet__cell" data-name="X">X</span>
+        <span class="alphabet__cell" data-name="Y">Y</span>
+        <span class="alphabet__cell" data-name="Z">Z</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NUMERALS ===================== -->
+  <section id="numerals" aria-labelledby="numerals-h">
+    <div class="wrap">
+      <span class="label">02 — Numerals</span>
+      <h2 id="numerals-h">0&ndash;9</h2>
+      <div class="row" aria-label="Digits zero through nine">
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span>
+        <span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PUNCTUATION ===================== -->
+  <section id="punctuation" aria-labelledby="punct-h">
+    <div class="wrap">
+      <span class="label">03 — Punctuation</span>
+      <h2 id="punct-h">Marks</h2>
+      <div class="row" aria-label="Punctuation sampler">
+        <span>.</span><span>,</span><span>!</span><span>?</span>
+        <span>&#39;</span><span>&quot;</span><span>:</span><span>;</span>
+        <span>-</span><span>&mdash;</span><span>(</span><span>)</span>
+        <span>/</span><span>@</span><span>#</span><span>$</span>
+        <span>%</span><span>&amp;</span><span>+</span><span>=</span>
+        <span>&lt;</span><span>&gt;</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== SAMPLE HEADLINE ===================== -->
+  <section id="headline" aria-labelledby="headline-h">
+    <div class="wrap">
+      <span class="label">04 — In Use</span>
+      <h2 id="headline-h" class="visually-hidden" style="position:absolute;left:-9999px;">Sample headline</h2>
+      <p class="headline">
+        IDEAS MOVE.<br>
+        CONNECTIONS GROW.<br>
+        WE BUILD WHAT&rsquo;S NEXT.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== TYPE SCALE ===================== -->
+  <section id="scale" aria-labelledby="scale-h">
+    <div class="wrap">
+      <span class="label">05 — Type Scale</span>
+      <h2 id="scale-h">Scale</h2>
+      <div class="scale-row" aria-label="Type scale demonstration">
+        <div><span class="px">16px</span><span class="g" style="font-size:16px;">NEWELL</span></div>
+        <div><span class="px">24px</span><span class="g" style="font-size:24px;">NEWELL</span></div>
+        <div><span class="px">48px</span><span class="g" style="font-size:48px;">NEWELL</span></div>
+        <div><span class="px">96px</span><span class="g" style="font-size:96px;">NEWELL</span></div>
+        <div><span class="px">128px</span><span class="g" style="font-size:clamp(96px, 14vw, 128px);">NEWELL</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONSTRUCTION ===================== -->
+  <section id="construction" aria-labelledby="const-h" class="notes">
+    <div class="wrap">
+      <span class="label">06 — Construction</span>
+      <h2 id="const-h">Three Primitives</h2>
+
+      <p>
+        Every glyph is built from three primitives:
+        <strong>vertical rails</strong>, <strong>horizontal rails</strong>,
+        and <strong>45&deg; diagonals</strong>.
+        No curves. No rounded terminals. No angles other than 45&deg;.
+      </p>
+      <p>
+        The result reads as &ldquo;engineered&rdquo; rather than &ldquo;drawn&rdquo;
+        &mdash; closer to a barcode or a circuit diagram than to a humanist serif.
+        Strokes are monoline: every primitive carries the same 110-unit weight on a
+        1000-unit em. Cap height is 700, x-height 500, descender &minus;200.
+      </p>
+      <p>
+        The signature gesture, inherited from the wordmark, is the
+        <strong>N diagonal</strong>: a 45&deg; stroke that descends from the top
+        of one vertical rail to the bottom of another. It recurs in
+        <strong>M, K, R, V, W, X, Y, Z</strong> and the digits
+        <strong>1, 2, 4, 7</strong>. That recurring diagonal is the family resemblance.
+      </p>
+
+      <div class="primitive-grid">
+        <div class="primitive">
+          <!-- Vertical rail -->
+          <svg width="48" height="48" viewBox="0 0 1000 1000" aria-hidden="true">
+            <rect x="445" y="100" width="110" height="800" fill="#00FF66"/>
+          </svg>
+          <h3>Rail (vertical)</h3>
+          <p>A bar of constant width. Joins horizontals and diagonals at squared junctions.</p>
+        </div>
+        <div class="primitive">
+          <!-- Horizontal rail -->
+          <svg width="48" height="48" viewBox="0 0 1000 1000" aria-hidden="true">
+            <rect x="100" y="445" width="800" height="110" fill="#00FF66"/>
+          </svg>
+          <h3>Rail (horizontal)</h3>
+          <p>Crossbars, arms, and frames. Same 110-unit thickness as every other stroke.</p>
+        </div>
+        <div class="primitive">
+          <!-- 45° diagonal with horizontal terminals -->
+          <svg width="48" height="48" viewBox="0 0 1000 1000" aria-hidden="true">
+            <polygon points="100,100 210,100 900,900 790,900" fill="#00FF66"/>
+          </svg>
+          <h3>Diagonal (45&deg;)</h3>
+          <p>Exactly 45&deg;. Horizontal terminal edges join cleanly with vertical rails.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== LIMITATIONS ===================== -->
+  <section id="limits" aria-labelledby="limits-h" class="notes">
+    <div class="wrap">
+      <span class="label">07 — Honest v0.1</span>
+      <h2 id="limits-h">Known Limitations</h2>
+      <p>
+        v0.1 is functional and usable but unpolished. The DNA forbids curves,
+        rounded terminals, and any angle other than 45&deg; &mdash; this makes
+        several traditional letterforms impossible to render cleanly. Known issues:
+      </p>
+      <ul class="limits">
+        <li><b>S</b> reads as <b>Z</b>. Two design attempts both fail to read as S in this vocabulary. v0.2 will likely add a third primitive for S/s/8/3/5/2.</li>
+        <li><b>C, D, G, O, P, Q, R, B</b> are rectilinear approximations of curved letters &mdash; squared frames rather than curved bowls.</li>
+        <li><b>A, V, W</b> are wider than the alphabet average because each leg is a full-cap-height 45&deg; diagonal.</li>
+        <li><b>M, W</b> inner notches reach only mid-height, not baseline. A baseline-reaching notch would require non-45&deg; angles.</li>
+        <li><b>2, 5</b> inherit the diagonal-spine construction; <b>3, 8</b> are stacked bowls that read as chunky frames. <b>0</b> is visually identical to <b>O</b> and <b>D</b>.</li>
+        <li><b>$, @</b> are particularly hard in this vocabulary. Both are best-effort v0.1 approximations.</li>
+        <li>Curly quotes lose their open/closed distinction &mdash; both render as small squares at cap height.</li>
+      </ul>
+      <p style="margin-top:1.5rem;color:var(--muted);">
+        Newell is recommended for <strong>display and headline use</strong>, not long-form body text.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== DOWNLOAD ===================== -->
+  <section id="download" aria-labelledby="dl-h">
+    <div class="wrap">
+      <span class="label">08 — Download</span>
+      <h2 id="dl-h">Get the Font</h2>
+      <p>
+        Released under the <a href="../OFL.txt">SIL Open Font License 1.1</a>.
+        Free for commercial use. Modify and redistribute &mdash; just keep it under the OFL.
+      </p>
+
+      <div class="downloads">
+        <div class="download">
+          <a href="../releases/Newell-Regular.woff2" download>WOFF2</a>
+          <span class="size">1.8 KB &middot; web</span>
+        </div>
+        <div class="download">
+          <a href="../releases/Newell-Regular.otf" download>OTF</a>
+          <span class="size">3.3 KB &middot; desktop</span>
+        </div>
+        <div class="download">
+          <a href="../releases/Newell-Regular.ttf" download>TTF</a>
+          <span class="size">4.5 KB &middot; system</span>
+        </div>
+      </div>
+
+      <p class="license-note">
+        See <a href="../OFL.txt">OFL.txt</a> for the full license text.
+        Attribution appreciated but not required.
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer>
+    <div class="wrap">
+      <p>Copyright &copy; 2026 Jordan Newell. Newell is a trademark of Jordan Newell.</p>
+      <p><!-- TODO: replace # with repo URL once published --><a href="#">Source repository</a> &middot; <a href="../OFL.txt">License</a></p>
+    </div>
+  </footer>
+
+</body>
+</html>
