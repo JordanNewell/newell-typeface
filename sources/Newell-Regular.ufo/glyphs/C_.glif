@@ -1,15 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<glyph name="E" format="2">
+<glyph name="C" format="2">
   <advance width="620.0"/>
-  <unicode hex="0045"/>
+  <unicode hex="0043"/>
   <outline>
     <contour>
       <point x="475" y="55" type="line"/>
       <point x="200" y="55" type="line"/>
-      <point x="200" y="295" type="line"/>
-      <point x="475" y="295" type="line"/>
-      <point x="475" y="405" type="line"/>
-      <point x="200" y="405" type="line"/>
       <point x="200" y="645" type="line"/>
       <point x="475" y="645" type="line"/>
       <point x="475" y="755" type="line"/>
