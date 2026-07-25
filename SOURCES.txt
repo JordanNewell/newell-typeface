@@ -1,0 +1,11 @@
+Newell is an original work generated parametrically from a written
+specification. The DNA (grid system, stroke width, 45-degree diagonal
+grammar, squared terminals, rail/junction primitives) is defined in
+SPEC.md at the repository root.
+
+Source format: UFO (Unified Font Object) 3
+Generator:     src/newell/ (Python)
+Build target:  OpenType/CFF (OTF), TrueType (TTF), WOFF2
+
+No existing typeface was used as a tracing or metrics reference.
+The font is an original creation of Jordan Newell.

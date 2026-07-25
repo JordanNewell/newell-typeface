@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+.env
+*.whl
+
+# Build artifacts
+build/
+dist/
+*.ufo.zst
+master_ufo/
+instance_ufo/
+instances/
+
+# Generated fonts (committed in /releases/ for distribution)
+*.otf
+*.ttf
+*.woff
+*.woff2
+!releases/**
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+Thumbs.db
+
+# Logs
+*.log
+pip-log.txt
