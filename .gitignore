@@ -33,3 +33,11 @@ Thumbs.db
 # Logs
 *.log
 pip-log.txt
+
+# Local screenshot debug output (regenerable via scripts/screenshot.py)
+scripts/_preview/home_*.png
+scripts/_preview/about*.png
+
+# Browser download artifacts (Chrome appends #1)
+releases/*.woff2.*
+releases/*#*
