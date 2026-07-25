@@ -6,10 +6,32 @@
     <array>
       <string>.notdef</string>
       <string>space</string>
-      <string>N</string>
+      <string>A</string>
+      <string>B</string>
+      <string>C</string>
+      <string>D</string>
       <string>E</string>
-      <string>I</string>
+      <string>F</string>
+      <string>G</string>
       <string>H</string>
+      <string>I</string>
+      <string>J</string>
+      <string>K</string>
+      <string>L</string>
+      <string>M</string>
+      <string>N</string>
+      <string>O</string>
+      <string>P</string>
+      <string>Q</string>
+      <string>R</string>
+      <string>S</string>
+      <string>T</string>
+      <string>U</string>
+      <string>V</string>
+      <string>W</string>
+      <string>X</string>
+      <string>Y</string>
+      <string>Z</string>
     </array>
   </dict>
 </plist>
