@@ -109,7 +109,27 @@ def render_all(width=1200, height_per=700):
 def main():
     UFO_PATH.mkdir(parents=True, exist_ok=True)
     font = ufoLib2.Font.open(str(UFO_PATH))
-    targets = sys.argv[1:] or ["N", "E", "I", "H"]
+    # Default targets: hero alphabet + every digit + a punctuation sampler.
+    # Pass --all (or explicit glyph names) to override.
+    default_targets = [
+        # Hero alphabet for personality reference
+        "A", "E", "M", "N", "R", "S", "W",
+        # All digits
+        "zero", "one", "two", "three", "four",
+        "five", "six", "seven", "eight", "nine",
+        # Punctuation sampler
+        "period", "comma", "exclam", "question",
+        "quotesingle", "quotedblleft", "quotedblright",
+        "colon", "semicolon", "hyphen", "emdash",
+        "parenleft", "parenright", "slash", "at",
+        "numbersign", "dollar", "percent", "ampersand",
+        "plus", "equal", "less", "greater",
+    ]
+    args = sys.argv[1:]
+    if args and args[0] == "--all":
+        targets = [n for n in font.keys() if n not in (".notdef", "space")]
+    else:
+        targets = args or default_targets
     for name in targets:
         if name in (".notdef", "space") or name not in font:
             continue
