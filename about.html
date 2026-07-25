@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="About Newell — the design intent, the DNA, the roadmap. A geometric display typeface by Jordan Newell.">
+  <meta name="author" content="Jordan Newell">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="About Newell — Geometric Display Typeface">
+  <meta property="og:description" content="The design intent, DNA, and roadmap for Newell, a geometric display typeface by Jordan Newell.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://jordannewell.github.io/newell-typeface/about.html">
+  <meta property="og:image" content="https://jordannewell.github.io/newell-typeface/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Newell">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About Newell — Geometric Display Typeface">
+  <meta name="twitter:description" content="The design intent, DNA, and roadmap for Newell.">
+  <meta name="twitter:image" content="https://jordannewell.github.io/newell-typeface/assets/og.png">
+  <title>About — Newell</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23000'/%3E%3Crect x='18' y='15' width='10' height='70' fill='%2300FF66'/%3E%3Crect x='72' y='15' width='10' height='70' fill='%2300FF66'/%3E%3Cpolygon points='18,15 28,15 82,85 72,85' fill='%2300FF66'/%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+  <link rel="shortcut icon" href="assets/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#000000">
+  <style>
+    @font-face {
+      font-family: "Newell";
+      src: url("releases/Newell-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg:           #000000;
+      --bg-elevated:  #0a0a0a;
+      --green:        #00FF66;
+      --green-soft:   rgba(0, 255, 102, 0.08);
+      --text:         #e8e8e8;
+      --text-dim:     #a0a0a0;
+      --muted:        #5a5a5a;
+      --rule:         #1a1a1a;
+      --sans:         system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --mono:         ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.65;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: var(--green);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease;
+    }
+    a:hover { border-bottom-color: var(--green); }
+
+    /* ---------- top bar ---------- */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .topbar .brand { color: var(--text); font-weight: 600; }
+    .topbar .brand span { color: var(--green); }
+    .topbar nav { display: flex; gap: 2rem; }
+    .topbar nav a { color: var(--text-dim); border-bottom: none; }
+    .topbar nav a:hover { color: var(--green); }
+    .topbar nav a.active { color: var(--green); }
+    .topbar .status {
+      color: var(--green);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .topbar .status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    /* ---------- layout ---------- */
+    main { flex: 1; }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .eyebrow .accent { color: var(--green); }
+
+    h1 {
+      font-family: "Newell", var(--sans);
+      font-weight: 400;
+      color: var(--green);
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      margin-bottom: 3rem;
+    }
+
+    h2 {
+      font-family: "Newell", var(--sans);
+      font-weight: 400;
+      color: var(--green);
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      margin-top: 4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    h3 {
+      font-family: var(--mono);
+      font-weight: 500;
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-top: 2rem;
+      margin-bottom: 0.6rem;
+    }
+
+    p { margin-bottom: 1.1rem; color: var(--text-dim); max-width: 64ch; }
+    p strong { color: var(--text); font-weight: 500; }
+
+    .lead {
+      font-size: 1.2rem;
+      color: var(--text);
+      line-height: 1.55;
+      margin-bottom: 2rem;
+      max-width: 58ch;
+    }
+
+    hr {
+      border: 0;
+      border-top: 1px solid var(--rule);
+      margin: 4rem 0;
+    }
+
+    code, pre {
+      font-family: var(--mono);
+      font-size: 0.88rem;
+    }
+    pre {
+      background: var(--bg-elevated);
+      border: 1px solid var(--rule);
+      padding: 1.25rem 1.5rem;
+      overflow-x: auto;
+      border-radius: 2px;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    code { color: var(--green); }
+
+    ul, ol { margin: 0 0 1.5rem 1.5rem; color: var(--text-dim); }
+    li { margin-bottom: 0.5rem; }
+    li strong { color: var(--text); }
+
+    /* ---------- primitives grid ---------- */
+    .primitives {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+    .primitives .cell {
+      background: var(--bg-elevated);
+      border: 1px solid var(--rule);
+      padding: 1.25rem;
+      text-align: center;
+    }
+    .primitives svg {
+      width: 100%;
+      max-width: 120px;
+      height: auto;
+      display: block;
+      margin: 0 auto 0.75rem;
+      aspect-ratio: 1;
+    }
+    .primitives .caption {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .primitives .caption strong {
+      display: block;
+      color: var(--green);
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+    @media (max-width: 600px) {
+      .primitives { grid-template-columns: 1fr; }
+    }
+
+    /* ---------- roadmap ---------- */
+    .roadmap {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 0.5rem 1.5rem;
+      margin: 1.5rem 0 2rem;
+      font-family: var(--mono);
+      font-size: 0.88rem;
+    }
+    .roadmap .ver {
+      color: var(--green);
+      letter-spacing: 0.05em;
+    }
+    .roadmap .desc {
+      color: var(--text-dim);
+      font-family: var(--sans);
+      font-size: 0.95rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .roadmap .desc strong {
+      display: block;
+      color: var(--text);
+      margin-bottom: 0.25rem;
+    }
+    @media (max-width: 600px) {
+      .roadmap { grid-template-columns: 1fr; gap: 0.25rem; }
+      .roadmap .desc { padding-bottom: 1rem; }
+    }
+
+    /* ---------- cta ---------- */
+    .cta {
+      margin-top: 4rem;
+      padding: 3rem 2rem;
+      border: 1px solid var(--rule);
+      background: var(--bg-elevated);
+      text-align: center;
+    }
+    .cta h2 {
+      margin-top: 0;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+    }
+    .cta p { margin: 1rem auto 1.5rem; color: var(--text); }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 1.6rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: 1px solid var(--green);
+      color: var(--green);
+      background: transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+      border-bottom: 1px solid var(--green);
+    }
+    .btn:hover { background: var(--green); color: var(--bg); }
+
+    /* ---------- footer (matches jordannewell.com pattern) ---------- */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2.5rem 1.5rem 2rem;
+      background: var(--bg);
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    footer .row {
+      margin-bottom: 0.65rem;
+      line-height: 1.8;
+    }
+    footer a {
+      color: var(--text-dim);
+      border-bottom: none;
+      transition: color 0.15s ease;
+    }
+    footer a:hover { color: var(--green); }
+    footer .sep { margin: 0 0.65em; color: var(--rule); }
+    footer .copy {
+      margin-top: 0.85rem;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+    }
+    footer .copy .bolt { color: var(--green); margin: 0 0.4em; }
+    footer .social {
+      margin-top: 1.25rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      font-size: 1.15rem;
+    }
+    footer .social a {
+      opacity: 0.6;
+      transition: opacity 0.15s ease, color 0.15s ease;
+      text-decoration: none;
+      border-bottom: none;
+    }
+    footer .social a:hover { opacity: 1; color: var(--green); }
+
+    /* ---------- mouse-follow rail background ---------- */
+    /* A fixed full-viewport canvas behind everything (z-index -1).
+       Renders ~40 ghostly vertical green rails that drift gently
+       based on cursor x-position. Falls back to static rails on
+       touch devices and when prefers-reduced-motion is set. */
+    #rail-bg {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      display: block;
+    }
+
+    @media (max-width: 600px) {
+      .topbar nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="rail-bg" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="brand">NEWELL <span>/</span> TYPEFACE</div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html" class="active">About</a>
+      <a href="try.html">Try</a>
+      <a href="specimen/">Specimen</a>
+      <a href="https://github.com/JordanNewell/newell-typeface">GitHub</a>
+    </nav>
+    <div class="status">v0.1.0-ALPHA</div>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <div class="eyebrow">About <span class="accent">/</span> Newell</div>
+      <h1>ENGINEERED,<br>NOT DRAWN.</h1>
+
+      <p class="lead">
+        Newell is an original geometric display typeface. Every glyph is
+        assembled from the same vocabulary — vertical rails, horizontal
+        rails, and 45-degree diagonals — joined with squared terminals.
+        The system is parametric: glyphs are <strong>generated from
+        declarative rules</strong>, not hand-drawn, so the entire alphabet
+        inherits one visual grammar.
+      </p>
+
+      <p>
+        It started with a logo. The mark — a stylized N built from
+        parallel rails and a decisive diagonal — suggested a richer
+        visual language. Instead of designing letters one at a time,
+        the whole alphabet could share the same DNA: rails, diagonals,
+        and the squared corners where they meet.
+      </p>
+
+      <p>
+        The result reads as <em>engineered</em> rather than drawn.
+        Closer to a barcode or a circuit diagram than to a humanist
+        serif. The signature gesture — that descending N diagonal —
+        recurs in M, K, R, V, W, X, Y, Z, and the digits 1, 2, 4, 7.
+        It's the family resemblance.
+      </p>
+
+      <h2>THE DNA</h2>
+
+      <p>Three primitives. Nothing else.</p>
+
+      <div class="primitives">
+        <div class="cell">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="40" y="10" width="20" height="80" fill="#00FF66"/>
+          </svg>
+          <div class="caption"><strong>RAIL</strong>vertical / horizontal</div>
+        </div>
+        <div class="cell">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="10" y="40" width="80" height="20" fill="#00FF66"/>
+          </svg>
+          <div class="caption"><strong>RAIL</strong>horizontal bar</div>
+        </div>
+        <div class="cell">
+          <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polygon points="40,10 60,10 80,90 60,90" fill="#00FF66"/>
+          </svg>
+          <div class="caption"><strong>DIAG</strong>exactly 45 degrees</div>
+        </div>
+      </div>
+
+      <h3>METRICS</h3>
+      <ul>
+        <li><strong>1000</strong> units per em (industry standard)</li>
+        <li><strong>700</strong> cap height, <strong>0</strong> baseline</li>
+        <li><strong>110</strong> units monoline stroke, squared terminals</li>
+        <li><strong>45°</strong> diagonals only — the generator asserts it</li>
+      </ul>
+
+      <h3>FORBIDDEN</h3>
+      <ul>
+        <li>Curves of any kind (no Bézier control points)</li>
+        <li>Rounded terminals</li>
+        <li>Diagonals at angles other than 45 degrees</li>
+        <li>Outlines or metrics borrowed from existing typefaces</li>
+      </ul>
+
+      <p>
+        The full constitution lives in
+        <a href="https://github.com/JordanNewell/newell-typeface/blob/master/SPEC.md">SPEC.md</a>
+        on GitHub.
+      </p>
+
+      <h2>WHAT'S IN v0.1</h2>
+
+      <p>
+        This is the first public release. <strong>61 glyphs:</strong>
+        uppercase A-Z, digits 0-9, basic punctuation, plus the
+        housekeeping glyphs (<code>.notdef</code>, space). Single weight
+        (Regular), static build (variable axes planned for v0.2). Three
+        compiled formats: OTF (3.3 KB), TTF (4.5 KB), WOFF2 (1.8 KB).
+      </p>
+
+      <h3>KNOWN LIMITATIONS</h3>
+      <p>
+        v0.1 is functional but unpolished. Pure rails + 45-degree
+        diagonals cannot render every traditional letterform cleanly.
+        Documented honestly:
+      </p>
+      <ul>
+        <li><strong>S reads as Z</strong> — fundamental to the vocabulary; v0.2 adds a third primitive to fix it</li>
+        <li><strong>C, D, G, O, P, Q, R, B</strong> are rectilinear approximations of curved letters</li>
+        <li><strong>A, V, W</strong> are wider than the alphabet average (each leg is a full cap-height diagonal)</li>
+        <li><strong>M, W</strong> inner notches reach only mid-height</li>
+        <li><strong>0 visually identical to O</strong> — relies on context</li>
+        <li>No kerning, no lowercase, no diacritics yet</li>
+      </ul>
+
+      <p>
+        Recommended for <strong>display and headline use</strong>, not
+        long-form body text. Not yet "production" — that's v1.0.
+      </p>
+
+      <h2>ROADMAP</h2>
+
+      <div class="roadmap">
+        <div class="ver">v0.1 ✅</div>
+        <div class="desc"><strong>Alpha — shipped 2026-07-25</strong>Uppercase, digits, punctuation. Static Regular. Established the DNA and proved the parametric pipeline.</div>
+
+        <div class="ver">v0.2</div>
+        <div class="desc"><strong>Reads like a typeface</strong>Legible S (new primitive), lowercase a-z, class-based kerning, 0/O disambiguation.</div>
+
+        <div class="ver">v0.3</div>
+        <div class="desc"><strong>A type system</strong>Variable weight axis (Light → Black), the signature NDI (Newell Diagonal Intensity) axis, italic, full Latin diacritics.</div>
+
+        <div class="ver">v0.4</div>
+        <div class="desc"><strong>A brand system</strong>Icons, motion language, Figma components — Newell as a complete visual language.</div>
+
+        <div class="ver">v1.0</div>
+        <div class="desc"><strong>Production</strong>Full character set (Latin, Cyrillic, Greek), hinting, OpenType features, optical corrections, specimen book.</div>
+      </div>
+
+      <h2>WHO</h2>
+      <p>
+        <strong>Jordan Newell</strong> — design and engineering. Built
+        the parametric generator, wrote the SPEC, designed every glyph,
+        compiled the binaries, made this page.
+      </p>
+      <p>
+        The font is original work generated from rules in SPEC.md. No
+        existing typeface was traced or used as a metrics reference.
+      </p>
+
+      <div class="cta">
+        <h2>TRY IT NOW</h2>
+        <p>v0.1.0-alpha is free under the SIL Open Font License.</p>
+        <a class="btn" href="https://github.com/JordanNewell/newell-typeface/releases/tag/v0.1.0-alpha">Download from GitHub</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer>
+    <p class="row">
+      <a href="https://github.com/JordanNewell/newell-typeface">github</a>
+      <span class="sep">·</span>
+      <a href="index.html">home</a>
+      <span class="sep">·</span>
+      <a href="about.html">about</a>
+      <span class="sep">·</span>
+      <a href="try.html">try</a>
+      <span class="sep">·</span>
+      <a href="specimen/">specimen</a>
+      <span class="sep">·</span>
+      <a href="https://github.com/JordanNewell/newell-typeface/releases/tag/v0.1.0-alpha">download</a>
+      <span class="sep">·</span>
+      <a href="mailto:jordan@jordannewell.com">contact</a>
+    </p>
+    <p class="row">
+      <a href="OFL.txt">ofl</a>
+      <span class="sep">·</span>
+      <a href="ROADMAP.md">roadmap</a>
+      <span class="sep">·</span>
+      <a href="SPEC.md">spec</a>
+      <span class="sep">·</span>
+      <a href="CHANGELOG.md">changelog</a>
+      <span class="sep">·</span>
+      <span>v0.1.0-alpha</span>
+    </p>
+    <p class="copy">© 2026 Jordan Newell <span class="bolt">⚡</span> Newell is a trademark of Jordan Newell <span class="bolt">⚡</span> <a href="OFL.txt">SIL OFL 1.1</a></p>
+    <div class="social">
+      <a href="https://github.com/JordanNewell" aria-label="GitHub" title="GitHub">🐙</a>
+      <a href="https://github.com/sponsors/JordanNewell" aria-label="Sponsor" title="Sponsor on GitHub">🤍</a>
+      <a href="https://buymeacoffee.com/jordannewell" aria-label="Buy me a coffee" title="Buy me a coffee">☕</a>
+    </div>
+  </footer>
+
+  <script>
+    // Mouse-follow rail background. ~40 thin vertical green rails drift
+    // horizontally based on cursor x. Lerp toward target for smoothness;
+    // 30fps cap via rAF timestamp gate. Static on touch / reduced-motion.
+    (function() {
+      var canvas = document.getElementById('rail-bg');
+      if (!canvas) return;
+      var ctx = canvas.getContext('2d');
+      var reduce = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var RAILS = 40, dpr = window.devicePixelRatio || 1;
+      var rails = []; // {x, opacity}
+      var w = 0, h = 0, target = 0, current = 0;
+
+      function resize() {
+        w = canvas.clientWidth; h = canvas.clientHeight;
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        rails = [];
+        for (var i = 0; i < RAILS; i++) {
+          rails.push({
+            x: Math.random() * w,
+            opacity: 0.02 + Math.random() * 0.06
+          });
+        }
+        draw(0);
+      }
+      function draw(offset) {
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#00FF66';
+        for (var i = 0; i < rails.length; i++) {
+          var r = rails[i];
+          ctx.globalAlpha = r.opacity;
+          ctx.fillRect(r.x + offset, 0, 1, h);
+        }
+        ctx.globalAlpha = 1;
+      }
+      if (!reduce) {
+        window.addEventListener('mousemove', function(e) {
+          // -1 (cursor far left) .. +1 (cursor far right)
+          target = (e.clientX / window.innerWidth - 0.5) * 2 * 10;
+        }, { passive: true });
+        var last = 0;
+        (function loop(t) {
+          requestAnimationFrame(loop);
+          if (t - last < 33) return; // ~30fps cap
+          last = t;
+          current += (target - current) * 0.05;
+          if (Math.abs(target - current) > 0.05) draw(current);
+        })(0);
+      }
+      window.addEventListener('resize', resize, { passive: true });
+      resize();
+    })();
+  </script>
+
+</body>
+</html>
