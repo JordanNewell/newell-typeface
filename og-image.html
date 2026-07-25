@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OG</title>
+  <style>
+    @font-face {
+      font-family: "Newell";
+      src: url("releases/Newell-Regular.woff2") format("woff2");
+      font-display: block;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1200px; height: 630px; overflow: hidden; }
+    body {
+      background: #000;
+      color: #00FF66;
+      font-family: system-ui, -apple-system, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px;
+      position: relative;
+    }
+
+    /* Faint horizontal "rail" lines top + bottom — barcode DNA reference */
+    body::before, body::after {
+      content: "";
+      position: absolute;
+      left: 0; right: 0;
+      height: 1px;
+      background: rgba(0, 255, 102, 0.18);
+    }
+    body::before { top: 50px; }
+    body::after  { bottom: 50px; }
+
+    .eyebrow {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 14px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(0, 255, 102, 0.55);
+      margin-bottom: 16px;
+    }
+    .eyebrow .dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      background: #00FF66;
+      border-radius: 50%;
+      margin: 0 0.6em 0 0.2em;
+      vertical-align: middle;
+    }
+
+    .wordmark {
+      font-family: "Newell", system-ui, sans-serif;
+      font-size: 280px;
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      text-shadow: 0 0 60px rgba(0, 255, 102, 0.22);
+      margin-bottom: 30px;
+    }
+
+    .tagline {
+      font-size: 28px;
+      color: #e8e8e8;
+      font-weight: 400;
+      letter-spacing: 0.01em;
+      margin-bottom: 40px;
+    }
+    .tagline strong {
+      color: #00FF66;
+      font-weight: 500;
+    }
+
+    .url {
+      font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      font-size: 16px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(232, 232, 232, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="eyebrow"><span class="dot"></span>v0.1.0-alpha &nbsp;·&nbsp; available now</div>
+  <div class="wordmark">NEWELL</div>
+  <div class="tagline">A geometric display typeface. <strong>Engineered, not drawn.</strong></div>
+  <div class="url">github.com/jordannewell/newell-typeface</div>
+</body>
+</html>
