@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<glyph name="lightning" format="2">
+  <advance width="640.0"/>
+  <unicode hex="26A1"/>
+  <outline>
+    <contour>
+      <point x="145" y="-55" type="line"/>
+      <point x="310" y="-55" type="line"/>
+      <point x="310" y="55" type="line"/>
+      <point x="256" y="55" type="line"/>
+      <point x="551" y="350" type="line"/>
+      <point x="256" y="645" type="line"/>
+      <point x="145" y="645" type="line"/>
+      <point x="145" y="700" type="line"/>
+      <point x="89" y="700" type="line"/>
+      <point x="439" y="350" type="line"/>
+      <point x="89" y="0" type="line"/>
+      <point x="145" y="0" type="line"/>
+    </contour>
+    <contour>
+      <point x="145" y="55" type="line"/>
+      <point x="256" y="55" type="line"/>
+      <point x="201" y="0" type="line"/>
+      <point x="145" y="0" type="line"/>
+    </contour>
+    <contour>
+      <point x="310" y="755" type="line"/>
+      <point x="145" y="755" type="line"/>
+      <point x="145" y="700" type="line"/>
+      <point x="201" y="700" type="line"/>
+      <point x="256" y="645" type="line"/>
+      <point x="310" y="645" type="line"/>
+    </contour>
+  </outline>
+</glyph>

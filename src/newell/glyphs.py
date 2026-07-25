@@ -1362,7 +1362,7 @@ _LDQ_CX1 = _LDQ_CX0 + 2 * STROKE              # 365 -- one STROKE-width gap
 _LDQ_CY = CAP_HEIGHT - HALF                   # 645
 _LDQ_RIGHT_EDGE = _LDQ_CX1 + HALF             # 420
 _LDQ_BBOX = _bbox(SIDE_BEARING, _LDQ_RIGHT_EDGE)  # 330
-QUOTELEFT = {
+QUOTEDBLLEFT = {
     "name": "quotedblleft",
     "unicode": "U+201C",
     "advance": _advance(_LDQ_BBOX),
@@ -1867,6 +1867,374 @@ GREATER = {
 }
 
 
+# ===========================================================================
+# Symbols (v0.1.1)
+# ===========================================================================
+# Symbols used on the Newell marketing pages that previously fell back to
+# system fonts: lightning, middle dot, bullet, arrows, en dash, left single
+# quote, stars, check, cross. Each follows the existing rail+diagonal DNA.
+#
+# Known v0.1.1 trade-offs (SPEC section 7 permits approximation):
+#   - Stars are 4- and 8-point starbursts, NOT true 5-pointed stars (the
+#     5-pointed star's 36-degree vertex angles are impossible in a pure
+#     rail+45-degree vocabulary).
+#   - Lightning reads as a chunky zigzag, not a curved bolt.
+#   - Left/right single quotes are visually identical to the existing right
+#     single quote (quotesingle) -- the pure-square vocabulary loses the
+#     open/closed distinction.
+# ===========================================================================
+
+
+# ---------------------------------------------------------------------------
+# -- en dash (U+2013): half-width horizontal at mid. Em dash spans 720 units
+# (x=90..810); en dash is half that = 360 units, centered on the em's center
+# (x=450). x0=270, x1=630.
+# ---------------------------------------------------------------------------
+_ENDASH_Y = _MID_Y                              # 350
+_ENDASH_X0 = 270
+_ENDASH_X1 = 630
+_ENDASH_LEFT_EDGE = _ENDASH_X0 - HALF           # 215
+_ENDASH_RIGHT_EDGE = _ENDASH_X1 + HALF          # 685
+_ENDASH_BBOX = _bbox(_ENDASH_LEFT_EDGE, _ENDASH_RIGHT_EDGE)
+ENDASH = {
+    "name": "endash",
+    "unicode": "U+2013",
+    "advance": _advance(_ENDASH_BBOX),
+    "primitives": [
+        {"type": "hline", "y": _ENDASH_Y, "x0": _ENDASH_X0, "x1": _ENDASH_X1},
+    ],
+}
+
+
+# ---------------------------------------------------------------------------
+# · middle dot (U+00B7): single small square at mid (y=350). Same size as
+# period (110x110). Centered on the column-center x=310 so it reads as a
+# separator when flanked by spaces.
+# ---------------------------------------------------------------------------
+_MIDDLEDOT_CX = (_COL_L + _COL_R_NARROW) / 2    # 310
+_MIDDLEDOT_CY = _MID_Y                          # 350
+_MIDDLEDOT_BBOX = STROKE                        # 110
+MIDDLEDOT = {
+    "name": "middledot",
+    "unicode": "U+00B7",
+    "advance": _advance(_MIDDLEDOT_BBOX),
+    "primitives": _square(_MIDDLEDOT_CX, _MIDDLEDOT_CY, STROKE),
+}
+
+
+# ---------------------------------------------------------------------------
+# • bullet (U+2022): larger than middle dot, sits slightly lower (y=300).
+# Side = 2*STROKE = 220 so it visibly outweighs both period and middle dot.
+# Centered on column-center x=310.
+# ---------------------------------------------------------------------------
+_BULLET_CX = (_COL_L + _COL_R_NARROW) / 2       # 310
+_BULLET_CY = 300
+_BULLET_SIDE = 2 * STROKE                       # 220
+_BULLET_HALF = _BULLET_SIDE / 2                 # 110
+_BULLET_LEFT_EDGE = _BULLET_CX - _BULLET_HALF   # 200
+_BULLET_RIGHT_EDGE = _BULLET_CX + _BULLET_HALF  # 420
+_BULLET_BBOX = _bbox(_BULLET_LEFT_EDGE, _BULLET_RIGHT_EDGE)
+BULLET = {
+    "name": "bullet",
+    "unicode": "U+2022",
+    "advance": _advance(_BULLET_BBOX),
+    "primitives": _square(_BULLET_CX, _BULLET_CY, _BULLET_SIDE),
+}
+
+
+# ---------------------------------------------------------------------------
+# ' left single quote (U+2018): small square at upper-left at cap height.
+# Visually identical to the existing quotesingle (U+2019) in this pure-
+# square vocabulary -- the open/closed distinction of curly quotes is lost.
+# Documented v0.1.1 trade-off.
+# ---------------------------------------------------------------------------
+_QUOTELEFT_CX = SIDE_BEARING + HALF             # 145
+_QUOTELEFT_CY = CAP_HEIGHT - HALF               # 645
+_QUOTELEFT_BBOX = STROKE                        # 110
+QUOTELEFT = {
+    "name": "quoteleft",
+    "unicode": "U+2018",
+    "advance": _advance(_QUOTELEFT_BBOX),
+    "primitives": _square(_QUOTELEFT_CX, _QUOTELEFT_CY, STROKE),
+}
+
+
+# ---------------------------------------------------------------------------
+# → rightwards arrow (U+2192): horizontal rail (the shaft) extending left
+# from the arrowhead, plus two 45-degree diagonals forming a ">" head with
+# the apex on the right. Apex at (530, 350); barbs at (355, 525) and
+# (355, 175); shaft from x=145 to x=355 at y=350. Reads as a squared arrow.
+# ---------------------------------------------------------------------------
+_ARR_R_APEX_X = 530
+_ARR_R_APEX_Y = _MID_Y                          # 350
+_ARR_R_BARB_DX = 175                            # barb horizontal throw
+_ARR_R_BARB_TOP_Y = _ARR_R_APEX_Y + _ARR_R_BARB_DX  # 525
+_ARR_R_BARB_BOT_Y = _ARR_R_APEX_Y - _ARR_R_BARB_DX  # 175
+_ARR_R_BARB_X = _ARR_R_APEX_X - _ARR_R_BARB_DX  # 355
+_ARR_R_SHAFT_X0 = _COL_L                        # 145
+_ARR_R_SHAFT_X1 = _ARR_R_BARB_X                 # 355
+_ARR_R_RIGHT_EDGE = _ARR_R_APEX_X + HALF        # 585
+_ARR_R_BBOX = _bbox(_LEFT_EDGE, _ARR_R_RIGHT_EDGE)
+ARROWRIGHT = {
+    "name": "arrowright",
+    "unicode": "U+2192",
+    "advance": _advance(_ARR_R_BBOX),
+    "primitives": [
+        # Horizontal shaft from left column to barb attachment point
+        {"type": "hline", "y": _ARR_R_APEX_Y,
+         "x0": _ARR_R_SHAFT_X0, "x1": _ARR_R_SHAFT_X1},
+        # Upper barb: from (barb_x, 525) down-right to apex (530, 350)
+        {"type": "diag",
+         "top_y": _ARR_R_BARB_TOP_Y,
+         "top_x0": _ARR_R_BARB_X - HALF - _DIAG_OVERLAP,
+         "top_x1": _ARR_R_BARB_X + HALF + _DIAG_OVERLAP,
+         "bot_y": _ARR_R_APEX_Y,
+         "bot_x0": _ARR_R_APEX_X - HALF - _DIAG_OVERLAP,
+         "bot_x1": _ARR_R_APEX_X + HALF + _DIAG_OVERLAP},
+        # Lower barb: from apex (530, 350) down-left to (barb_x, 175)
+        {"type": "diag",
+         "top_y": _ARR_R_APEX_Y,
+         "top_x0": _ARR_R_APEX_X - HALF - _DIAG_OVERLAP,
+         "top_x1": _ARR_R_APEX_X + HALF + _DIAG_OVERLAP,
+         "bot_y": _ARR_R_BARB_BOT_Y,
+         "bot_x0": _ARR_R_BARB_X - HALF - _DIAG_OVERLAP,
+         "bot_x1": _ARR_R_BARB_X + HALF + _DIAG_OVERLAP},
+    ],
+}
+
+
+# ---------------------------------------------------------------------------
+# ← leftwards arrow (U+2190): mirror of arrowright. Apex on the LEFT at
+# (145, 350); barbs on the right at (320, 525) and (320, 175); shaft from
+# x=320 to x=530 at y=350. Same bbox as arrowright.
+# ---------------------------------------------------------------------------
+_ARR_L_APEX_X = _COL_L                          # 145
+_ARR_L_APEX_Y = _MID_Y                          # 350
+_ARR_L_BARB_DX = 175
+_ARR_L_BARB_TOP_Y = _ARR_L_APEX_Y + _ARR_L_BARB_DX  # 525
+_ARR_L_BARB_BOT_Y = _ARR_L_APEX_Y - _ARR_L_BARB_DX  # 175
+_ARR_L_BARB_X = _ARR_L_APEX_X + _ARR_L_BARB_DX  # 320
+_ARR_L_SHAFT_X0 = _ARR_L_BARB_X                 # 320
+_ARR_L_SHAFT_X1 = _ARR_L_APEX_X + (_ARR_R_APEX_X - _ARR_R_BARB_X)  # 530 -- mirror of arrowright shaft length
+_ARR_L_RIGHT_EDGE = _ARR_L_SHAFT_X1 + HALF      # 585
+_ARR_L_BBOX = _bbox(_LEFT_EDGE, _ARR_L_RIGHT_EDGE)
+ARROWLEFT = {
+    "name": "arrowleft",
+    "unicode": "U+2190",
+    "advance": _advance(_ARR_L_BBOX),
+    "primitives": [
+        # Horizontal shaft from barb attachment point to right column area
+        {"type": "hline", "y": _ARR_L_APEX_Y,
+         "x0": _ARR_L_SHAFT_X0, "x1": _ARR_L_SHAFT_X1},
+        # Upper barb: from (barb_x, 525) down-left to apex (145, 350)
+        {"type": "diag",
+         "top_y": _ARR_L_BARB_TOP_Y,
+         "top_x0": _ARR_L_BARB_X - HALF - _DIAG_OVERLAP,
+         "top_x1": _ARR_L_BARB_X + HALF + _DIAG_OVERLAP,
+         "bot_y": _ARR_L_APEX_Y,
+         "bot_x0": _ARR_L_APEX_X - HALF - _DIAG_OVERLAP,
+         "bot_x1": _ARR_L_APEX_X + HALF + _DIAG_OVERLAP},
+        # Lower barb: from apex (145, 350) down-right to (barb_x, 175)
+        {"type": "diag",
+         "top_y": _ARR_L_APEX_Y,
+         "top_x0": _ARR_L_APEX_X - HALF - _DIAG_OVERLAP,
+         "top_x1": _ARR_L_APEX_X + HALF + _DIAG_OVERLAP,
+         "bot_y": _ARR_L_BARB_BOT_Y,
+         "bot_x0": _ARR_L_BARB_X - HALF - _DIAG_OVERLAP,
+         "bot_x1": _ARR_L_BARB_X + HALF + _DIAG_OVERLAP},
+    ],
+}
+
+
+# ---------------------------------------------------------------------------
+# ⚡ high voltage (U+26A1): the lightning bolt. Two 45-degree diagonals
+# meeting at a single point on the right at mid-height (495, 350), with
+# short horizontal "caps" at cap and baseline extending right from the left
+# column. Reads as a chunky zigzag -- the closest pure rail+45-degree
+# approximation of a curved bolt. Documented v0.1.1 trade-off.
+# ---------------------------------------------------------------------------
+_LIGHTNING_MEET_X = _COL_L + (CAP_HEIGHT / 2)   # 495 -- shared mid terminal
+_LIGHTNING_MEET_Y = _MID_Y                      # 350
+_LIGHTNING_TOP_X = _COL_L                       # 145 -- left column terminal
+_LIGHTNING_BOT_X = _COL_L                       # 145
+_LIGHTNING_CAP_X1 = (_COL_L + _COL_R_NARROW) / 2  # 310 -- cap hline right end
+_LIGHTNING_RIGHT_EDGE = _LIGHTNING_MEET_X + HALF  # 550
+_LIGHTNING_BBOX = _bbox(_LEFT_EDGE, _LIGHTNING_RIGHT_EDGE)
+LIGHTNING = {
+    "name": "lightning",
+    "unicode": "U+26A1",
+    "advance": _advance(_LIGHTNING_BBOX),
+    "primitives": [
+        # Top horizontal cap: left half only, extending right from top terminal
+        {"type": "hline", "y": CAP_HEIGHT,
+         "x0": _LIGHTNING_TOP_X, "x1": _LIGHTNING_CAP_X1},
+        # Upper diagonal: top-left (145, 700) -> mid-right (495, 350).
+        # dx=350, dy=350 -> 45deg.
+        {"type": "diag",
+         "top_y": CAP_HEIGHT,
+         "top_x0": _LIGHTNING_TOP_X - HALF - _DIAG_OVERLAP,
+         "top_x1": _LIGHTNING_TOP_X + HALF + _DIAG_OVERLAP,
+         "bot_y": _LIGHTNING_MEET_Y,
+         "bot_x0": _LIGHTNING_MEET_X - HALF - _DIAG_OVERLAP,
+         "bot_x1": _LIGHTNING_MEET_X + HALF + _DIAG_OVERLAP},
+        # Lower diagonal: mid-right (495, 350) -> bot-left (145, 0).
+        # dx=350, dy=350 -> 45deg.
+        {"type": "diag",
+         "top_y": _LIGHTNING_MEET_Y,
+         "top_x0": _LIGHTNING_MEET_X - HALF - _DIAG_OVERLAP,
+         "top_x1": _LIGHTNING_MEET_X + HALF + _DIAG_OVERLAP,
+         "bot_y": BASELINE,
+         "bot_x0": _LIGHTNING_BOT_X - HALF - _DIAG_OVERLAP,
+         "bot_x1": _LIGHTNING_BOT_X + HALF + _DIAG_OVERLAP},
+        # Bottom horizontal cap: left half only, extending right from bot terminal
+        {"type": "hline", "y": BASELINE,
+         "x0": _LIGHTNING_BOT_X, "x1": _LIGHTNING_CAP_X1},
+    ],
+}
+
+
+# ---------------------------------------------------------------------------
+# ✓ check mark (U+2713): SKIPPED in v0.1.1.
+#
+# A recognizable check mark requires two diagonal strokes at DIFFERENT angles
+# (the short leg steeper, the long leg shallower) meeting at an elbow. In a
+# pure 45-degree vocabulary (SPEC section 4), both legs must be 45 degrees,
+# which forces them to be PARALLEL -- their union collapses into a single
+# thicker diagonal with no visible bend. Inserting a horizontal or vertical
+# "kink" between the legs doesn't help because the perpendicular thickness
+# of a 45-degree diagonal (~78 units at stroke 110) swallows any sub-stroke
+# offset.
+#
+# Per SPEC section 7, glyphs that cannot be expressed legibly in this
+# vocabulary are omitted rather than shipped broken. The font reports
+# .notdef for U+2713 until a future vocabulary extension (e.g. a third
+# primitive at non-45-degree angles, planned for v0.2 per ROADMAP.md).
+# ---------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------
+# ✗ ballot X (U+2717): two 45-degree diagonals crossing at center, like the
+# existing X glyph but smaller. Each diagonal spans dx=400, dy=400 (vs X's
+# 700x700). Terminals at (200, 600), (600, 600), (200, 200), (600, 200).
+# Reads as a crisp squared X. Same bbox as check.
+# ---------------------------------------------------------------------------
+_CROSS_TOP_Y = 600
+_CROSS_BOT_Y = 200
+_CROSS_LEFT_X = 200
+_CROSS_RIGHT_X = 600
+_CROSS_DX = _CROSS_RIGHT_X - _CROSS_LEFT_X      # 400
+_CROSS_LEFT_EDGE = _CROSS_LEFT_X - HALF         # 145
+_CROSS_RIGHT_EDGE = _CROSS_RIGHT_X + HALF       # 655
+_CROSS_BBOX = _bbox(_CROSS_LEFT_EDGE, _CROSS_RIGHT_EDGE)
+CROSS = {
+    "name": "cross",
+    "unicode": "U+2717",
+    "advance": _advance(_CROSS_BBOX),
+    "primitives": [
+        # Backslash: top-left (200, 600) -> bot-right (600, 200)
+        {"type": "diag",
+         "top_y": _CROSS_TOP_Y,
+         "top_x0": _CROSS_LEFT_X - HALF - _DIAG_OVERLAP,
+         "top_x1": _CROSS_LEFT_X + HALF + _DIAG_OVERLAP,
+         "bot_y": _CROSS_BOT_Y,
+         "bot_x0": _CROSS_RIGHT_X - HALF - _DIAG_OVERLAP,
+         "bot_x1": _CROSS_RIGHT_X + HALF + _DIAG_OVERLAP},
+        # Forward slash: top-right (600, 600) -> bot-left (200, 200)
+        {"type": "diag",
+         "top_y": _CROSS_TOP_Y,
+         "top_x0": _CROSS_RIGHT_X - HALF - _DIAG_OVERLAP,
+         "top_x1": _CROSS_RIGHT_X + HALF + _DIAG_OVERLAP,
+         "bot_y": _CROSS_BOT_Y,
+         "bot_x0": _CROSS_LEFT_X - HALF - _DIAG_OVERLAP,
+         "bot_x1": _CROSS_LEFT_X + HALF + _DIAG_OVERLAP},
+    ],
+}
+
+
+# ---------------------------------------------------------------------------
+# ★ black star (U+2605): IMPOSSIBLE as a true 5-pointed star in pure rail+
+# 45-degree vocabulary (the 36-degree vertex angles of a real star are
+# forbidden by SPEC section 4). Approximation: overlay an X with a plus to
+# form an 8-pointed starburst (sun-burst). Diagonals span dx=dy=400; the
+# plus arms are 175 units each. Reads as a star/sun shape, not a true
+# 5-pointed star. Documented v0.1.1 trade-off per SPEC section 7.
+# ---------------------------------------------------------------------------
+_STAR_TOP_Y = _CROSS_TOP_Y                       # 600
+_STAR_BOT_Y = _CROSS_BOT_Y                       # 200
+_STAR_LEFT_X = _CROSS_LEFT_X                     # 200
+_STAR_RIGHT_X = _CROSS_RIGHT_X                   # 600
+_STAR_CENTER_X = (_STAR_LEFT_X + _STAR_RIGHT_X) / 2  # 400
+_STAR_CENTER_Y = _MID_Y                          # 350
+_STAR_ARM = CAP_HEIGHT / 4                       # 175 -- plus arm length
+_STAR_ARM_X0 = _STAR_CENTER_X - _STAR_ARM        # 225
+_STAR_ARM_X1 = _STAR_CENTER_X + _STAR_ARM        # 575
+_STAR_ARM_Y0 = _STAR_CENTER_Y - _STAR_ARM        # 175
+_STAR_ARM_Y1 = _STAR_CENTER_Y + _STAR_ARM        # 525
+_STAR_LEFT_EDGE = _STAR_LEFT_X - HALF            # 145
+_STAR_RIGHT_EDGE = _STAR_RIGHT_X + HALF          # 655
+_STAR_BBOX = _bbox(_STAR_LEFT_EDGE, _STAR_RIGHT_EDGE)
+STAR = {
+    "name": "star",
+    "unicode": "U+2605",
+    "advance": _advance(_STAR_BBOX),
+    "primitives": [
+        # X shape: backslash + forward slash (same as cross)
+        {"type": "diag",
+         "top_y": _STAR_TOP_Y,
+         "top_x0": _STAR_LEFT_X - HALF - _DIAG_OVERLAP,
+         "top_x1": _STAR_LEFT_X + HALF + _DIAG_OVERLAP,
+         "bot_y": _STAR_BOT_Y,
+         "bot_x0": _STAR_RIGHT_X - HALF - _DIAG_OVERLAP,
+         "bot_x1": _STAR_RIGHT_X + HALF + _DIAG_OVERLAP},
+        {"type": "diag",
+         "top_y": _STAR_TOP_Y,
+         "top_x0": _STAR_RIGHT_X - HALF - _DIAG_OVERLAP,
+         "top_x1": _STAR_RIGHT_X + HALF + _DIAG_OVERLAP,
+         "bot_y": _STAR_BOT_Y,
+         "bot_x0": _STAR_LEFT_X - HALF - _DIAG_OVERLAP,
+         "bot_x1": _STAR_LEFT_X + HALF + _DIAG_OVERLAP},
+        # Plus overlay: vertical + horizontal at center, arms 175 long
+        {"type": "vline", "x": _STAR_CENTER_X,
+         "y0": _STAR_ARM_Y0, "y1": _STAR_ARM_Y1},
+        {"type": "hline", "y": _STAR_CENTER_Y,
+         "x0": _STAR_ARM_X0, "x1": _STAR_ARM_X1},
+    ],
+}
+
+
+# ---------------------------------------------------------------------------
+# ☆ white star (U+2606): the outlined counterpart to ★. In pure rail+45-
+# degree vocabulary, "outline only" isn't expressible through primitive
+# union (the generator unions; it cannot subtract). Approximation: ship
+# ONLY the X (4 diagonals... wait, 2 diagonals = 4 points) without the
+# plus overlay. Reads as a 4-pointed sparkle/distinct from the 8-pointed
+# filled starburst of ★. Documented v0.1.1 trade-off per SPEC section 7.
+# ---------------------------------------------------------------------------
+_STAR_OUTLINED_BBOX = _bbox(_STAR_LEFT_EDGE, _STAR_RIGHT_EDGE)
+STAR_OUTLINED = {
+    "name": "starOutlined",
+    "unicode": "U+2606",
+    "advance": _advance(_STAR_OUTLINED_BBOX),
+    "primitives": [
+        # X shape only: backslash + forward slash (no plus overlay)
+        {"type": "diag",
+         "top_y": _STAR_TOP_Y,
+         "top_x0": _STAR_LEFT_X - HALF - _DIAG_OVERLAP,
+         "top_x1": _STAR_LEFT_X + HALF + _DIAG_OVERLAP,
+         "bot_y": _STAR_BOT_Y,
+         "bot_x0": _STAR_RIGHT_X - HALF - _DIAG_OVERLAP,
+         "bot_x1": _STAR_RIGHT_X + HALF + _DIAG_OVERLAP},
+        {"type": "diag",
+         "top_y": _STAR_TOP_Y,
+         "top_x0": _STAR_RIGHT_X - HALF - _DIAG_OVERLAP,
+         "top_x1": _STAR_RIGHT_X + HALF + _DIAG_OVERLAP,
+         "bot_y": _STAR_BOT_Y,
+         "bot_x0": _STAR_LEFT_X - HALF - _DIAG_OVERLAP,
+         "bot_x1": _STAR_LEFT_X + HALF + _DIAG_OVERLAP},
+    ],
+}
+
+
 # Order matters: this is the order glyphs are emitted into the UFO and
 # listed in public.glyphOrder. .notdef and space are prepended by the
 # font builder; only the real letters go here. Alphabetical order makes
@@ -1877,7 +2245,10 @@ GLYPHS = [
     # Numerals 0-9
     D0, D1, D2, D3, D4, D5, D6, D7, D8, D9,
     # Punctuation
-    PERIOD, COMMA, EXCLAMATION, QUESTION, APOSTROPHE, QUOTELEFT, QUOTERIGHT,
-    COLON, SEMICOLON, HYPHEN, EMDASH, LPAREN, RPAREN, SLASH, AT, HASH, DOLLAR,
-    PERCENT, AMPERSAND, PLUS, EQUAL, LESS, GREATER,
+    PERIOD, COMMA, EXCLAMATION, QUESTION, APOSTROPHE, QUOTEDBLLEFT, QUOTERIGHT,
+    COLON, SEMICOLON, HYPHEN, EMDASH, ENDASH, LPAREN, RPAREN, SLASH, AT, HASH,
+    DOLLAR, PERCENT, AMPERSAND, PLUS, EQUAL, LESS, GREATER,
+    # Symbols (v0.1.1)
+    QUOTELEFT, MIDDLEDOT, BULLET, ARROWRIGHT, ARROWLEFT, LIGHTNING, CROSS,
+    STAR, STAR_OUTLINED,
 ]

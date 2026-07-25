@@ -53,6 +53,7 @@
       <string>semicolon</string>
       <string>hyphen</string>
       <string>emdash</string>
+      <string>endash</string>
       <string>parenleft</string>
       <string>parenright</string>
       <string>slash</string>
@@ -65,6 +66,15 @@
       <string>equal</string>
       <string>less</string>
       <string>greater</string>
+      <string>quoteleft</string>
+      <string>middledot</string>
+      <string>bullet</string>
+      <string>arrowright</string>
+      <string>arrowleft</string>
+      <string>lightning</string>
+      <string>cross</string>
+      <string>star</string>
+      <string>starOutlined</string>
     </array>
   </dict>
 </plist>
