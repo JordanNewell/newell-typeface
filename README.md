@@ -1,5 +1,10 @@
 # Newell
 
+![Newell wordmark](assets/wordmark.png)
+
+[![CI](https://github.com/JordanNewell/newell-typeface/actions/workflows/ci.yml/badge.svg)](https://github.com/JordanNewell/newell-typeface/actions/workflows/ci.yml)
+[![Release](https://github.com/JordanNewell/newell-typeface/actions/workflows/release.yml/badge.svg)](https://github.com/JordanNewell/newell-typeface/actions/workflows/release.yml)
+
 > A display typeface built from parallel rails and decisive 45° diagonals.
 > Precision. Movement. Connection.
 

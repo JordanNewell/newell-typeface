@@ -1,0 +1,106 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout (full history)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Build fonts
+        run: python scripts/build_all.py
+
+      - name: Verify binaries exist
+        run: |
+          set -e
+          for fmt in otf ttf woff2; do
+            f="releases/Newell-Regular.${fmt}"
+            if [ ! -s "$f" ]; then
+              echo "ERROR: $f missing or empty" >&2
+              exit 1
+            fi
+            echo "ok: $f ($(stat -c%s "$f") bytes)"
+          done
+
+      - name: Extract release notes from CHANGELOG.md
+        id: notes
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          python - <<'PY'
+          import os, re, sys
+          tag = os.environ["TAG"]
+          try:
+              text = open("CHANGELOG.md", encoding="utf-8").read()
+          except FileNotFoundError:
+              print(f"::error::CHANGELOG.md not found")
+              sys.exit(1)
+
+          # Match either "## [v0.1.0-alpha]" or "## [v0.1.0-alpha] — date".
+          pattern = re.compile(
+              r"^##\s*\[" + re.escape(tag) + r"\][^\n]*\n(.*?)(?=^##\s|\Z)",
+              re.DOTALL | re.MULTILINE,
+          )
+          m = pattern.search(text)
+          if not m:
+              print(f"::warning::No CHANGELOG.md section for tag {tag}; using tag name as body")
+              body = f"{tag}\n"
+          else:
+              body = m.group(1).strip() + "\n"
+
+          # Write to a file to avoid shell-quoting issues with multi-line text.
+          with open("release_notes.md", "w", encoding="utf-8") as f:
+              f.write(body)
+          print(f"Extracted {len(body)} chars of release notes for {tag}")
+          PY
+
+      - name: Check for existing release
+        id: exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "${{ github.ref_name }}" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Release ${{ github.ref_name }} already exists — skipping creation."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub Release
+        if: steps.exists.outputs.exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" \
+            --repo "${{ github.repository }}" \
+            --title "Newell ${{ github.ref_name }}" \
+            --notes-file release_notes.md \
+            releases/Newell-Regular.otf \
+            releases/Newell-Regular.ttf \
+            releases/Newell-Regular.woff2
+
+      - name: Skip (release exists)
+        if: steps.exists.outputs.exists == 'true'
+        run: |
+          echo "Release ${{ github.ref_name }} already exists. Re-run will not fail the workflow."
