@@ -56,7 +56,73 @@
     <string>Y_.glif</string>
     <key>Z</key>
     <string>Z_.glif</string>
+    <key>ampersand</key>
+    <string>ampersand.glif</string>
+    <key>at</key>
+    <string>at.glif</string>
+    <key>colon</key>
+    <string>colon.glif</string>
+    <key>comma</key>
+    <string>comma.glif</string>
+    <key>dollar</key>
+    <string>dollar.glif</string>
+    <key>eight</key>
+    <string>eight.glif</string>
+    <key>emdash</key>
+    <string>emdash.glif</string>
+    <key>equal</key>
+    <string>equal.glif</string>
+    <key>exclam</key>
+    <string>exclam.glif</string>
+    <key>five</key>
+    <string>five.glif</string>
+    <key>four</key>
+    <string>four.glif</string>
+    <key>greater</key>
+    <string>greater.glif</string>
+    <key>hyphen</key>
+    <string>hyphen.glif</string>
+    <key>less</key>
+    <string>less.glif</string>
+    <key>nine</key>
+    <string>nine.glif</string>
+    <key>numbersign</key>
+    <string>numbersign.glif</string>
+    <key>one</key>
+    <string>one.glif</string>
+    <key>parenleft</key>
+    <string>parenleft.glif</string>
+    <key>parenright</key>
+    <string>parenright.glif</string>
+    <key>percent</key>
+    <string>percent.glif</string>
+    <key>period</key>
+    <string>period.glif</string>
+    <key>plus</key>
+    <string>plus.glif</string>
+    <key>question</key>
+    <string>question.glif</string>
+    <key>quotedblleft</key>
+    <string>quotedblleft.glif</string>
+    <key>quotedblright</key>
+    <string>quotedblright.glif</string>
+    <key>quotesingle</key>
+    <string>quotesingle.glif</string>
+    <key>semicolon</key>
+    <string>semicolon.glif</string>
+    <key>seven</key>
+    <string>seven.glif</string>
+    <key>six</key>
+    <string>six.glif</string>
+    <key>slash</key>
+    <string>slash.glif</string>
     <key>space</key>
     <string>space.glif</string>
+    <key>three</key>
+    <string>three.glif</string>
+    <key>two</key>
+    <string>two.glif</string>
+    <key>zero</key>
+    <string>zero.glif</string>
   </dict>
 </plist>

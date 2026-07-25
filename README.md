@@ -22,6 +22,39 @@ The first release is functional and usable but unpolished — each glyph
 follows the rules, but the rules themselves will tighten as the
 typeface matures. Treat v0.x as a tech preview.
 
+### Known v0.1 limitations
+
+The v0.1 DNA (see SPEC.md) forbids curves, rounded terminals, and any
+angle other than 45°. This makes several traditional letterforms
+impossible to render cleanly. Known issues:
+
+- **S** reads as **Z**. Two design attempts (full-width horizontals +
+  short verticals + diagonal spine; "thunderbird" with offset half-
+  horizontals) both fail to read as S in this vocabulary. v0.2 will
+  likely add a third primitive type (step-diagonal or controlled curve)
+  specifically for S/s/8/3/5/2.
+- **C, D, G, O, P, Q, R, B** are rectilinear approximations of curved
+  letters. They render as squared frames rather than curved bowls.
+  Topology is correct; the visual reading is geometric rather than
+  humanist.
+- **A, V, W** are wider than the alphabet average because each leg is
+  a full-cap-height 45° diagonal (geometrically forced).
+- **M, W** inner notches reach only mid-height (y=350), not baseline.
+  A baseline-reaching inner notch would require non-45° angles.
+- **Digits** share the S-family legibility issue. **2, 5** inherit the
+  diagonal-spine construction; **3, 8** are stacked right-opening /
+  closed bowls that read as chunky frames. **0** is visually identical
+  to **O** and **D** — readers rely on context to disambiguate.
+- **$, @** are particularly hard in this vocabulary. **$** inherits S's
+  readability issue; **@** is a closed frame approximation that does
+  not read clearly as @. Both are best-effort v0.1 approximations.
+- **Curly quotes** (' " ") lose their open/closed distinction — both
+  render as small squares at cap height.
+
+These are deliberate v0.1 trade-offs documented per-glyph in
+`src/newell/glyphs.py`. The typeface is recommended for **display
+and headline use**, not long-form body text.
+
 ---
 
 ## License
