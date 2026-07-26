@@ -356,10 +356,34 @@
       border-top: 1px solid var(--rule);
       color: var(--muted);
       font-size: 0.85rem;
+      font-family: var(--mono);
+      letter-spacing: 0.08em;
     }
     footer p { margin: 0 0 0.5rem; max-width: none; }
     footer a { color: var(--muted); }
     footer a:hover { color: var(--green); border-bottom-color: var(--green); }
+    footer .row { margin-bottom: 0.65rem; line-height: 1.8; }
+    footer .sep { margin: 0 0.65em; color: var(--rule); }
+    footer .copy {
+      margin-top: 0.85rem;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+    }
+    footer .copy .bolt { color: var(--green); margin: 0 0.4em; }
+    footer .social {
+      margin-top: 1.25rem;
+      display: flex;
+      gap: 1.5rem;
+      font-size: 1.15rem;
+    }
+    footer .social a {
+      opacity: 0.6;
+      transition: opacity 0.15s ease, color 0.15s ease;
+      text-decoration: none;
+      border-bottom: none;
+    }
+    footer .social a:hover { opacity: 1; color: var(--green); }
 
     /* ------------------------------------------------------------------
        Top bar + mobile nav (matches index/about/try pages)
@@ -739,8 +763,37 @@
   <!-- ===================== FOOTER ===================== -->
   <footer>
     <div class="wrap">
-      <p>Copyright &copy; 2026 Jordan Newell. Newell is a trademark of Jordan Newell.</p>
-      <p><a href="https://github.com/JordanNewell/newell-typeface">Source repository</a> &middot; <a href="../OFL.txt">License</a></p>
+      <p class="row">
+        <a href="https://github.com/JordanNewell/newell-typeface">github</a>
+        <span class="sep">·</span>
+        <a href="../index.html">home</a>
+        <span class="sep">·</span>
+        <a href="../about.html">about</a>
+        <span class="sep">·</span>
+        <a href="../try.html">try</a>
+        <span class="sep">·</span>
+        <a href="index.html">specimen</a>
+        <span class="sep">·</span>
+        <a href="https://github.com/JordanNewell/newell-typeface/releases/tag/v0.1.1-alpha">download</a>
+      </p>
+      <p class="row">
+        <a href="../OFL.txt">ofl</a>
+        <span class="sep">·</span>
+        <a href="../ROADMAP.md">roadmap</a>
+        <span class="sep">·</span>
+        <a href="../SPEC.md">spec</a>
+        <span class="sep">·</span>
+        <a href="../CHANGELOG.md">changelog</a>
+        <span class="sep">·</span>
+        <span>v0.1.1-alpha</span>
+      </p>
+      <p class="copy">&copy; 2026 Jordan Newell <span class="bolt">⚡</span> Newell is a trademark of Jordan Newell <span class="bolt">⚡</span> <a href="../OFL.txt">SIL OFL 1.1</a></p>
+      <div class="social">
+        <a href="mailto:jordan@jordannewell.com" aria-label="Say hello" title="Say hello">👋</a>
+        <a href="https://github.com/JordanNewell" aria-label="GitHub" title="GitHub">🐙</a>
+        <a href="https://github.com/sponsors/JordanNewell" aria-label="Sponsor" title="Sponsor on GitHub">🤍</a>
+        <a href="https://buymeacoffee.com/jordannewell" aria-label="Buy me a coffee" title="Buy me a coffee">☕</a>
+      </div>
     </div>
   </footer>
 
