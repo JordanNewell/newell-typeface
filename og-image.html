@@ -16,9 +16,10 @@
       color: #00FF66;
       font-family: system-ui, -apple-system, sans-serif;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       justify-content: center;
       align-items: center;
+      gap: 64px;
       padding: 60px;
       position: relative;
     }
@@ -34,13 +35,28 @@
     body::before { top: 50px; }
     body::after  { bottom: 50px; }
 
+    .mark {
+      flex: 0 0 auto;
+      width: 360px;
+      height: 360px;
+      filter: drop-shadow(0 0 40px rgba(0, 255, 102, 0.22));
+    }
+
+    .copy {
+      flex: 0 1 auto;
+      max-width: 640px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
     .eyebrow {
       font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
       font-size: 14px;
       letter-spacing: 0.32em;
       text-transform: uppercase;
       color: rgba(0, 255, 102, 0.55);
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
     .eyebrow .dot {
       display: inline-block;
@@ -54,19 +70,20 @@
 
     .wordmark {
       font-family: "Newell", system-ui, sans-serif;
-      font-size: 280px;
+      font-size: 200px;
       line-height: 0.92;
       letter-spacing: 0.02em;
       text-shadow: 0 0 60px rgba(0, 255, 102, 0.22);
-      margin-bottom: 30px;
+      margin-bottom: 24px;
     }
 
     .tagline {
-      font-size: 28px;
+      font-size: 26px;
       color: #e8e8e8;
       font-weight: 400;
       letter-spacing: 0.01em;
-      margin-bottom: 40px;
+      margin-bottom: 36px;
+      max-width: 540px;
     }
     .tagline strong {
       color: #00FF66;
@@ -83,9 +100,12 @@
   </style>
 </head>
 <body>
-  <div class="eyebrow"><span class="dot"></span>v0.1.0-alpha &nbsp;·&nbsp; available now</div>
-  <div class="wordmark">NEWELL</div>
-  <div class="tagline">A geometric display typeface. <strong>Engineered, not drawn.</strong></div>
-  <div class="url">github.com/jordannewell/newell-typeface</div>
+  <img class="mark" src="assets/favicon-512.png" alt="Newell N mark">
+  <div class="copy">
+    <div class="eyebrow"><span class="dot"></span>v0.1.1-alpha &nbsp;·&nbsp; available now</div>
+    <div class="wordmark">NEWELL</div>
+    <div class="tagline">A geometric display typeface. <strong>Engineered, not drawn.</strong></div>
+    <div class="url">github.com/jordannewell/newell-typeface</div>
+  </div>
 </body>
 </html>
