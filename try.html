@@ -514,8 +514,75 @@
     }
     footer .social a:hover { opacity: 1; color: var(--green); }
 
+    /* ---------- mobile nav toggle ---------- */
+    .nav-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--rule);
+      color: var(--green);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.55rem 0.85rem;
+      cursor: pointer;
+      align-items: center;
+      gap: 0.6rem;
+      line-height: 1;
+    }
+    .nav-toggle:hover { border-color: var(--green); }
+    .nav-toggle .bars {
+      display: inline-block;
+      width: 16px;
+      height: 2px;
+      background: var(--green);
+      position: relative;
+      transition: background 0.2s ease;
+    }
+    .nav-toggle .bars::before,
+    .nav-toggle .bars::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 16px;
+      height: 2px;
+      background: var(--green);
+      transition: transform 0.2s ease, top 0.2s ease;
+    }
+    .nav-toggle .bars::before { top: -5px; }
+    .nav-toggle .bars::after  { top: 5px; }
+    .nav-toggle[aria-expanded="true"] .bars { background: transparent; }
+    .nav-toggle[aria-expanded="true"] .bars::before { top: 0; transform: rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] .bars::after  { top: 0; transform: rotate(-45deg); }
+
     @media (max-width: 600px) {
-      .topbar nav { display: none; }
+      .topbar { position: relative; padding: 1rem 1.25rem; }
+      .topbar .status { display: none; }
+      .nav-toggle { display: inline-flex; }
+      .topbar nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 1.25rem;
+        background: var(--bg);
+        border: 1px solid var(--rule);
+        border-top: none;
+        flex-direction: column;
+        gap: 0;
+        min-width: 220px;
+        z-index: 50;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      }
+      .topbar nav.open { display: flex; }
+      .topbar nav a {
+        padding: 0.95rem 1.25rem;
+        color: var(--text);
+        border-bottom: 1px solid var(--rule);
+        font-size: 0.78rem;
+      }
+      .topbar nav a:last-child { border-bottom: none; }
+      .topbar nav a:hover,
+      .topbar nav a.active { background: var(--green-soft); color: var(--green); }
     }
     @media (prefers-reduced-motion: reduce) {
       * { transition: none !important; animation: none !important; }
@@ -526,7 +593,7 @@
 
   <header class="topbar">
     <div class="brand">NEWELL <span>/</span> TYPEFACE</div>
-    <nav>
+    <nav id="site-nav">
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="try.html" class="active">Try</a>
@@ -534,6 +601,10 @@
       <a href="https://github.com/JordanNewell/newell-typeface">GitHub</a>
     </nav>
     <div class="status">v0.1.0-ALPHA</div>
+    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="site-nav">
+      <span class="bars" aria-hidden="true"></span>
+      <span>Menu</span>
+    </button>
   </header>
 
   <section class="intro">
@@ -656,8 +727,6 @@
       <a href="specimen/">specimen</a>
       <span class="sep">·</span>
       <a href="https://github.com/JordanNewell/newell-typeface/releases/tag/v0.1.0-alpha">download</a>
-      <span class="sep">·</span>
-      <a href="mailto:jordan@jordannewell.com">contact</a>
     </p>
     <p class="row">
       <a href="OFL.txt">ofl</a>
@@ -672,6 +741,7 @@
     </p>
     <p class="copy">© 2026 Jordan Newell <span class="bolt">⚡</span> Newell is a trademark of Jordan Newell <span class="bolt">⚡</span> <a href="OFL.txt">SIL OFL 1.1</a></p>
     <div class="social">
+      <a href="mailto:jordan@jordannewell.com" aria-label="Say hello" title="Say hello">👋</a>
       <a href="https://github.com/JordanNewell" aria-label="GitHub" title="GitHub">🐙</a>
       <a href="https://github.com/sponsors/JordanNewell" aria-label="Sponsor" title="Sponsor on GitHub">🤍</a>
       <a href="https://buymeacoffee.com/jordannewell" aria-label="Buy me a coffee" title="Buy me a coffee">☕</a>
@@ -966,6 +1036,34 @@
       } else {
         init();
       }
+    })();
+  </script>
+
+  <script>
+    // Mobile nav toggle. Hamburger button shows a dropdown panel under
+    // the topbar on screens <= 600px. Closes on link click, outside click,
+    // and Escape.
+    (function() {
+      var toggle = document.querySelector('.nav-toggle');
+      var nav = document.querySelector('.topbar nav');
+      if (!toggle || !nav) return;
+      function setOpen(open) {
+        nav.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setOpen(!nav.classList.contains('open'));
+      });
+      nav.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') setOpen(false);
+      });
+      document.addEventListener('click', function(e) {
+        if (!toggle.contains(e.target) && !nav.contains(e.target)) setOpen(false);
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') setOpen(false);
+      });
     })();
   </script>
 
