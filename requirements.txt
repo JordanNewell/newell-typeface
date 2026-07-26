@@ -1,6 +1,6 @@
-fontTools[woff]>=4.55
-ufoLib2>=0.16
-booleanOperations>=0.9.3
-ufo2ft>=3.0
-fontmake>=3.0
-brotli>=1.0  # required by fontTools for WOFF2 compression
+fontTools[woff]>=4.63.0
+ufoLib2>=0.18.1
+booleanOperations>=0.10.0
+ufo2ft>=3.9.0
+fontmake>=3.12.1
+brotli>=1.2.0  # required by fontTools for WOFF2 compression
