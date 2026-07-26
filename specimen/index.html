@@ -362,6 +362,111 @@
     footer a:hover { color: var(--green); border-bottom-color: var(--green); }
 
     /* ------------------------------------------------------------------
+       Top bar + mobile nav (matches index/about/try pages)
+       ------------------------------------------------------------------ */
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .topbar .brand { color: var(--text); font-weight: 600; }
+    .topbar .brand span { color: var(--green); }
+    .topbar nav { display: flex; gap: 2rem; }
+    .topbar nav a { color: var(--muted); border-bottom: none; }
+    .topbar nav a:hover { color: var(--green); }
+    .topbar nav a.active { color: var(--green); }
+    .topbar .status {
+      color: var(--green);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .topbar .status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    .nav-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--rule);
+      color: var(--green);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.55rem 0.85rem;
+      cursor: pointer;
+      align-items: center;
+      gap: 0.6rem;
+      line-height: 1;
+    }
+    .nav-toggle:hover { border-color: var(--green); }
+    .nav-toggle .bars {
+      display: inline-block;
+      width: 16px;
+      height: 2px;
+      background: var(--green);
+      position: relative;
+      transition: background 0.2s ease;
+    }
+    .nav-toggle .bars::before,
+    .nav-toggle .bars::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 16px;
+      height: 2px;
+      background: var(--green);
+      transition: transform 0.2s ease, top 0.2s ease;
+    }
+    .nav-toggle .bars::before { top: -5px; }
+    .nav-toggle .bars::after  { top: 5px; }
+    .nav-toggle[aria-expanded="true"] .bars { background: transparent; }
+    .nav-toggle[aria-expanded="true"] .bars::before { top: 0; transform: rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] .bars::after  { top: 0; transform: rotate(-45deg); }
+
+    @media (max-width: 600px) {
+      .topbar { position: relative; padding: 1rem 1.25rem; }
+      .topbar .status { display: none; }
+      .nav-toggle { display: inline-flex; }
+      .topbar nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 1.25rem;
+        background: var(--bg);
+        border: 1px solid var(--rule);
+        border-top: none;
+        flex-direction: column;
+        gap: 0;
+        min-width: 220px;
+        z-index: 50;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      }
+      .topbar nav.open { display: flex; }
+      .topbar nav a {
+        padding: 0.95rem 1.25rem;
+        color: var(--text);
+        border-bottom: 1px solid var(--rule);
+        font-size: 0.78rem;
+      }
+      .topbar nav a:last-child { border-bottom: none; }
+      .topbar nav a:hover,
+      .topbar nav a.active { background: var(--green-dim); color: var(--green); }
+    }
+
+    /* ------------------------------------------------------------------
        Reduced motion / print
        ------------------------------------------------------------------ */
 
@@ -378,6 +483,22 @@
   </style>
 </head>
 <body>
+
+  <header class="topbar">
+    <div class="brand">NEWELL <span>/</span> TYPEFACE</div>
+    <nav id="site-nav">
+      <a href="../index.html">Home</a>
+      <a href="../about.html">About</a>
+      <a href="../try.html">Try</a>
+      <a href="index.html" class="active">Specimen</a>
+      <a href="https://github.com/JordanNewell/newell-typeface">GitHub</a>
+    </nav>
+    <div class="status">v0.1.1-ALPHA</div>
+    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="site-nav">
+      <span class="bars" aria-hidden="true"></span>
+      <span>Menu</span>
+    </button>
+  </header>
 
   <!-- ===================== HERO ===================== -->
   <header class="hero">
@@ -403,7 +524,7 @@
       </p>
 
       <div class="hero__meta">
-        <span><b>v0.1.0-alpha</b></span>
+        <span><b>v0.1.1-alpha</b></span>
         <span>61 glyphs</span>
         <span>OFL-1.1</span>
         <span>Regular</span>
@@ -622,6 +743,34 @@
       <p><a href="https://github.com/JordanNewell/newell-typeface">Source repository</a> &middot; <a href="../OFL.txt">License</a></p>
     </div>
   </footer>
+
+  <script>
+    // Mobile nav toggle. Hamburger button shows a dropdown panel under
+    // the topbar on screens <= 600px. Closes on link click, outside click,
+    // and Escape.
+    (function() {
+      var toggle = document.querySelector('.nav-toggle');
+      var nav = document.querySelector('.topbar nav');
+      if (!toggle || !nav) return;
+      function setOpen(open) {
+        nav.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setOpen(!nav.classList.contains('open'));
+      });
+      nav.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') setOpen(false);
+      });
+      document.addEventListener('click', function(e) {
+        if (!toggle.contains(e.target) && !nav.contains(e.target)) setOpen(false);
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') setOpen(false);
+      });
+    })();
+  </script>
 
 </body>
 </html>
