@@ -37,6 +37,9 @@ pip-log.txt
 # Local screenshot debug output (regenerable via scripts/screenshot.py)
 scripts/_preview/home_*.png
 scripts/_preview/about*.png
+scripts/_preview/try*.png
+scripts/_preview/*_full.png
+scripts/_preview/*_hero.png
 
 # Browser download artifacts (Chrome appends #1)
 releases/*.woff2.*
