@@ -4,6 +4,7 @@
 
 [![CI](https://github.com/JordanNewell/newell-typeface/actions/workflows/ci.yml/badge.svg)](https://github.com/JordanNewell/newell-typeface/actions/workflows/ci.yml)
 [![Release](https://github.com/JordanNewell/newell-typeface/actions/workflows/release.yml/badge.svg)](https://github.com/JordanNewell/newell-typeface/actions/workflows/release.yml)
+[![License: OFL](https://img.shields.io/badge/license-OFL--1.1-success.svg)](OFL.txt)
 
 > A display typeface built from parallel rails and decisive 45° diagonals.
 > Precision. Movement. Connection.
@@ -11,65 +12,66 @@
 **Newell** is an original geometric display typeface. Every glyph is
 assembled from the same vocabulary — vertical rails, horizontal bars,
 and 45° diagonals — joined with squared terminals. The system is
-parametric: glyphs are generated from a declarative spec, not
+parametric: glyphs are generated from declarative rules, not
 hand-drawn, so the entire alphabet inherits one visual grammar.
 
-This is the typeface used by **[jordannewell.com](https://jordannewell.com)**.
+---
+
+## Links
+
+- **Live site:** <https://jordannewell.github.io/newell-typeface/>
+- **Try it (interactive):** <https://jordannewell.github.io/newell-typeface/try.html>
+- **Technical specimen:** <https://jordannewell.github.io/newell-typeface/specimen/>
+- **Latest release:** <https://github.com/JordanNewell/newell-typeface/releases/latest>
+- **Roadmap:** [ROADMAP.md](ROADMAP.md)
 
 ---
 
 ## Status
 
-**v0.1.0-alpha** — uppercase A–Z, digits 0–9, basic punctuation.
-Single weight. Static build (variable axes planned for v0.2).
+**v0.1.1-alpha** — uppercase A–Z, digits 0–9, basic punctuation,
+common symbols (⚡ · → ← — ★ ☆ ✗). 71 glyphs total. Single weight
+(Regular). Static build (variable axes planned for v0.2).
 
-The first release is functional and usable but unpolished — each glyph
-follows the rules, but the rules themselves will tighten as the
-typeface matures. Treat v0.x as a tech preview.
+Treat v0.x as a tech preview. Each glyph follows the rules, but the
+rules themselves will tighten as the typeface matures.
 
 ### Known v0.1 limitations
 
-The v0.1 DNA (see SPEC.md) forbids curves, rounded terminals, and any
-angle other than 45°. This makes several traditional letterforms
-impossible to render cleanly. Known issues:
+The v0.1 DNA forbids curves, rounded terminals, and any angle other
+than 45°. This makes several traditional letterforms impossible to
+render cleanly. Honest trade-offs:
 
-- **S** reads as **Z**. Two design attempts (full-width horizontals +
-  short verticals + diagonal spine; "thunderbird" with offset half-
-  horizontals) both fail to read as S in this vocabulary. v0.2 will
-  likely add a third primitive type (step-diagonal or controlled curve)
-  specifically for S/s/8/3/5/2.
+- **S reads as Z** — pure rails + 45° vocabulary cannot render an
+  unambiguous S. v0.2 will add a third primitive type to fix it.
 - **C, D, G, O, P, Q, R, B** are rectilinear approximations of curved
-  letters. They render as squared frames rather than curved bowls.
-  Topology is correct; the visual reading is geometric rather than
-  humanist.
-- **A, V, W** are wider than the alphabet average because each leg is
-  a full-cap-height 45° diagonal (geometrically forced).
+  letters (squared frames, not curved bowls).
+- **A, V, W** are wider than the alphabet average — each leg is a
+  full-cap-height 45° diagonal (geometrically forced).
 - **M, W** inner notches reach only mid-height (y=350), not baseline.
-  A baseline-reaching inner notch would require non-45° angles.
-- **Digits** share the S-family legibility issue. **2, 5** inherit the
-  diagonal-spine construction; **3, 8** are stacked right-opening /
-  closed bowls that read as chunky frames. **0** is visually identical
-  to **O** and **D** — readers rely on context to disambiguate.
-- **$, @** are particularly hard in this vocabulary. **$** inherits S's
-  readability issue; **@** is a closed frame approximation that does
-  not read clearly as @. Both are best-effort v0.1 approximations.
-- **Curly quotes** (' " ") lose their open/closed distinction — both
-  render as small squares at cap height.
+- **Digits 2, 3, 5, 8** inherit the S-family legibility issue. **0**
+  is visually identical to **O** and **D** — context disambiguates.
+- **$, @** are best-effort approximations.
+- **✓ check mark** omitted entirely — impossible in pure 45°
+  vocabulary; deferred to v0.2.
 
-These are deliberate v0.1 trade-offs documented per-glyph in
-`src/newell/glyphs.py`. The typeface is recommended for **display
-and headline use**, not long-form body text.
+Recommended for **display and headline use**, not long-form body text.
 
 ---
 
-## License
+## The DNA in one paragraph
 
-Released under the [SIL Open Font License 1.1](./OFL.txt).
-You are free to use, embed, modify, and redistribute — including
-commercially — provided the font and any derivatives remain under the
-OFL. Attribution appreciated but not required.
+All glyphs live on a 1000-unit em. Cap height 700, x-height 500,
+descender -200. Strokes are 110 units wide with squared terminals.
+Diagonals are exactly 45°. The vocabulary is three primitives:
+**rail** (vertical or horizontal bar), **diagonal** (45° stroke),
+and **junction** (squared connection between primitives). The
+signature diagonal of the `N` — the one that connects the top of one
+rail to the bottom of another — reappears in `M`, `K`, `R`, `V`, `W`,
+`X`, `Y`, `Z`, and the digits `1`, `2`, `4`, `7`. That recurring
+diagonal is the family resemblance.
 
-Copyright © 2026 Jordan Newell.
+See [SPEC.md](SPEC.md) for the full constitution.
 
 ---
 
@@ -77,43 +79,103 @@ Copyright © 2026 Jordan Newell.
 
 ```
 newell-typeface/
-├── OFL.txt              SIL Open Font License 1.1
-├── AUTHORS.txt          Attribution
-├── SOURCES.txt          Provenance statement
-├── SPEC.md              Typeface DNA (grid, strokes, primitives)
-├── src/newell/          Parametric glyph generator (Python)
-├── sources/             UFO masters (generated)
-├── releases/            Built font binaries (OTF, TTF, WOFF2)
-├── specimen/            Static specimen page
-└── scripts/             Build + publish helpers
+├── OFL.txt                    SIL Open Font License 1.1
+├── AUTHORS.txt                Attribution
+├── SOURCES.txt                Provenance (original work)
+├── SPEC.md                    Typeface DNA constitution
+├── CHANGELOG.md               Release history
+├── ROADMAP.md                 v0.2 → v1.0 plan
+├── requirements.txt           Python deps
+│
+├── index.html                 Coming soon landing page
+├── about.html                 About / DNA / roadmap page
+├── try.html                   Interactive type tester
+├── og-image.html              Source for assets/og.png
+├── site.webmanifest           PWA metadata
+│
+├── assets/                    Logo, OG image, favicons, wordmark
+├── releases/                  Built font binaries (OTF, TTF, WOFF2)
+├── sources/                   UFO masters (generated)
+├── specimen/                  Technical specimen page
+│
+├── src/newell/                Parametric glyph generator (Python)
+│   ├── primitives.py          vline / hline / diag expanders
+│   ├── generator.py           Boolean union + UFO assembly
+│   ├── font.py                UFO metadata
+│   ├── glyphs.py              Declarative glyph definitions
+│   └── test_generator.py      Test suite
+│
+├── scripts/
+│   ├── build.py               Generate UFO only
+│   ├── build_all.py           UFO → OTF + TTF + WOFF2 (end-to-end)
+│   ├── preview.py             Render glyph PNGs from UFO
+│   ├── screenshot.py          Playwright HTML screenshots
+│   ├── render_assets.py       Re-render OG / wordmark / N-mark
+│   └── render_favicons.py     Resize N-mark → favicon variants
+│
+└── .github/workflows/         CI (test+build) + Release (tag → binaries)
 ```
 
 ---
 
 ## Building
 
-Requires Python 3.10+ and `fontTools`, `ufoLib2`, `booleanOperations`,
-`ufo2ft`, `fontmake`.
+Requires Python 3.10+ and the deps in `requirements.txt`:
 
 ```bash
 py -m pip install -r requirements.txt
-py scripts/build.py           # generates UFO + compiles OTF/TTF/WOFF2
+py scripts/build_all.py     # generates UFO + compiles OTF/TTF/WOFF2
 ```
 
-Output appears under `releases/`.
+Output appears under `releases/`. Current sizes:
+
+| Format | Size |
+|--------|------|
+| OTF    | ~3.9 KB |
+| TTF    | ~5.3 KB |
+| WOFF2  | ~2.1 KB |
+
+To regenerate brand assets (OG image, wordmark, favicons) after
+changing the font:
+
+```bash
+py scripts/render_assets.py     # OG + wordmark + N-mark via Playwright
+py scripts/render_favicons.py   # favicon variants via Pillow
+```
 
 ---
 
-## The DNA in one paragraph
+## Releases
 
-All glyphs live on a 1000-unit em. Cap height is 700, x-height 500,
-descender -200. Strokes are 110 units wide with squared terminals.
-Diagonals are exactly 45°. The vocabulary is three primitives:
-**rail** (a vertical or horizontal bar), **diagonal** (a 45° stroke),
-and **junction** (a squared connection between two primitives). Every
-letter is a composition. The signature diagonal of the `N` logo — the
-one that connects the top of one rail to the bottom of another —
-reappears in `M`, `R`, `K`, `V`, `W`, `X`, `Y`, `Z`, and the digits
-`1`, `2`, `4`, `7`. That recurring diagonal is the family resemblance.
+Releases are automated via GitHub Actions.
 
-See [SPEC.md](./SPEC.md) for the full constitution.
+- Push to `master` → CI runs tests + rebuilds binaries
+- Push a `v*` tag → release workflow builds, extracts the matching
+  CHANGELOG section, and publishes a GitHub Release with OTF/TTF/WOFF2
+  attached
+
+```bash
+git tag v0.2.0
+git push origin v0.2.0
+# GitHub Actions does the rest
+```
+
+---
+
+## License
+
+Released under the [SIL Open Font License 1.1](OFL.txt). Free for
+commercial use, modification, and redistribution provided the font
+and any derivatives remain under the OFL.
+
+Copyright © 2026 Jordan Newell. "Newell" and the Newell logotype are
+trademarks of Jordan Newell.
+
+---
+
+## Credits
+
+Design and engineering: **Jordan Newell** ([jordannewell.com](https://jordannewell.com))
+
+Generated parametrically from [SPEC.md](SPEC.md) — no existing
+typeface was traced or used as a metrics reference.

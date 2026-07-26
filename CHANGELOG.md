@@ -15,6 +15,28 @@ Font releases use a `vMAJOR.MINOR.PATCH[-prerelease]` tag scheme.
   enable legible S/s/2/3/5/8/$.
 - Variable font axes (Light / Regular / Bold / Black weights).
 
+## [v0.1.1-alpha] — 2026-07-25
+
+Patch release — expands character set to cover symbols used on the
+Newell marketing pages themselves. No design changes to existing
+glyphs; pure addition.
+
+### Added
+- 10 symbol glyphs: `·` `•` `→` `←` `—` `–` `‘` `★` `☆` `✗` `⚡`
+- These previously fell back to system fonts when rendered inside
+  Newell text, breaking the visual consistency of the coming-soon
+  page footer and CTAs.
+- `U+2713` check mark intentionally omitted — impossible in pure
+  45° vocabulary. Documented in `src/newell/glyphs.py`. Deferred to
+  v0.2 when a new primitive type lands.
+
+### Changed
+- UFO glyph count: 61 → 71
+- File sizes (negligibly larger):
+  - `Newell-Regular.otf`: 3,312 → 3,876 bytes
+  - `Newell-Regular.ttf`: 4,568 → 5,300 bytes
+  - `Newell-Regular.woff2`: 1,776 → 2,072 bytes
+
 ## [v0.1.0-alpha] — 2026-07-25
 
 First public release. Functional but unpolished — each glyph follows
