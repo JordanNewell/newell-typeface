@@ -131,8 +131,8 @@ Output appears under `releases/`. Current sizes:
 
 | Format | Size |
 |--------|------|
-| OTF    | ~3.9 KB |
-| TTF    | ~5.3 KB |
+| OTF    | ~5.0 KB |
+| TTF    | ~6.4 KB |
 | WOFF2  | ~2.1 KB |
 
 To regenerate brand assets (OG image, wordmark, favicons) after

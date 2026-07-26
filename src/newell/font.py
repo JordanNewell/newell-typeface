@@ -19,6 +19,26 @@ STYLE_NAME = "Regular"
 VERSION_MAJOR = 0
 VERSION_MINOR = 2
 COPYRIGHT = "Copyright 2026 Jordan Newell"
+DESIGNER = "Jordan Newell"
+MANUFACTURER = "Jordan Newell"
+PROJECT_URL = "https://jordannewell.github.io/newell-typeface/"
+DESIGNER_URL = "https://jordannewell.com"
+LICENSE_URL = "https://openfontlicense.org"
+LICENSE_NAME = (
+    "This Font Software is licensed under the SIL Open Font License, "
+    "Version 1.1. This license is available with a FAQ at: "
+    "https://openfontlicense.org"
+)
+DESCRIPTION = (
+    "Newell is an original geometric display typeface built from parallel "
+    "rails and 45-degree diagonals with squared terminals. No curves. "
+    "Engineered, not drawn. https://jordannewell.github.io/newell-typeface/"
+)
+TRADEMARK = "Newell is a trademark of Jordan Newell."
+VENDOR_ID = "JNEW"  # 4-character OS/2 vendor ID
+# Unique font identifier (nameID 3). Format: version;vendor;PostScript name
+UNIQUE_ID = f"{VERSION_MAJOR}.{VERSION_MINOR:03d};{VENDOR_ID};{FAMILY_NAME}-{STYLE_NAME}"
+VERSION_STRING = f"Version {VERSION_MAJOR}.{VERSION_MINOR:03d}"
 
 UNITS_PER_EM = 1000
 ASCENDER = 800
@@ -68,10 +88,24 @@ def _set_info(font):
     font.info.xHeight = X_HEIGHT
     font.info.descender = DESCENDER
     font.info.openTypeOS2WidthClass = 5  # Medium per SPEC/task brief.
+    font.info.openTypeOS2VendorID = VENDOR_ID
     font.info.versionMajor = VERSION_MAJOR
     font.info.versionMinor = VERSION_MINOR
     font.info.copyright = COPYRIGHT
+    font.info.trademark = TRADEMARK
     font.info.postscriptFontName = f"{FAMILY_NAME}-{STYLE_NAME}"
+    font.info.postscriptFullName = f"{FAMILY_NAME} {STYLE_NAME}"
+    font.info.openTypeNameDesigner = DESIGNER
+    font.info.openTypeNameDescription = DESCRIPTION
+    font.info.openTypeNameManufacturer = MANUFACTURER
+    font.info.openTypeNameManufacturerURL = PROJECT_URL
+    font.info.openTypeNameDesignerURL = DESIGNER_URL
+    font.info.openTypeNameLicense = LICENSE_NAME
+    font.info.openTypeNameLicenseURL = LICENSE_URL
+    font.info.openTypeNameVersion = VERSION_STRING
+    font.info.openTypeNameUniqueID = UNIQUE_ID
+    font.info.openTypeNamePreferredFamilyName = FAMILY_NAME
+    font.info.openTypeNamePreferredSubfamilyName = STYLE_NAME
     font.info.openTypeOS2Selection = [7]  # USE_TYPO_METRICS, harmless default.
 
 

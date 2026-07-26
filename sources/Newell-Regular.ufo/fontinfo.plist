@@ -12,16 +12,44 @@
     <integer>-200</integer>
     <key>familyName</key>
     <string>Newell</string>
+    <key>openTypeNameDescription</key>
+    <string>Newell is an original geometric display typeface built from parallel rails and 45-degree diagonals with squared terminals. No curves. Engineered, not drawn. https://jordannewell.github.io/newell-typeface/</string>
+    <key>openTypeNameDesigner</key>
+    <string>Jordan Newell</string>
+    <key>openTypeNameDesignerURL</key>
+    <string>https://jordannewell.com</string>
+    <key>openTypeNameLicense</key>
+    <string>This Font Software is licensed under the SIL Open Font License, Version 1.1. This license is available with a FAQ at: https://openfontlicense.org</string>
+    <key>openTypeNameLicenseURL</key>
+    <string>https://openfontlicense.org</string>
+    <key>openTypeNameManufacturer</key>
+    <string>Jordan Newell</string>
+    <key>openTypeNameManufacturerURL</key>
+    <string>https://jordannewell.github.io/newell-typeface/</string>
+    <key>openTypeNamePreferredFamilyName</key>
+    <string>Newell</string>
+    <key>openTypeNamePreferredSubfamilyName</key>
+    <string>Regular</string>
+    <key>openTypeNameUniqueID</key>
+    <string>0.002;JNEW;Newell-Regular</string>
+    <key>openTypeNameVersion</key>
+    <string>Version 0.002</string>
     <key>openTypeOS2Selection</key>
     <array>
       <integer>7</integer>
     </array>
+    <key>openTypeOS2VendorID</key>
+    <string>JNEW</string>
     <key>openTypeOS2WidthClass</key>
     <integer>5</integer>
     <key>postscriptFontName</key>
     <string>Newell-Regular</string>
+    <key>postscriptFullName</key>
+    <string>Newell Regular</string>
     <key>styleName</key>
     <string>Regular</string>
+    <key>trademark</key>
+    <string>Newell is a trademark of Jordan Newell.</string>
     <key>unitsPerEm</key>
     <integer>1000</integer>
     <key>versionMajor</key>
