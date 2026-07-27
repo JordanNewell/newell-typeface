@@ -210,6 +210,17 @@
       line-height: 1.4;
     }
     .row > * { min-width: 1.2ch; text-align: center; }
+    .caveat {
+      margin-top: 1.5rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--muted);
+      max-width: none;
+    }
+    .caveat a { color: var(--green-dim); }
+    .caveat a:hover { color: var(--green); }
 
     /* ------------------------------------------------------------------
        Sample headline
@@ -607,9 +618,9 @@
       <span class="label">02 — Numerals</span>
       <h2 id="numerals-h">0&ndash;9</h2>
       <div class="row" aria-label="Digits zero through nine">
-        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span>
-        <span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+        <span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
       </div>
+      <p class="caveat">Same 45&deg; vocabulary as the letters &mdash; some digits read unconventionally. See <a href="#limits">&sect;7 Known Limitations</a>.</p>
     </div>
   </section>
 
