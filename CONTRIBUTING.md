@@ -13,6 +13,20 @@ curves, non-45° angles, or rounded terminals — will not merge without
 a spec amendment first. Open an issue to scope that conversation
 before sending code.
 
+## Secret scanning (gitleaks)
+
+CI runs [gitleaks](https://github.com/gitleaks/gitleaks) on every push to
+`master` and every PR (`.github/workflows/gitleaks.yml`), per the fleet
+repo standards (S417 v1). A failed gitleaks job blocks merge.
+
+- If gitleaks flags a **verified false positive**, add an inline
+  `# gitleaks:allow` comment on the offending line — don't bypass or
+  disable the workflow.
+- If a real secret was committed and pushed, treat it as compromised:
+  revoke/rotate it immediately, then remove it from history.
+- To scan locally before pushing: `gitleaks detect --source .` (or
+  `gitleaks protect` for staged changes).
+
 ## Project layout
 
 ```
@@ -155,7 +169,7 @@ To add or change a glyph:
    `py scripts/preview.py`.
 5. **Visual review** per the checklist above.
 6. **Update docs** — `SPEC.md` if metrics change, `README.md` glyph
-   table if a new glyph is added, `CHANGELOG.md` with a one-liner.
+   table if a new glyph was added, `CHANGELOG.md` with a one-liner.
 7. **Open the PR** with before/after PNGs attached.
 
 Do **not** hand-edit files under `sources/` (UFO) or `releases/` (binaries)
