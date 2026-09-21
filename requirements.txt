@@ -1,4 +1,4 @@
-fontTools[woff]>=4.64.0
+fontTools[woff]>=4.65.0
 ufoLib2>=0.18.1
 booleanOperations>=0.10.0
 ufo2ft>=3.9.0
