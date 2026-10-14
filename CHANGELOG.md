@@ -11,7 +11,7 @@ Font releases use a `vMAJOR.MINOR.PATCH[-prerelease]` tag scheme.
 ### Planned for v0.2
 - Lowercase Latin alphabet (a-z)
 - Class-based kerning for problem pairs (AV, AT, PA, YA, etc.)
-- A third primitive type ("step-diagonal" or controlled curve) to
+- A new primitive type ("step-diagonal" or controlled curve) to
   enable legible S/s/2/3/5/8/$.
 - Variable font axes (Light / Regular / Bold / Black weights).
 

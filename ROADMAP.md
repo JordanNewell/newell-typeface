@@ -13,7 +13,7 @@ paragraph and still read as English.
 
 These must land before v0.2 ships:
 
-1. **A legible S.** Add a third primitive — most likely a controlled
+1. **A legible S.** Add a new primitive — most likely a controlled
    "step-diagonal" or a single-bend curve segment — specifically
    scoped to S/s/2/3/5/8/$. Spec amendment required.
 
