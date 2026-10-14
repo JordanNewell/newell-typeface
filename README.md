@@ -43,7 +43,7 @@ than 45°. This makes several traditional letterforms impossible to
 render cleanly. Honest trade-offs:
 
 - **S reads as Z** — pure rails + 45° vocabulary cannot render an
-  unambiguous S. v0.2 will add a third primitive type to fix it.
+  unambiguous S. v0.2 will add a new primitive type to fix it.
 - **C, D, G, O, P, Q, R, B** are rectilinear approximations of curved
   letters (squared frames, not curved bowls).
 - **A, V, W** are wider than the alphabet average — each leg is a
@@ -85,24 +85,28 @@ newell-typeface/
 ├── SPEC.md                    Typeface DNA constitution
 ├── CHANGELOG.md               Release history
 ├── ROADMAP.md                 v0.2 → v1.0 plan
+├── AGENTS.md                  Agent instructions
+├── CODE_OF_CONDUCT.md / CONTRIBUTING.md
 ├── requirements.txt           Python deps
 │
 ├── index.html                 Coming soon landing page
 ├── about.html                 About / DNA / roadmap page
 ├── try.html                   Interactive type tester
 ├── og-image.html              Source for assets/og.png
-├── site.webmanifest           PWA metadata
+├── favicon.ico / favicon-32.png / favicon-512.png / apple-touch-icon.png
 │
-├── assets/                    Logo, OG image, favicons, wordmark
+├── assets/                    Logo, OG image, favicons, wordmark, N-mark
 ├── releases/                  Built font binaries (OTF, TTF, WOFF2)
 ├── sources/                   UFO masters (generated)
 ├── specimen/                  Technical specimen page
+├── docs/roadmap/              Roadmap web page
 │
 ├── src/newell/                Parametric glyph generator (Python)
 │   ├── primitives.py          vline / hline / diag expanders
 │   ├── generator.py           Boolean union + UFO assembly
 │   ├── font.py                UFO metadata
 │   ├── glyphs.py              Declarative glyph definitions
+│   ├── build.py               CLI: py -m newell.build
 │   └── test_generator.py      Test suite
 │
 ├── scripts/
