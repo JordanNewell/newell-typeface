@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Newell — Edition 001 (poster)</title>
+  <style>
+    @font-face {
+      font-family: "Newell";
+      src: url("releases/Newell-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+    }
+
+    @page { size: A3 portrait; margin: 0; }
+
+    :root {
+      --bg:    #000000;
+      --green: #00FF66;
+      --dim:   #a0a0a0;
+      --mono:  ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* The sheet. mm units so print == screen == PDF. */
+    body {
+      width: 297mm;
+      height: 420mm;
+      background: var(--bg);
+      color: var(--green);
+      font-family: "Newell", monospace;
+      display: flex;
+      flex-direction: column;
+      padding: 16mm 18mm 14mm;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .mono {
+      font-family: var(--mono);
+      font-size: 3.2mm;
+      letter-spacing: 0.22em;
+      color: var(--dim);
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12mm;
+    }
+    header .ed { color: var(--green); }
+
+    /* Hero alphabet — two full-width rows, space-between. Newell's
+       advance widths vary wildly (W = 2.4em, E = 0.6em); locking glyph
+       edges to the sheet edges lets the gaps absorb the variance. */
+    .alphabet {
+      font-size: 58mm;
+      line-height: 0.82;
+      margin-bottom: 14mm;
+    }
+    .alphabet .row {
+      display: flex;
+      justify-content: space-between;
+    }
+    .alphabet .row + .row { margin-top: 10mm; }
+
+    .wordmark {
+      font-size: 44mm;
+      line-height: 0.9;
+      letter-spacing: 0.04em;
+      margin-top: auto; /* pin the wordmark block to the lower third */
+      margin-bottom: 4mm;
+    }
+    .tagline {
+      font-family: var(--mono);
+      font-size: 4.2mm;
+      letter-spacing: 0.34em;
+      color: var(--dim);
+    }
+
+    .colophon {
+      border-top: 0.4mm solid #1f1f1f;
+      padding-top: 6mm;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .colophon .lines { line-height: 2; }
+    .colophon .n {
+      font-family: var(--mono);
+      font-size: 3.2mm;
+      letter-spacing: 0.22em;
+      color: var(--green);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <span class="mono ed">EDITION 001</span>
+    <span class="mono">NEWELL.INK</span>
+  </header>
+
+  <div class="alphabet" aria-label="A E M N R S W">
+    <div class="row"><span>A</span><span>E</span><span>M</span><span>N</span></div>
+    <div class="row"><span>R</span><span>S</span><span>W</span></div>
+  </div>
+
+  <div class="wordmark">NEWELL</div>
+  <div class="tagline">A TYPEFACE THAT REFUSES CURVES</div>
+
+  <div class="colophon">
+    <div class="lines mono">
+      NEWELL — A TYPEFACE THAT REFUSES CURVES<br>
+      V0.1.1-ALPHA &nbsp;·&nbsp; 3 PRIMITIVES &nbsp;·&nbsp; 45° ONLY &nbsp;·&nbsp; NO CURVES<br>
+      EDITION 001 — UNLIMITED DIGITAL, PRINTED ON DEMAND<br>
+      DESIGNED + ENGINEERED BY JORDAN NEWELL &nbsp;·&nbsp; NEWELL.INK
+    </div>
+    <div class="n">001/∞</div>
+  </div>
+
+</body>
+</html>

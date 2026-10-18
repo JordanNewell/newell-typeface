@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png?v=3">
+    <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png?v=3">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png?v=3">
+    <link rel="shortcut icon" href="favicon.ico?v=3">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Edition 001 — the Newell poster. Free A3 PDF, printed on demand. A typeface that refuses curves.">
+  <meta name="author" content="Jordan Newell">
+  <meta name="color-scheme" content="dark">
+  <meta property="og:title" content="Edition 001 — Newell">
+  <meta property="og:description" content="One poster. Free PDF, unlimited digital, printed on demand.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://newell.ink/print.html">
+  <meta property="og:image" content="https://newell.ink/assets/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Newell">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Edition 001 — Newell">
+  <meta name="twitter:description" content="One poster. Free PDF, unlimited digital, printed on demand.">
+  <meta name="twitter:image" content="https://newell.ink/assets/og.png">
+  <title>Edition 001 — Newell</title>
+
+<meta name="theme-color" content="#000000">
+  <style>
+    @font-face {
+      font-family: "Newell";
+      src: url("releases/Newell-Regular.woff2") format("woff2");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    :root {
+      --bg:           #000000;
+      --bg-elevated:  #0a0a0a;
+      --green:        #00FF66;
+      --green-soft:   rgba(0, 255, 102, 0.08);
+      --text:         #e8e8e8;
+      --text-dim:     #a0a0a0;
+      --muted:        #5a5a5a;
+      --rule:         #1a1a1a;
+      --sans:         system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --mono:         ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 17px;
+      line-height: 1.65;
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    a {
+      color: var(--green);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.15s ease;
+    }
+    a:hover { border-bottom-color: var(--green); }
+
+    /* ---------- top bar (shared) ---------- */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .topbar .brand { color: var(--text); font-weight: 600; }
+    .topbar .brand span { color: var(--green); }
+    .topbar nav { display: flex; gap: 2rem; }
+    .topbar nav a { color: var(--text-dim); border-bottom: none; }
+    .topbar nav a:hover { color: var(--green); }
+    .topbar nav a.active { color: var(--green); }
+    .topbar .status {
+      color: var(--green);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .topbar .status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+    }
+
+    main { flex: 1; }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .eyebrow .accent { color: var(--green); }
+
+    h1 {
+      font-family: "Newell", var(--sans);
+      font-weight: 400;
+      color: var(--green);
+      font-size: clamp(3rem, 8vw, 5.5rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      margin-bottom: 3rem;
+    }
+
+    h2 {
+      font-family: "Newell", var(--sans);
+      font-weight: 400;
+      color: var(--green);
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      margin-top: 4rem;
+      margin-bottom: 1.25rem;
+    }
+
+    p { margin-bottom: 1.1rem; color: var(--text-dim); max-width: 64ch; }
+    p strong { color: var(--text); font-weight: 500; }
+
+    .lead {
+      font-size: 1.2rem;
+      color: var(--text);
+      line-height: 1.55;
+      margin-bottom: 2rem;
+      max-width: 58ch;
+    }
+
+    /* ---------- edition sheet ---------- */
+    .sheet {
+      border: 1px solid var(--rule);
+      background: var(--bg-elevated);
+      padding: 1.25rem;
+      margin: 2rem 0;
+    }
+    .sheet img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border: 1px solid var(--rule);
+    }
+    .sheet .sheet-meta {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.9rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.9rem 1.6rem;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      border: 1px solid var(--green);
+      color: var(--green);
+      background: transparent;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease;
+      border-bottom: 1px solid var(--green);
+    }
+    .btn:hover { background: var(--green); color: var(--bg); }
+    .btn + .btn { margin-left: 1rem; }
+
+    /* ---------- footer (matches jordannewell.com pattern) ---------- */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2.5rem 1.5rem 2rem;
+      background: var(--bg);
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+    footer .row {
+      margin-bottom: 0.65rem;
+      line-height: 1.8;
+      max-width: none;
+    }
+    footer a {
+      color: var(--text-dim);
+      border-bottom: none;
+      transition: color 0.15s ease;
+    }
+    footer a:hover { color: var(--green); }
+    footer .sep { margin: 0 0.65em; color: var(--rule); }
+    footer .copy {
+      margin-top: 0.85rem;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+    }
+    footer .copy .bolt { color: var(--green); margin: 0 0.4em; }
+
+    /* ---------- mobile nav toggle (shared) ---------- */
+    .nav-toggle {
+      display: none;
+      background: transparent;
+      border: 1px solid var(--rule);
+      color: var(--green);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.55rem 0.85rem;
+      cursor: pointer;
+      align-items: center;
+      gap: 0.6rem;
+      line-height: 1;
+    }
+    .nav-toggle:hover { border-color: var(--green); }
+    .nav-toggle .bars {
+      display: inline-block;
+      width: 16px;
+      height: 2px;
+      background: var(--green);
+      position: relative;
+      transition: background 0.2s ease;
+    }
+    .nav-toggle .bars::before,
+    .nav-toggle .bars::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 16px;
+      height: 2px;
+      background: var(--green);
+      transition: transform 0.2s ease, top 0.2s ease;
+    }
+    .nav-toggle .bars::before { top: -5px; }
+    .nav-toggle .bars::after  { top: 5px; }
+    .nav-toggle[aria-expanded="true"] .bars { background: transparent; }
+    .nav-toggle[aria-expanded="true"] .bars::before { top: 0; transform: rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] .bars::after  { top: 0; transform: rotate(-45deg); }
+
+    @media (max-width: 600px) {
+      .topbar { position: relative; padding: 1rem 1.25rem; }
+      .topbar .status { display: none; }
+      .nav-toggle { display: inline-flex; }
+      .topbar nav {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 1.25rem;
+        background: var(--bg);
+        border: 1px solid var(--rule);
+        border-top: none;
+        flex-direction: column;
+        gap: 0;
+        min-width: 220px;
+        z-index: 50;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      }
+      .topbar nav.open { display: flex; }
+      .topbar nav a {
+        padding: 0.95rem 1.25rem;
+        color: var(--text);
+        border-bottom: 1px solid var(--rule);
+        font-size: 0.78rem;
+      }
+      .topbar nav a:last-child { border-bottom: none; }
+      .topbar nav a:hover,
+      .topbar nav a.active { background: var(--green-soft); color: var(--green); }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="brand">NEWELL <span>/</span> TYPEFACE</div>
+    <nav id="site-nav">
+      <a href="index.html">Specimen</a>
+      <a href="about.html">Score</a>
+      <a href="try.html">Try</a>
+      <a href="print.html" class="active">Print</a>
+      <a href="https://github.com/JordanNewell/newell-typeface">GitHub</a>
+    </nav>
+    <div class="status">v0.1.1-ALPHA</div>
+    <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="site-nav">
+      <span class="bars" aria-hidden="true"></span>
+      <span>Menu</span>
+    </button>
+  </header>
+
+  <main>
+    <div class="wrap">
+
+      <div class="eyebrow">Print <span class="accent">/</span> Newell</div>
+      <h1>EDITION 001</h1>
+
+      <p class="lead">
+        One poster. <strong>Unlimited digital, printed on demand</strong> —
+        no inventory, no scarcity, no shipping. The edition is the file.
+      </p>
+
+      <div class="sheet">
+        <img src="assets/poster-preview.png" alt="Edition 001 poster — hero alphabet A E M N R S W and the NEWELL wordmark, set in Newell on black" width="1123" height="1587">
+        <div class="sheet-meta">
+          <span>A3 · 297 × 420 MM</span>
+          <span>V0.1.1-ALPHA</span>
+        </div>
+      </div>
+
+      <p>
+        <a class="btn" href="releases/newell-edition-001.pdf" download>Download the PDF</a>
+        <a class="btn" href="poster.html">Open the sheet</a>
+      </p>
+
+      <h2>PRINT YOUR OWN</h2>
+      <p>
+        The PDF is exact A3. Any print shop can run it — matte paper,
+        black-heavy ink coverage, nothing over ~17&nbsp;KB. Or open
+        <a href="poster.html">the sheet</a> in a browser and hit
+        <strong>Ctrl/Cmd&nbsp;+&nbsp;P</strong>: the <code>@page</code> rule
+        gives a clean A3, and scale-to-fit handles A2.
+      </p>
+
+    </div>
+  </main>
+
+  <footer>
+    <p class="row">
+      <a href="https://github.com/JordanNewell/newell-typeface">github</a>
+      <span class="sep">·</span>
+      <a href="index.html">home</a>
+      <span class="sep">·</span>
+      <a href="about.html">score</a>
+      <span class="sep">·</span>
+      <a href="try.html">try</a>
+      <span class="sep">·</span>
+      <a href="print.html">print</a>
+      <span class="sep">·</span>
+      <a href="https://github.com/JordanNewell/newell-typeface/releases/tag/v0.1.1-alpha">download</a>
+    </p>
+    <p class="row">
+      <a href="OFL.txt">ofl</a>
+      <span class="sep">·</span>
+      <a href="SPEC.md">spec</a>
+      <span class="sep">·</span>
+      <a href="CHANGELOG.md">changelog</a>
+      <span class="sep">·</span>
+      <span>v0.1.1-alpha</span>
+    </p>
+    <p class="copy">© 2026 Jordan Newell <span class="bolt">⚡</span> Newell is a trademark of Jordan Newell <span class="bolt">⚡</span> <a href="OFL.txt">SIL OFL 1.1</a></p>
+  </footer>
+
+  <script>
+    // Mobile nav toggle (shared pattern).
+    (function() {
+      var toggle = document.querySelector('.nav-toggle');
+      var nav = document.querySelector('.topbar nav');
+      if (!toggle || !nav) return;
+      function setOpen(open) {
+        nav.classList.toggle('open', open);
+        toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      }
+      toggle.addEventListener('click', function(e) {
+        e.stopPropagation();
+        setOpen(!nav.classList.contains('open'));
+      });
+      nav.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') setOpen(false);
+      });
+      document.addEventListener('click', function(e) {
+        if (!toggle.contains(e.target) && !nav.contains(e.target)) setOpen(false);
+      });
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') setOpen(false);
+      });
+    })();
+  </script>
+
+<!--
+  NEWELL Universal Footer — drop-in component.
+  Paste before </body> on any page. Self-contained: inline CSS + SVG, no deps.
+-->
+<footer class="newell-footer">
+  <a href="https://jordannewell.com" class="newell-footer-link" aria-label="A NEWELL project — visit jordannewell.com" title="A NEWELL project">
+    <svg class="newell-footer-mark" viewBox="0 0 48 48" width="24" height="24" aria-hidden="true">
+      <rect x="2" y="2" width="44" height="44" rx="6" fill="#0A0A0A" stroke="#00FF41" stroke-width="1.5"/>
+      <rect x="6" y="6" width="36" height="36" rx="3" fill="#0A0A0A" stroke="#1F1F1F" stroke-width="0.5"/>
+      <path d="M 14 14 L 14 34 L 17 34 L 17 19 L 14 16 Z" fill="#FFFFFF"/>
+      <path d="M 31 34 L 31 31 L 17 14 L 14 14 L 14 17 L 28 34 Z" fill="#FFFFFF"/>
+      <path d="M 34 14 L 31 14 L 31 31 L 34 28 L 34 14 Z" fill="#FFFFFF"/>
+    </svg>
+    <span class="newell-footer-text">
+      <span class="newell-footer-project">A NEWELL project</span>
+      <span class="newell-footer-sep">·</span>
+      <span class="newell-footer-credit">Built by Jordan Newell</span>
+    </span>
+  </a>
+</footer>
+
+<style>
+  .newell-footer {
+    border-top: 1px solid #1F1F1F;
+    background: #0A0A0A;
+    padding: 14px 24px;
+    font-family: "JetBrains Mono", "SF Mono", Menlo, monospace;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: #A0A0A0;
+    margin-top: auto;
+  }
+  .newell-footer-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    max-width: 1200px;
+    margin: 0 auto;
+    transition: color 0.15s ease;
+  }
+  .newell-footer-link:hover {
+    color: #00FF41;
+  }
+  .newell-footer-mark {
+    flex-shrink: 0;
+    display: block;
+  }
+  .newell-footer-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .newell-footer-project {
+    color: #FFFFFF;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 11px;
+  }
+  .newell-footer-sep {
+    color: #1F1F1F;
+  }
+  .newell-footer-credit {
+    color: #A0A0A0;
+  }
+  .newell-footer-link:hover .newell-footer-project {
+    color: #00FF41;
+  }
+  @media (max-width: 600px) {
+    .newell-footer {
+      padding: 12px 16px;
+      font-size: 11px;
+    }
+    .newell-footer-link {
+      gap: 8px;
+    }
+    .newell-footer-mark {
+      width: 20px;
+      height: 20px;
+    }
+  }
+</style>
+
+</body>
+</html>
