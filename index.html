@@ -6,8 +6,8 @@
   <meta name="description" content="Newell — a geometric display typeface built from parallel rails and 45-degree diagonals. Designed and engineered by Jordan Newell.">
   <meta name="author" content="Jordan Newell">
   <meta name="color-scheme" content="dark">
-  <meta property="og:title" content="Newell — Geometric Display Typeface">
-  <meta property="og:description" content="A geometric display typeface built from parallel rails and 45-degree diagonals. Designed by Jordan Newell.">
+  <meta property="og:title" content="Newell — A Typeface That Refuses Curves">
+  <meta property="og:description" content="Three primitives: rail, diagonal, junction. Uppercase only, 45° only, no curves. Engineered, not drawn.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://newell.ink/">
   <meta property="og:image" content="https://newell.ink/assets/og.png">
@@ -15,10 +15,10 @@
   <meta property="og:image:height" content="630">
   <meta property="og:site_name" content="Newell">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Newell — Geometric Display Typeface">
-  <meta name="twitter:description" content="A geometric display typeface built from parallel rails and 45-degree diagonals.">
+  <meta name="twitter:title" content="Newell — A Typeface That Refuses Curves">
+  <meta name="twitter:description" content="Three primitives: rail, diagonal, junction. Uppercase only, 45° only, no curves.">
   <meta name="twitter:image" content="https://newell.ink/assets/og.png">
-  <title>Newell — A Geometric Display Typeface</title>
+  <title>Newell — A Typeface That Refuses Curves</title>
   <link rel="icon" type="image/png" sizes="512x512" href="assets/favicon-512.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
@@ -275,47 +275,6 @@
       justify-content: center;
       margin-bottom: 4rem;
     }
-
-    /* ---------- email signup ---------- */
-    .signup {
-      display: flex;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      width: 100%;
-      max-width: 480px;
-    }
-    .signup input[type="email"] {
-      flex: 1 1 280px;
-      padding: 0.95rem 1.25rem;
-      background: var(--bg-elevated);
-      border: 1px solid var(--rule);
-      color: var(--text);
-      font-family: var(--mono);
-      font-size: 0.95rem;
-      border-radius: 2px;
-      outline: none;
-      transition: border-color 0.15s ease;
-    }
-    .signup input[type="email"]:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 1px var(--green);
-    }
-    .signup input[type="email"]::placeholder { color: var(--muted); }
-    .signup .btn { flex: 0 0 auto; }
-    .signup-msg {
-      font-family: var(--mono);
-      font-size: 0.78rem;
-      letter-spacing: 0.1em;
-      text-align: center;
-      width: 100%;
-      min-height: 1.2em;
-      color: var(--green);
-      transition: opacity 0.2s ease;
-    }
-    .signup-msg.error { color: #ff6b6b; }
 
     .btn {
       display: inline-flex;
@@ -647,10 +606,10 @@
   <header class="topbar">
     <div class="brand">NEWELL <span>/</span> TYPEFACE</div>
     <nav id="site-nav">
-      <a href="index.html" class="active">Home</a>
-      <a href="about.html">About</a>
+      <a href="index.html" class="active">Specimen</a>
+      <a href="about.html">Score</a>
       <a href="try.html">Try</a>
-      <a href="specimen/">Specimen</a>
+      <a href="print.html">Print</a>
       <a href="https://github.com/JordanNewell/newell-typeface">GitHub</a>
     </nav>
     <div class="status">v0.1.1-ALPHA</div>
@@ -661,7 +620,7 @@
   </header>
 
   <main class="hero">
-    <div class="eyebrow">v0.1.1-<span class="accent">alpha</span> &nbsp;·&nbsp; available now</div>
+    <div class="eyebrow">v0.1.1-<span class="accent">alpha</span> &nbsp;·&nbsp; an edition, not a release</div>
 
     <div class="logo-stage" aria-label="Newell logo">
       <div class="prim rail1" aria-hidden="true"></div>
@@ -671,22 +630,14 @@
     </div>
 
     <p class="tagline">
-      A geometric display typeface built from <strong>parallel rails</strong>
-      and <strong>45-degree diagonals</strong>. No curves. No rounded
-      terminals. Engineered, not drawn.
+      Newell is a typeface that <strong>refuses curves</strong>. Three
+      primitives — rail, diagonal, junction. Uppercase only. The S is
+      Z's diagonal wearing S's name, <strong>on the record</strong>.
     </p>
 
-    <form class="signup" id="signup" action="https://news.jordannewell.com/subscription/form" method="POST" novalidate>
-      <input type="email" name="email" id="email" placeholder="you@domain.com" autocomplete="email" required aria-label="Email address">
-      <input type="hidden" name="l" value="f8eafcb7-5dea-48b3-b8e5-2f52d2c2fb72">
-      <input type="hidden" name="source" value="coming-soon-hero">
-      <button type="submit" class="btn">Get notified</button>
-      <p class="signup-msg" id="signup-msg" role="status" aria-live="polite"></p>
-    </form>
-
     <div class="cta-row">
-      <a class="btn btn--ghost" href="https://github.com/JordanNewell/newell-typeface/releases/tag/v0.1.1-alpha">Download v0.1.1-alpha</a>
-      <a class="btn btn--ghost" href="about.html">Read about the DNA →</a>
+      <a class="btn btn--ghost" href="about.html">Read the score →</a>
+      <a class="btn btn--ghost" href="print.html">Edition 001 →</a>
     </div>
 
     <div class="meta">
@@ -809,54 +760,6 @@
   </a>
 
   <script>
-    // Email signup handler. Defaults to a "demo success" message if no
-    // real backend is wired (action still points at Formspree placeholder).
-    // When you replace the form action with a real Formspree/Buttondown/
-    // ConvertKit endpoint, this will POST and report success/failure.
-    (function() {
-      var form = document.getElementById('signup');
-      var msg  = document.getElementById('signup-msg');
-      var realBackend = form.action.indexOf('REPLACE_ME') === -1;
-
-      form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        var email = document.getElementById('email').value.trim();
-        if (!email || email.indexOf('@') === -1) {
-          msg.textContent = 'Enter a valid email address.';
-          msg.classList.add('error');
-          return;
-        }
-        msg.classList.remove('error');
-
-        if (!realBackend) {
-          // Local/demo mode — just acknowledge. Replace the form action
-          // with a real endpoint to enable actual collection.
-          msg.textContent = 'Thanks — we\'ll let you know when v0.2 lands.';
-          document.getElementById('email').value = '';
-          return;
-        }
-
-        // Real backend mode.
-        msg.textContent = 'Subscribing…';
-        fetch(form.action, {
-          method: 'POST',
-          body: new FormData(form),
-          headers: { 'Accept': 'application/json' }
-        }).then(function(r) {
-          if (r.ok) {
-            msg.textContent = 'Thanks — check your inbox to confirm.';
-            document.getElementById('email').value = '';
-          } else {
-            msg.textContent = 'Something went wrong. Try again.';
-            msg.classList.add('error');
-          }
-        }).catch(function() {
-          msg.textContent = 'Network error. Try again.';
-          msg.classList.add('error');
-        });
-      });
-    })();
-
     // Trigger the logo assembly animation once the image is ready.
     // The animation is defined in CSS under body.anim-ready; we add
     // that class as soon as the logo <img> has finished loading (or
