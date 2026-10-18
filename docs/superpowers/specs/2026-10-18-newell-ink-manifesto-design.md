@@ -43,12 +43,13 @@ grid (anti-pattern: centered-symmetric), generous negative space.
 
 ### The S ruling (score page)
 
-Documented as intent. Draft voice:
+Documented as intent, grounded in the real primitive construction
+(`glyphs.py`: half-rails + top-right→bottom-left 45° spine — Z's
+diagonal, not a mirrored one). Draft voice:
 
-> The alphabet has no S. It has a Z-shaped compromise — a glyph that
-> answers to the diagonal vocabulary at the cost of looking like the
-> letter it replaced. v0.2 admits a step-diagonal to buy it back. Until
-> then, Z is doing double duty, on the record.
+> Newell's S has no curve to hide behind — it's Z's diagonal wearing
+> S's name. Same 45° spine as the N, half-bars for the terminals.
+> v0.2 buys it back with a step-diagonal. Until then, squint.
 
 (Final wording may shift; register = declarative, first person, no marketing.)
 
