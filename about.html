@@ -7,7 +7,7 @@
     <link rel="shortcut icon" href="favicon.ico?v=3">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="About Newell — the design intent, the DNA, the roadmap. A geometric display typeface by Jordan Newell.">
+  <meta name="description" content="The score of Newell — a typeface that refuses curves. Design intent, primitive grammar, the measures, and the S ruling.">
   <meta name="author" content="Jordan Newell">
   <meta name="color-scheme" content="dark">
   <meta property="og:title" content="The Score — Newell">
@@ -233,34 +233,51 @@
       .primitives { grid-template-columns: 1fr; }
     }
 
-    /* ---------- roadmap ---------- */
-    .roadmap {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 0.5rem 1.5rem;
+    /* ---------- measures table ---------- */
+    .measures {
       margin: 1.5rem 0 2rem;
+      border-collapse: collapse;
+      width: 100%;
+      max-width: 560px;
       font-family: var(--mono);
       font-size: 0.88rem;
     }
-    .roadmap .ver {
-      color: var(--green);
-      letter-spacing: 0.05em;
-    }
-    .roadmap .desc {
+    .measures th {
+      text-align: left;
       color: var(--text-dim);
-      font-family: var(--sans);
-      font-size: 0.95rem;
-      padding-bottom: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      padding: 0.55rem 0;
       border-bottom: 1px solid var(--rule);
     }
-    .roadmap .desc strong {
-      display: block;
-      color: var(--text);
-      margin-bottom: 0.25rem;
+    .measures td {
+      color: var(--green);
+      text-align: right;
+      padding: 0.55rem 0;
+      border-bottom: 1px solid var(--rule);
+      letter-spacing: 0.05em;
+    }
+    .measures .measure-note {
+      color: var(--muted);
+      font-family: var(--sans);
+      font-size: 0.78rem;
+      letter-spacing: 0;
+      margin-left: 0.5rem;
     }
     @media (max-width: 600px) {
-      .roadmap { grid-template-columns: 1fr; gap: 0.25rem; }
-      .roadmap .desc { padding-bottom: 1rem; }
+      .measures .measure-note { display: block; margin-left: 0; }
+    }
+
+    /* ---------- the S ruling ---------- */
+    .ruling {
+      margin: 2rem 0;
+      padding: 2rem 2.25rem;
+      border-left: 3px solid var(--green);
+      background: var(--bg-elevated);
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: var(--text);
+      max-width: 56ch;
     }
 
     /* ---------- cta ---------- */
@@ -448,24 +465,21 @@
   <main>
     <div class="wrap">
 
-      <div class="eyebrow">About <span class="accent">/</span> Newell</div>
+      <div class="eyebrow">Score <span class="accent">/</span> Newell</div>
       <h1>ENGINEERED,<br>NOT DRAWN.</h1>
 
       <p class="lead">
-        Newell is an original geometric display typeface. Every glyph is
-        assembled from the same vocabulary — vertical rails, horizontal
-        rails, and 45-degree diagonals — joined with squared terminals.
-        The system is parametric: glyphs are <strong>generated from
-        declarative rules</strong>, not hand-drawn, so the entire alphabet
-        inherits one visual grammar.
+        The score. Every glyph answers to it.
       </p>
 
+      <h2>THE INTENT</h2>
+
       <p>
-        It started with a logo. The mark — a stylized N built from
-        parallel rails and a decisive diagonal — suggested a richer
-        visual language. Instead of designing letters one at a time,
-        the whole alphabet could share the same DNA: rails, diagonals,
-        and the squared corners where they meet.
+        Newell is a typeface that refuses curves. It started with a
+        logo — a stylized N built from parallel rails and a decisive
+        diagonal — and the mark suggested the whole alphabet. Not
+        letters drawn one at a time, but one grammar extended: rails,
+        diagonals, and the squared corners where they meet.
       </p>
 
       <p>
@@ -476,7 +490,7 @@
         It's the family resemblance.
       </p>
 
-      <h2>THE DNA</h2>
+      <h2>THE GRAMMAR</h2>
 
       <p>Three primitives. Nothing else.</p>
 
@@ -501,13 +515,18 @@
         </div>
       </div>
 
-      <h3>METRICS</h3>
-      <ul>
-        <li><strong>1000</strong> units per em (industry standard)</li>
-        <li><strong>700</strong> cap height, <strong>0</strong> baseline</li>
-        <li><strong>110</strong> units monoline stroke, squared terminals</li>
-        <li><strong>45°</strong> diagonals only — the generator asserts it</li>
-      </ul>
+      <p>
+        A rail runs horizontal or vertical. A diagonal runs at exactly
+        45 degrees — no exceptions. A junction is the squared corner
+        where they meet.
+      </p>
+
+<pre><code>abs(dx) == abs(dy)</code></pre>
+
+      <p>
+        The generator asserts it. <strong>If a glyph cannot be expressed
+        in rails + 45° diagonals, it does not belong in Newell.</strong>
+      </p>
 
       <h3>FORBIDDEN</h3>
       <ul>
@@ -523,54 +542,26 @@
         on GitHub.
       </p>
 
-      <h2>WHAT'S IN v0.1</h2>
+      <h2>THE MEASURES</h2>
 
-      <p>
-        This is the first public release. <strong>61 glyphs:</strong>
-        uppercase A-Z, digits 0-9, basic punctuation, plus the
-        housekeeping glyphs (<code>.notdef</code>, space). Single weight
-        (Regular), static build (variable axes planned for v0.2). Three
-        compiled formats: OTF (3.3 KB), TTF (4.5 KB), WOFF2 (1.8 KB).
-      </p>
+      <table class="measures">
+        <tr><th>units per em</th><td>1000</td></tr>
+        <tr><th>cap height</th><td>700</td></tr>
+        <tr><th>x-height</th><td>500 <span class="measure-note">reserved — no lowercase yet</span></td></tr>
+        <tr><th>stroke</th><td>110 <span class="measure-note">monoline, squared terminals</span></td></tr>
+        <tr><th>gap</th><td>130 <span class="measure-note">counter width between strokes</span></td></tr>
+        <tr><th>side bearing</th><td>90</td></tr>
+        <tr><th>diagonals</th><td>45° only</td></tr>
+      </table>
 
-      <h3>KNOWN LIMITATIONS</h3>
-      <p>
-        v0.1 is functional but unpolished. Pure rails + 45-degree
-        diagonals cannot render every traditional letterform cleanly.
-        Documented honestly:
-      </p>
-      <ul>
-        <li><strong>S reads as Z</strong> — fundamental to the vocabulary; v0.2 adds a third primitive to fix it</li>
-        <li><strong>C, D, G, O, P, Q, R, B</strong> are rectilinear approximations of curved letters</li>
-        <li><strong>A, V, W</strong> are wider than the alphabet average (each leg is a full cap-height diagonal)</li>
-        <li><strong>M, W</strong> inner notches reach only mid-height</li>
-        <li><strong>0 visually identical to O</strong> — relies on context</li>
-        <li>No kerning, no lowercase, no diacritics yet</li>
-      </ul>
+      <h2>THE S RULING</h2>
 
-      <p>
-        Recommended for <strong>display and headline use</strong>, not
-        long-form body text. Not yet "production" — that's v1.0.
-      </p>
-
-      <h2>ROADMAP</h2>
-
-      <div class="roadmap">
-        <div class="ver">v0.1 ✅</div>
-        <div class="desc"><strong>Alpha — shipped 2026-07-25</strong>Uppercase, digits, punctuation. Static Regular. Established the DNA and proved the parametric pipeline.</div>
-
-        <div class="ver">v0.2</div>
-        <div class="desc"><strong>Reads like a typeface</strong>Legible S (new primitive), lowercase a-z, class-based kerning, 0/O disambiguation.</div>
-
-        <div class="ver">v0.3</div>
-        <div class="desc"><strong>A type system</strong>Variable weight axis (Light → Black), the signature NDI (Newell Diagonal Intensity) axis, italic, full Latin diacritics.</div>
-
-        <div class="ver">v0.4</div>
-        <div class="desc"><strong>A brand system</strong>Icons, motion language, Figma components — Newell as a complete visual language.</div>
-
-        <div class="ver">v1.0</div>
-        <div class="desc"><strong>Production</strong>Full character set (Latin, Cyrillic, Greek), hinting, OpenType features, optical corrections, specimen book.</div>
-      </div>
+      <blockquote class="ruling">
+        Newell's S has no curve to hide behind — it's Z's diagonal
+        wearing S's name. Same 45° spine as the N, half-bars for the
+        terminals. v0.2 buys it back with a step-diagonal.
+        Until then, squint.
+      </blockquote>
 
       <h2>WHO</h2>
       <p>
@@ -609,7 +600,7 @@
     <p class="row">
       <a href="OFL.txt">ofl</a>
       <span class="sep">·</span>
-      <a href="ROADMAP.md">roadmap</a>
+      <a href="print.html">print</a>
       <span class="sep">·</span>
       <a href="SPEC.md">spec</a>
       <span class="sep">·</span>
