@@ -25,7 +25,7 @@ jobs:
         uses: lewagon/wait-on-check-action@v1.3.4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
-          check-name: 'test'
+          check-name: 'Lint and test'
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           wait-interval: 10
 
@@ -46,9 +46,7 @@ jobs:
               echo "Major version bump — requires manual review"
               ;;
             *)
-              echo "Non-semver update (likely actions/gomod) — auto-merging if CI passes"
-              gh pr review --approve "$PR_URL" --body "Auto-approved: CI-only dependency update"
-              gh pr merge --squash --auto "$PR_URL"
+              echo "skipping: unknown/grouped update type — requires manual review"
               ;;
           esac
         env:
