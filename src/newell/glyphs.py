@@ -2309,6 +2309,284 @@ def build_glyph_defs(stroke_width=STROKE_DEFAULT):
     # font builder; only the real letters go here. Alphabetical order makes
     # the specimen page easy to scan.
 
+
+    # ===========================================================================
+    # v0.2 punctuation round-out (issue #7). All rail+45-degree constructions;
+    # each validates through the #11 harness at every stroke width.
+    # ===========================================================================
+
+    # -- [ bracketleft (U+005B): left vline + top/bottom stubs extending
+    # right. Slight vertical overshoot (-30..730) per typographic convention.
+    # ---------------------------------------------------------------------------
+    _BRL_VX = _COL_L                                 # 145
+    _BRL_STUB_X1 = _BRL_VX + 185                     # 330
+    # 715 (not 730): the stub ink must clear the weight-scaled cap
+    # overshoot limit (700 + stroke/2) at Black too -- 730 + 85 = 815
+    # would breach it (#11 multi-weight check).
+    _BRL_TOP = 715
+    _BRL_BOT = -25
+    _BRL_BBOX = _bbox(_LEFT_EDGE, _BRL_STUB_X1 + HALF)
+    BRACKETLEFT = {
+        "name": "bracketleft",
+        "unicode": "U+005B",
+        "advance": _advance(_BRL_BBOX),
+        "primitives": [
+            {"type": "vline", "x": _BRL_VX, "y0": _BRL_BOT, "y1": _BRL_TOP},
+            {"type": "hline", "y": _BRL_TOP, "x0": _BRL_VX, "x1": _BRL_STUB_X1},
+            {"type": "hline", "y": _BRL_BOT, "x0": _BRL_VX, "x1": _BRL_STUB_X1},
+        ],
+    }
+
+    # -- ] bracketright (U+005D): mirror of [.
+    # ---------------------------------------------------------------------------
+    _BRR_VX = _COL_L + 185                           # 330 (mirrors [ in its box)
+    _BRR_STUB_X0 = _COL_L                            # 145
+    _BRR_BBOX = _bbox(_LEFT_EDGE, _BRR_VX + HALF)    # 90..385
+    BRACKETRIGHT = {
+        "name": "bracketright",
+        "unicode": "U+005D",
+        "advance": _advance(_BRR_BBOX),
+        "primitives": [
+            {"type": "vline", "x": _BRR_VX, "y0": _BRL_BOT, "y1": _BRL_TOP},
+            {"type": "hline", "y": _BRL_TOP, "x0": _BRR_STUB_X0, "x1": _BRR_VX},
+            {"type": "hline", "y": _BRL_BOT, "x0": _BRR_STUB_X0, "x1": _BRR_VX},
+        ],
+    }
+
+    # -- { braceleft (U+007B): rectilinear brace -- left spine (upper+lower
+    # vlines) with three stubs pointing right; the mid stub juts further.
+    # ---------------------------------------------------------------------------
+    _BRL_SPINE_X = SIDE_BEARING + HALF               # 145
+    _BRL_STUB_XR = SIDE_BEARING + 240                # 330
+    _BRL_MID_X1 = SIDE_BEARING + 295                 # 385
+    _BRACE_BBOX = _bbox(_LEFT_EDGE, SIDE_BEARING + 295 + HALF)   # 90..440
+    BRACELEFT = {
+        "name": "braceleft",
+        "unicode": "U+007B",
+        "advance": _advance(_BRACE_BBOX),
+        "primitives": [
+            {"type": "vline", "x": _BRL_SPINE_X, "y0": 380, "y1": _BRL_TOP},
+            {"type": "vline", "x": _BRL_SPINE_X, "y0": _BRL_BOT, "y1": 320},
+            {"type": "hline", "y": _BRL_TOP, "x0": _BRL_SPINE_X, "x1": _BRL_STUB_XR},
+            {"type": "hline", "y": _BRL_BOT, "x0": _BRL_SPINE_X, "x1": _BRL_STUB_XR},
+            {"type": "hline", "y": _MID_Y, "x0": _BRL_SPINE_X, "x1": _BRL_MID_X1},
+        ],
+    }
+
+    # -- } braceright (U+007D): mirror of {.
+    # ---------------------------------------------------------------------------
+    _BRR_SPINE_X = SIDE_BEARING + 295                # 385
+    _BRR_MID_X0 = SIDE_BEARING                       # 90
+    _BRR_STUB_XL = SIDE_BEARING + 110                # 200
+    BRACERIGHT = {
+        "name": "braceright",
+        "unicode": "U+007D",
+        "advance": _advance(_BRACE_BBOX),
+        "primitives": [
+            {"type": "vline", "x": _BRR_SPINE_X, "y0": 380, "y1": _BRL_TOP},
+            {"type": "vline", "x": _BRR_SPINE_X, "y0": _BRL_BOT, "y1": 320},
+            {"type": "hline", "y": _BRL_TOP, "x0": _BRR_STUB_XL, "x1": _BRR_SPINE_X},
+            {"type": "hline", "y": _BRL_BOT, "x0": _BRR_STUB_XL, "x1": _BRR_SPINE_X},
+            {"type": "hline", "y": _MID_Y, "x0": _BRR_MID_X0, "x1": _BRR_SPINE_X},
+        ],
+    }
+
+    # -- x multiply (U+00D7): two 45-degree diagonals crossing at mid-height,
+    # scaled to 2/3 cap (dy=dx=270) so it reads smaller than the full-cap
+    # cross (U+2717) -- size and height are the differentiation.
+    # ---------------------------------------------------------------------------
+    _MUL_DX = 270
+    _MUL_TOP_Y = 500
+    _MUL_BOT_Y = _MUL_TOP_Y - _MUL_DX                # 230
+    _MUL_C = SIDE_BEARING + HALF + _DIAG_OVERLAP     # left-top terminal center
+    _MUL_BBOX = _bbox(_MUL_C - HALF - _DIAG_OVERLAP,
+                      _MUL_C + _MUL_DX + HALF + _DIAG_OVERLAP)
+    MULTIPLY = {
+        "name": "multiply",
+        "unicode": "U+00D7",
+        "advance": _advance(_MUL_BBOX),
+        "primitives": [
+            {"type": "diag",
+             "top_y": _MUL_TOP_Y,
+             "top_x0": _MUL_C - HALF - _DIAG_OVERLAP, "top_x1": _MUL_C + HALF + _DIAG_OVERLAP,
+             "bot_y": _MUL_BOT_Y,
+             "bot_x0": _MUL_C + _MUL_DX - HALF - _DIAG_OVERLAP, "bot_x1": _MUL_C + _MUL_DX + HALF + _DIAG_OVERLAP},
+            {"type": "diag",
+             "top_y": _MUL_TOP_Y,
+             "top_x0": _MUL_C + _MUL_DX - HALF - _DIAG_OVERLAP, "top_x1": _MUL_C + _MUL_DX + HALF + _DIAG_OVERLAP,
+             "bot_y": _MUL_BOT_Y,
+             "bot_x0": _MUL_C - HALF - _DIAG_OVERLAP, "bot_x1": _MUL_C + HALF + _DIAG_OVERLAP},
+        ],
+    }
+
+    # -- / divide (U+00F7): mid bar + two square dots above/below, all
+    # centered on the bar (cx = bar center).
+    # ---------------------------------------------------------------------------
+    _DIV_BAR_X0 = _LEFT_EDGE                         # 90
+    _DIV_BAR_X1 = _RIGHT_EDGE_NARROW                 # 530
+    _DIV_CX = (_DIV_BAR_X0 + _DIV_BAR_X1) / 2        # 310
+    _DIV_BBOX = _bbox(_DIV_BAR_X0, _DIV_BAR_X1)
+    DIVIDE = {
+        "name": "divide",
+        "unicode": "U+00F7",
+        "advance": _advance(_DIV_BBOX),
+        "primitives": [
+            {"type": "hline", "y": _MID_Y, "x0": _DIV_BAR_X0, "x1": _DIV_BAR_X1},
+            *_square(_DIV_CX, 600, STROKE),
+            *_square(_DIV_CX, 100, STROKE),
+        ],
+    }
+
+    # -- = with a 45-degree slash through both bars (dy=dx=450; the slash
+    # spans past the bars so it reads as a strike-through, not a stem).
+    # ---------------------------------------------------------------------------
+    _NEQ_SLASH_TOP_Y = 600
+    _NEQ_SLASH_BOT_Y = 100
+    _NEQ_SLASH_DX = _NEQ_SLASH_TOP_Y - _NEQ_SLASH_BOT_Y   # 500
+    NOTEQUAL = {
+        "name": "notequal",
+        "unicode": "U+2260",
+        "advance": _advance(_bbox(_LEFT_EDGE,
+                                  _LEFT_EDGE + _NEQ_SLASH_DX + STROKE + _DIAG_OVERLAP)),
+        "primitives": [
+            # Full-span bars (like approxequal) so the slash provably
+            # crosses both at every y along its 45-degree run.
+            {"type": "hline", "y": _EQ_Y_TOP, "x0": _LEFT_EDGE, "x1": _RIGHT_EDGE_NARROW},
+            {"type": "hline", "y": _EQ_Y_BOT, "x0": _LEFT_EDGE, "x1": _RIGHT_EDGE_NARROW},
+            {"type": "diag",
+             "top_y": _NEQ_SLASH_TOP_Y,
+             "top_x0": _LEFT_EDGE, "top_x1": _LEFT_EDGE + STROKE,
+             "bot_y": _NEQ_SLASH_BOT_Y,
+             "bot_x0": _LEFT_EDGE + _NEQ_SLASH_DX, "bot_x1": _LEFT_EDGE + _NEQ_SLASH_DX + STROKE},
+        ],
+    }
+
+    # -- approx (U+2248): two stacked bars (distinct from equal by width and
+    # position: full 90..530 span, tighter 140 gap).
+    # ---------------------------------------------------------------------------
+    APPROXEQUAL = {
+        "name": "approxequal",
+        "unicode": "U+2248",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "hline", "y": 420, "x0": _LEFT_EDGE, "x1": _RIGHT_EDGE_NARROW},
+            {"type": "hline", "y": 280, "x0": _LEFT_EDGE, "x1": _RIGHT_EDGE_NARROW},
+        ],
+    }
+
+    # -- Euro (U+20AC): the C construction + two left-extending crossbars.
+    # ---------------------------------------------------------------------------
+    _EUR_BAR_X1 = 350
+    EURO = {
+        "name": "euro",
+        "unicode": "U+20AC",
+        "advance": _advance(_C_BBOX),
+        "primitives": [
+            {"type": "vline", "x": _C_LEFT_X, "y0": BASELINE, "y1": CAP_HEIGHT},
+            {"type": "hline", "y": CAP_HEIGHT, "x0": _C_LEFT_X, "x1": _C_RIGHT_X},
+            {"type": "hline", "y": BASELINE, "x0": _C_LEFT_X, "x1": _C_RIGHT_X},
+            {"type": "hline", "y": 420, "x0": _LEFT_EDGE, "x1": _EUR_BAR_X1},
+            {"type": "hline", "y": 280, "x0": _LEFT_EDGE, "x1": _EUR_BAR_X1},
+        ],
+    }
+
+    # -- Pound sterling (U+00A3): stem + top bar + mid bar + low crossbar +
+    # a 45-degree foot descending right from the crossbar's left end.
+    # ---------------------------------------------------------------------------
+    _GBP_FOOT_DX = 110
+    STERLING = {
+        "name": "sterling",
+        "unicode": "U+00A3",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": CAP_HEIGHT},
+            {"type": "hline", "y": CAP_HEIGHT, "x0": _LEFT_EDGE, "x1": _RIGHT_EDGE_NARROW},
+            {"type": "hline", "y": _MID_Y, "x0": _LEFT_EDGE, "x1": _RIGHT_EDGE_NARROW},
+            {"type": "hline", "y": 200, "x0": _LEFT_EDGE, "x1": 430},
+            {"type": "diag",
+             "top_y": 200,
+             "top_x0": _LEFT_EDGE, "top_x1": _LEFT_EDGE + STROKE,
+             "bot_y": 200 - _GBP_FOOT_DX,
+             "bot_x0": _LEFT_EDGE + _GBP_FOOT_DX, "bot_x1": _LEFT_EDGE + _GBP_FOOT_DX + STROKE},
+        ],
+    }
+
+    # -- Yen (U+00A5): the Y construction + two crossbars across the arms.
+    # ---------------------------------------------------------------------------
+    _YEN_BAR_Y0 = 270
+    _YEN_BAR_Y1 = 150
+    _YEN_BAR_X1 = _Y_RIGHT_EDGE_SHIFTED - HALF
+    YEN = {
+        "name": "yen",
+        "unicode": "U+00A5",
+        "advance": _advance(_Y_BBOX),
+        "primitives": [
+            {"type": "vline", "x": _Y_STEM_X_SHIFTED, "y0": BASELINE, "y1": _Y_MID_Y},
+            {"type": "diag",
+             "top_y": CAP_HEIGHT,
+             "top_x0": _Y_LEFT_TOP_X_SHIFTED - HALF - _DIAG_OVERLAP,
+             "top_x1": _Y_LEFT_TOP_X_SHIFTED + HALF + _DIAG_OVERLAP,
+             "bot_y": _Y_MID_Y,
+             "bot_x0": _Y_STEM_X_SHIFTED - HALF - _DIAG_OVERLAP,
+             "bot_x1": _Y_STEM_X_SHIFTED + HALF + _DIAG_OVERLAP},
+            {"type": "diag",
+             "top_y": CAP_HEIGHT,
+             "top_x0": _Y_RIGHT_TOP_X_SHIFTED - HALF - _DIAG_OVERLAP,
+             "top_x1": _Y_RIGHT_TOP_X_SHIFTED + HALF + _DIAG_OVERLAP,
+             "bot_y": _Y_MID_Y,
+             "bot_x0": _Y_STEM_X_SHIFTED - HALF - _DIAG_OVERLAP,
+             "bot_x1": _Y_STEM_X_SHIFTED + HALF + _DIAG_OVERLAP},
+            {"type": "hline", "y": _YEN_BAR_Y0, "x0": _LEFT_EDGE, "x1": _YEN_BAR_X1},
+            {"type": "hline", "y": _YEN_BAR_Y1, "x0": _LEFT_EDGE, "x1": _YEN_BAR_X1},
+        ],
+    }
+
+    # -- Tilde (U+007E): rectilinear wave -- high bar, 45-degree step down,
+    # low bar. Documented vocabulary approximation (no curves, per the
+    # 2026-11-18 ruling).
+    # ---------------------------------------------------------------------------
+    _TIL_STEP = 150
+    TILDE = {
+        "name": "tilde",
+        "unicode": "U+007E",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "hline", "y": 470, "x0": _LEFT_EDGE, "x1": 330},
+            {"type": "diag",
+             "top_y": 470,
+             "top_x0": 220, "top_x1": 330,
+             "bot_y": 470 - _TIL_STEP,
+             "bot_x0": 370, "bot_x1": 480},
+            {"type": "hline", "y": 470 - _TIL_STEP, "x0": 270, "x1": _RIGHT_EDGE_NARROW},
+        ],
+    }
+
+    # -- Circumflex (U+005E): inverted v, apex at 500, base terminals at
+    # 300 (dy=dx=200 -- a full 700-tall caret would need a 700-unit span).
+    # ---------------------------------------------------------------------------
+    _CIR_APEX_Y = 500
+    _CIR_BOT_Y = 300
+    _CIR_DX = _CIR_APEX_Y - _CIR_BOT_Y               # 200
+    _CIR_APEX_C = SIDE_BEARING + _CIR_DX + HALF + _DIAG_OVERLAP
+    ASCIICIRCUM = {
+        "name": "asciicircum",
+        "unicode": "U+005E",
+        "advance": _advance(_bbox(_LEFT_EDGE,
+                                  _LEFT_EDGE + 2 * _CIR_DX + STROKE + 2 * _DIAG_OVERLAP)),
+        "primitives": [
+            {"type": "diag",
+             "top_y": _CIR_APEX_Y,
+             "top_x0": _CIR_APEX_C - HALF - _DIAG_OVERLAP, "top_x1": _CIR_APEX_C + HALF + _DIAG_OVERLAP,
+             "bot_y": _CIR_BOT_Y,
+             "bot_x0": _CIR_APEX_C - _CIR_DX - HALF - _DIAG_OVERLAP, "bot_x1": _CIR_APEX_C - _CIR_DX + HALF + _DIAG_OVERLAP},
+            {"type": "diag",
+             "top_y": _CIR_APEX_Y,
+             "top_x0": _CIR_APEX_C - HALF - _DIAG_OVERLAP, "top_x1": _CIR_APEX_C + HALF + _DIAG_OVERLAP,
+             "bot_y": _CIR_BOT_Y,
+             "bot_x0": _CIR_APEX_C + _CIR_DX - HALF - _DIAG_OVERLAP, "bot_x1": _CIR_APEX_C + _CIR_DX + HALF + _DIAG_OVERLAP},
+        ],
+    }
+
     return [dict(g, _stroke=STROKE) for g in [
         # Uppercase Latin A-Z
         A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
@@ -2321,6 +2599,10 @@ def build_glyph_defs(stroke_width=STROKE_DEFAULT):
         # Symbols (v0.1.1)
         QUOTELEFT, MIDDLEDOT, BULLET, ARROWRIGHT, ARROWLEFT, LIGHTNING, CROSS,
         STAR, STAR_OUTLINED,
+        # Punctuation round-out (v0.2, #7)
+        BRACKETLEFT, BRACKETRIGHT, BRACELEFT, BRACERIGHT,
+        MULTIPLY, DIVIDE, NOTEQUAL, APPROXEQUAL,
+        EURO, STERLING, YEN, TILDE, ASCIICIRCUM,
     ]]
 
 

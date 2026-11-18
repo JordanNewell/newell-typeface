@@ -58,12 +58,24 @@
     <string>Z_.glif</string>
     <key>ampersand</key>
     <string>ampersand.glif</string>
+    <key>approxequal</key>
+    <string>approxequal.glif</string>
     <key>arrowleft</key>
     <string>arrowleft.glif</string>
     <key>arrowright</key>
     <string>arrowright.glif</string>
+    <key>asciicircum</key>
+    <string>asciicircum.glif</string>
     <key>at</key>
     <string>at.glif</string>
+    <key>braceleft</key>
+    <string>braceleft.glif</string>
+    <key>braceright</key>
+    <string>braceright.glif</string>
+    <key>bracketleft</key>
+    <string>bracketleft.glif</string>
+    <key>bracketright</key>
+    <string>bracketright.glif</string>
     <key>bullet</key>
     <string>bullet.glif</string>
     <key>colon</key>
@@ -72,6 +84,8 @@
     <string>comma.glif</string>
     <key>cross</key>
     <string>cross.glif</string>
+    <key>divide</key>
+    <string>divide.glif</string>
     <key>dollar</key>
     <string>dollar.glif</string>
     <key>eight</key>
@@ -82,6 +96,8 @@
     <string>endash.glif</string>
     <key>equal</key>
     <string>equal.glif</string>
+    <key>euro</key>
+    <string>euro.glif</string>
     <key>exclam</key>
     <string>exclam.glif</string>
     <key>five</key>
@@ -98,8 +114,12 @@
     <string>lightning.glif</string>
     <key>middledot</key>
     <string>middledot.glif</string>
+    <key>multiply</key>
+    <string>multiply.glif</string>
     <key>nine</key>
     <string>nine.glif</string>
+    <key>notequal</key>
+    <string>notequal.glif</string>
     <key>numbersign</key>
     <string>numbersign.glif</string>
     <key>one</key>
@@ -138,10 +158,16 @@
     <string>star.glif</string>
     <key>starOutlined</key>
     <string>starO_utlined.glif</string>
+    <key>sterling</key>
+    <string>sterling.glif</string>
     <key>three</key>
     <string>three.glif</string>
+    <key>tilde</key>
+    <string>tilde.glif</string>
     <key>two</key>
     <string>two.glif</string>
+    <key>yen</key>
+    <string>yen.glif</string>
     <key>zero</key>
     <string>zero.glif</string>
   </dict>

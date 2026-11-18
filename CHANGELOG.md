@@ -9,6 +9,10 @@ Font releases use a `vMAJOR.MINOR.PATCH[-prerelease]` tag scheme.
 ## [Unreleased]
 
 ### Added
+- Punctuation round-out (#7): brackets [ ] { }, math x-divide-not-equal-
+  approx-equal (U+00D7 U+00F7 U+2260 U+2248), currency euro-pound-yen,
+  tilde and circumflex -- 13 new glyphs, all rail+45-degree
+  constructions, harness-verified at all four weights.
 - Variable font `Newell[wght].ttf` with a wght axis (300-900) interpolated
   from four metric-compatible masters (#8).
 - Static instances: `Newell-Light.ttf`, `Newell-Bold.ttf`, `Newell-Black.ttf`.
