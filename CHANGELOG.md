@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 Font releases use a `vMAJOR.MINOR.PATCH[-prerelease]` tag scheme.
 
-## [Unreleased]
+## [v0.2.0-alpha] — 2026-11-18
 
 ### Added
 - Lowercase a-z (#6): x-height 500, squared two-story a, hooked l
@@ -33,7 +33,7 @@ Font releases use a `vMAJOR.MINOR.PATCH[-prerelease]` tag scheme.
   regridded and length-fixed (was collapsible into middledot at Black).
 
 
-## [Unreleased]
+## [v0.2.0-alpha] — 2026-11-18
 
 ### Planned for v0.2
 - Lowercase Latin alphabet (a-z)
