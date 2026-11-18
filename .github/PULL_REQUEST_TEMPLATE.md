@@ -17,7 +17,8 @@ Link the issue this closes (e.g. `Closes #123`), or describe the design problem.
 ## Checklist
 
 - [ ] I have read [CONTRIBUTING.md](../blob/master/CONTRIBUTING.md)
-- [ ] `py src/newell/test_generator.py` passes
+- [ ] `py src/newell/test_generator.py` passes (includes legibility checks)
+- [ ] Glyph geometry changed: contact sheet reviewed, `py scripts/gen_manifest.py` re-run and manifest committed
 - [ ] `fontmake` build succeeds (if UFO sources changed)
 - [ ] Glyph count and metrics verified
 - [ ] README or OFL credit updated if applicable

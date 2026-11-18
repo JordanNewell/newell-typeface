@@ -44,3 +44,6 @@ scripts/_preview/*_hero.png
 # Browser download artifacts (Chrome appends #1)
 releases/*.woff2.*
 releases/*#*
+
+# Legibility contact sheet (regenerable via scripts/gen_manifest.py)
+scripts/_preview/contact_sheet.png

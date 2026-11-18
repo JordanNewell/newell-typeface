@@ -183,6 +183,14 @@ def test_deterministic_two_runs():
                 assert fa.read() == fb.read(), f"non-deterministic: {fname}"
 
 
+def test_legibility_heuristics():
+    # Issue #11: a glyph change that breaks legibility (e.g. two glyphs
+    # collapsing into near-identical shapes) must fail the suite.
+    from newell.legibility import run_checks
+    failures = run_checks(GLYPHS)
+    assert failures == [], "\n".join(failures)
+
+
 def run_all():
     tests = [
         name for name in globals()

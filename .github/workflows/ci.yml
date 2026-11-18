@@ -30,6 +30,9 @@ jobs:
       - name: Run tests
         run: python src/newell/test_generator.py
 
+      - name: Legibility manifest check (#11)
+        run: python scripts/gen_manifest.py --check
+
       - name: Upload test output
         if: always()
         uses: actions/upload-artifact@v4
