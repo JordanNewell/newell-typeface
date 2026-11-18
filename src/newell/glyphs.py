@@ -37,8 +37,7 @@ def build_glyph_defs(stroke_width=STROKE_DEFAULT):
     STROKE = stroke_width
     CAP_HEIGHT = 700
     BASELINE = 0
-    STROKE = 110
-    HALF = STROKE / 2  # 55
+    HALF = STROKE / 2
     SIDE_BEARING = 90
 
     # When a diagonal's horizontal terminal coincides exactly with a rail's
@@ -1472,14 +1471,18 @@ def build_glyph_defs(stroke_width=STROKE_DEFAULT):
 
 
     # ---------------------------------------------------------------------------
-    # - hyphen: short horizontal at mid. x0=200, x1=420 (width 220). Centered
-    # roughly in a 620-wide advance (matching narrow letters).
+    # - hyphen: short horizontal at mid, left-aligned with the dash
+    # family (x0=90). Ink width is a FIXED 320 (stroke-independent): at
+    # Black the stroke alone is 220 thick, and a 220-long hyphen would
+    # collapse into a 220x220 blob identical to middledot (caught by
+    # the #11 multi-weight test 2026-11-18). 320 keeps it a rectangle
+    # at every weight and keeps hyphen < en dash < em dash.
     # ---------------------------------------------------------------------------
     _HYPHEN_Y = _MID_Y                            # 350
-    _HYPHEN_X0 = 200
-    _HYPHEN_X1 = 420
-    _HYPHEN_LEFT_EDGE = _HYPHEN_X0 - HALF         # 145
-    _HYPHEN_RIGHT_EDGE = _HYPHEN_X1 + HALF        # 475
+    _HYPHEN_X0 = SIDE_BEARING                     # 90
+    _HYPHEN_X1 = _HYPHEN_X0 + 320                 # 410
+    _HYPHEN_LEFT_EDGE = _HYPHEN_X0                # 90
+    _HYPHEN_RIGHT_EDGE = _HYPHEN_X1               # 310
     _HYPHEN_BBOX = _bbox(_HYPHEN_LEFT_EDGE, _HYPHEN_RIGHT_EDGE)
     HYPHEN = {
         "name": "hyphen",
@@ -1960,7 +1963,7 @@ def build_glyph_defs(stroke_width=STROKE_DEFAULT):
     # ---------------------------------------------------------------------------
     # Advance-box center (was 310, which pushed the bullet 20 units past
     # its 400-unit advance -- caught by the #11 harness 2026-11-18).
-    _BULLET_CX = 200
+    _BULLET_CX = SIDE_BEARING + STROKE           # ink 90..90+side
     _BULLET_CY = 300
     _BULLET_SIDE = 2 * STROKE                       # 220
     _BULLET_HALF = _BULLET_SIDE / 2                 # 110
@@ -2153,11 +2156,12 @@ def build_glyph_defs(stroke_width=STROKE_DEFAULT):
     # ---------------------------------------------------------------------------
     _CROSS_TOP_Y = 600
     _CROSS_BOT_Y = 200
-    # On the 90-bearing grid: ink 89..601 inside a 692-unit advance
-    # (was 200..600, bearings 144/34 -- caught by the #11 harness
+    # On the 90-bearing grid at EVERY stroke width: centers derive from
+    # HALF so the diag ink lands at 90 exactly (was fixed 200..600,
+    # bearings 144/34 at Regular -- caught by the #11 harness
     # 2026-11-18).
-    _CROSS_LEFT_X = 145
-    _CROSS_RIGHT_X = 545
+    _CROSS_LEFT_X = SIDE_BEARING + HALF + _DIAG_OVERLAP
+    _CROSS_RIGHT_X = _CROSS_LEFT_X + 400
     _CROSS_DX = _CROSS_RIGHT_X - _CROSS_LEFT_X      # 400
     _CROSS_LEFT_EDGE = _CROSS_LEFT_X - HALF         # 145
     _CROSS_RIGHT_EDGE = _CROSS_RIGHT_X + HALF       # 655
@@ -2248,14 +2252,16 @@ def build_glyph_defs(stroke_width=STROKE_DEFAULT):
     # the hollow center the generator cannot subtract. Distinct from ✗ (no
     # ring), from ★ (hollow), and from O/D0 (square, star-pointed).
     # ---------------------------------------------------------------------------
-    # 155 (not 150) so the corner-arm tips land exactly on the 90
-    # bearing grid inside a 690-unit advance (see #11 harness).
-    _SOW = 155  # ring outer half-width from center
-    _SO_LEFT = _STAR_CENTER_X - _SOW    # 250
-    _SO_RIGHT = _STAR_CENTER_X + _SOW   # 550
-    _SO_BOT = _STAR_CENTER_Y - _SOW     # 200
-    _SO_TOP = _STAR_CENTER_Y + _SOW     # 500
-    _SO_ARM = 100                       # arm throw (45-degree: dx = dy = 100)
+    # Derived so the arm tips land exactly on the 90-bearing grid at
+    # every stroke width (see #11 harness).
+    _SO_ARM = 100                        # arm throw (45-degree: dx = dy = 100)
+    # Derived so the arm tips land exactly on the 90-bearing grid at
+    # every stroke width (see #11 harness).
+    _SOW = _STAR_CENTER_X - SIDE_BEARING - _SO_ARM
+    _SO_LEFT = _STAR_CENTER_X - _SOW
+    _SO_RIGHT = _STAR_CENTER_X + _SOW
+    _SO_BOT = _STAR_CENTER_Y - _SOW
+    _SO_TOP = _STAR_CENTER_Y + _SOW
     _STAR_OUTLINED_BBOX = _bbox(_SO_LEFT - _SO_ARM, _SO_RIGHT + _SO_ARM)
     STAR_OUTLINED = {
         "name": "starOutlined",
@@ -2303,20 +2309,19 @@ def build_glyph_defs(stroke_width=STROKE_DEFAULT):
     # font builder; only the real letters go here. Alphabetical order makes
     # the specimen page easy to scan.
 
-    return [
-    
-    # Uppercase Latin A-Z
-    A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
-    # Numerals 0-9
-    D0, D1, D2, D3, D4, D5, D6, D7, D8, D9,
-    # Punctuation
-    PERIOD, COMMA, EXCLAMATION, QUESTION, APOSTROPHE, QUOTEDBLLEFT, QUOTERIGHT,
-    COLON, SEMICOLON, HYPHEN, EMDASH, ENDASH, LPAREN, RPAREN, SLASH, AT, HASH,
-    DOLLAR, PERCENT, AMPERSAND, PLUS, EQUAL, LESS, GREATER,
-    # Symbols (v0.1.1)
-    QUOTELEFT, MIDDLEDOT, BULLET, ARROWRIGHT, ARROWLEFT, LIGHTNING, CROSS,
-    STAR, STAR_OUTLINED,
-]
+    return [dict(g, _stroke=STROKE) for g in [
+        # Uppercase Latin A-Z
+        A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
+        # Numerals 0-9
+        D0, D1, D2, D3, D4, D5, D6, D7, D8, D9,
+        # Punctuation
+        PERIOD, COMMA, EXCLAMATION, QUESTION, APOSTROPHE, QUOTEDBLLEFT, QUOTERIGHT,
+        COLON, SEMICOLON, HYPHEN, EMDASH, ENDASH, LPAREN, RPAREN, SLASH, AT, HASH,
+        DOLLAR, PERCENT, AMPERSAND, PLUS, EQUAL, LESS, GREATER,
+        # Symbols (v0.1.1)
+        QUOTELEFT, MIDDLEDOT, BULLET, ARROWRIGHT, ARROWLEFT, LIGHTNING, CROSS,
+        STAR, STAR_OUTLINED,
+    ]]
 
 
 GLYPHS = build_glyph_defs()

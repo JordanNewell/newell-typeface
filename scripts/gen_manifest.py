@@ -29,7 +29,8 @@ SHEET_PATH = ROOT / "scripts" / "_preview" / "contact_sheet.png"
 
 
 def glyph_hash(glyph_def):
-    contours = union_primitives(glyph_def.get("primitives", []))
+    contours = union_primitives(glyph_def.get("primitives", []),
+                            glyph_def.get("_stroke", 110))
     canonical = json.dumps(
         [sorted(map(tuple, c)) for c in sorted(contours, key=lambda c: sorted(c)[0])],
         separators=(",", ":"),

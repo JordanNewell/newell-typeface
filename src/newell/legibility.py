@@ -65,7 +65,8 @@ KNOWN_DUPLICATES = {
 
 def _glyph_geometry(glyph_def):
     """Union a glyph's primitives; return (contours, advance, name)."""
-    contours = union_primitives(glyph_def.get("primitives", []))
+    contours = union_primitives(glyph_def.get("primitives", []),
+                            glyph_def.get("_stroke", 110))
     return contours, glyph_def["advance"], glyph_def["name"]
 
 
@@ -122,6 +123,7 @@ def check_bbox_bounds(glyph_def, contours):
     failures = []
     name = glyph_def["name"]
     advance = glyph_def["advance"]
+    width = glyph_def.get("_stroke", 110)
     if not contours:
         return failures
     x0, y0, x1, y1 = _bbox(contours)
@@ -139,9 +141,10 @@ def check_bbox_bounds(glyph_def, contours):
     # font-wide metadata-vs-ink discrepancy surfaced to the maintainer
     # 2026-11-18 (fixing it means re-drawing every glyph; out of sweep
     # scope). The check encodes the shipped convention, not the ideal.
-    # One's flag legitimately reaches the SPEC ascender (800), so the
-    # ceiling is the ascender line, not cap + half-stroke.
-    top_limit = 800 + _EPS
+    # One's flag legitimately reaches the SPEC ascender (800); a
+    # cap-centered rail's ink reaches 700 + stroke/2. Ceiling = the
+    # larger of the two, per the glyph's own stroke width.
+    top_limit = max(800, 700 + width / 2) + _EPS
     if y1 > top_limit:
         failures.append(f"{name}: bbox top {y1} above cap overshoot limit {top_limit}")
     return failures

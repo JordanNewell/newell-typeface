@@ -10,7 +10,7 @@ of flat contours that we replay onto the ufoLib2 glyph pen.
 
 from booleanOperations import BooleanOperationManager
 
-from newell.primitives import expand_primitive
+from newell.primitives import STROKE_WIDTH, expand_primitive
 
 
 class _Point:
@@ -96,13 +96,15 @@ class _ContourCollector:
         raise NotImplementedError("components not supported in Newell generator")
 
 
-def union_primitives(primitive_specs):
+def union_primitives(primitive_specs, width=STROKE_WIDTH):
     """Union a list of primitive specs into a list of flat contours.
 
     Each input is a dict matching one of the vline/hline/diag shapes.
-    Returns a list of contours; each contour is a list of (x, y) tuples.
+    width = stroke thickness for rail expansion (variable-font masters
+    pass their own). Returns a list of contours; each contour is a
+    list of (x, y) tuples.
     """
-    polygons = [_PolygonContour(expand_primitive(s)) for s in primitive_specs]
+    polygons = [_PolygonContour(expand_primitive(s, width)) for s in primitive_specs]
     collector = _ContourCollector()
     BooleanOperationManager.union(polygons, collector)
     # Sort for determinism: by first-point coords so two runs produce
@@ -139,13 +141,14 @@ def build_glyph(font, glyph_def):
     name = glyph_def["name"]
     advance = glyph_def["advance"]
     primitives = glyph_def.get("primitives", [])
+    width = glyph_def.get("_stroke", STROKE_WIDTH)
 
     glyph = font.newGlyph(name)
     glyph.width = advance
     if "unicode" in glyph_def and glyph_def["unicode"] is not None:
         glyph.unicode = _parse_unicode(glyph_def["unicode"])
 
-    contours = union_primitives(primitives) if primitives else []
+    contours = union_primitives(primitives, width) if primitives else []
     draw_contours_into_glyph(glyph, contours)
     return glyph
 
