@@ -9,6 +9,9 @@ Font releases use a `vMAJOR.MINOR.PATCH[-prerelease]` tag scheme.
 ## [Unreleased]
 
 ### Added
+- Lowercase a-z (#6): x-height 500, squared two-story a, hooked l
+  (I/L disambiguation), squared-descender g vs hook-less q, diagonal
+  letters at the 45-degree vocabulary's scaled throws. 26 new glyphs.
 - Punctuation round-out (#7): brackets [ ] { }, math x-divide-not-equal-
   approx-equal (U+00D7 U+00F7 U+2260 U+2248), currency euro-pound-yen,
   tilde and circumflex -- 13 new glyphs, all rail+45-degree

@@ -2587,6 +2587,461 @@ def build_glyph_defs(stroke_width=STROKE_DEFAULT):
         ],
     }
 
+
+    # ===========================================================================
+    # v0.2 lowercase a-z (issue #6). Metrics per the lowercase design system:
+    # x-height 500 (rails CENTERED on the metric line, ink to 555, matching
+    # the uppercase centerline convention), ascender = cap 700, descender
+    # -200, stems reuse the uppercase columns (145 / 475; m adds 805).
+    # Every constant derives from the stroke; the #11 harness verifies at
+    # all four weights.
+    # ===========================================================================
+    _XH = 500                # x-height metric line
+    _XH_MID = _XH / 2        # 250
+    _ASC = CAP_HEIGHT        # 700 -- ascender stem tops
+    _DESC = -200             # descender terminal
+    _COL_M = 805             # m's third stem (805 = 145 + 2*330)
+
+    # -- l: ascender stem + baseline foot with upturned tail. The foot is
+    # REQUIRED (bare stem = uppercase I, caught by the #11 harness) and the
+    # upturn is REQUIRED too (plain foot = uppercase L, same lesson). The
+    # hooked l is a known geometric/mono convention.
+    # ---------------------------------------------------------------------------
+    LOWER_L = {
+        "name": "l",
+        "unicode": "U+006C",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _ASC},
+            {"type": "hline", "y": BASELINE, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": BASELINE, "y1": 250},
+        ],
+    }
+
+    # -- i: x-height stem + square dot above.
+    # ---------------------------------------------------------------------------
+    LOWER_I = {
+        "name": "i",
+        "unicode": "U+0069",
+        "advance": _advance(STROKE),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _XH},
+            *_square(_COL_L, 645, STROKE),
+        ],
+    }
+
+    # -- h: tall left stem + arch (shoulder rail + full x-height right stem).
+    # ---------------------------------------------------------------------------
+    LOWER_H = {
+        "name": "h",
+        "unicode": "U+0068",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _ASC},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": BASELINE, "y1": _XH},
+            {"type": "hline", "y": _XH, "x0": _COL_L, "x1": _COL_R_NARROW},
+        ],
+    }
+
+    # -- n: x-height arch (both stems + shoulder).
+    # ---------------------------------------------------------------------------
+    LOWER_N = {
+        "name": "n",
+        "unicode": "U+006E",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _XH},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": BASELINE, "y1": _XH},
+            {"type": "hline", "y": _XH, "x0": _COL_L, "x1": _COL_R_NARROW},
+        ],
+    }
+
+    # -- m: n + second arch on a third stem at x=805.
+    # ---------------------------------------------------------------------------
+    LOWER_M = {
+        "name": "m",
+        "unicode": "U+006D",
+        "advance": _advance(_bbox(_LEFT_EDGE, _COL_M + HALF)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _XH},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": BASELINE, "y1": _XH},
+            {"type": "vline", "x": _COL_M, "y0": BASELINE, "y1": _XH},
+            {"type": "hline", "y": _XH, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "hline", "y": _XH, "x0": _COL_R_NARROW, "x1": _COL_M},
+        ],
+    }
+
+    # -- u: n inverted (stems + baseline rail).
+    # ---------------------------------------------------------------------------
+    LOWER_U = {
+        "name": "u",
+        "unicode": "U+0075",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _XH},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": BASELINE, "y1": _XH},
+            {"type": "hline", "y": BASELINE, "x0": _COL_L, "x1": _COL_R_NARROW},
+        ],
+    }
+
+    # -- r: stem + shoulder + short arm stub dropping from the shoulder.
+    # ---------------------------------------------------------------------------
+    LOWER_R = {
+        "name": "r",
+        "unicode": "U+0072",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _XH},
+            {"type": "hline", "y": _XH, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": 280, "y1": _XH - HALF},
+        ],
+    }
+
+    # -- o: square ring at x-height (the ring family's core construction).
+    # ---------------------------------------------------------------------------
+    LOWER_O = {
+        "name": "o",
+        "unicode": "U+006F",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _XH},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": BASELINE, "y1": _XH},
+            {"type": "hline", "y": _XH, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "hline", "y": BASELINE, "x0": _COL_L, "x1": _COL_R_NARROW},
+        ],
+    }
+
+    # -- c: o without the right stem (open right).
+    # ---------------------------------------------------------------------------
+    LOWER_C = {
+        "name": "c",
+        "unicode": "U+0063",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _XH},
+            {"type": "hline", "y": _XH, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "hline", "y": BASELINE, "x0": _COL_L, "x1": _COL_R_NARROW},
+        ],
+    }
+
+    # -- e: c + crossbar + upper-right stub (crossbar to shoulder).
+    # ---------------------------------------------------------------------------
+    LOWER_E = {
+        "name": "e",
+        "unicode": "U+0065",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _XH},
+            {"type": "hline", "y": _XH, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "hline", "y": BASELINE, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "hline", "y": _XH_MID, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": _XH_MID, "y1": _XH - HALF},
+        ],
+    }
+
+    # -- b: ascender stem + ring.
+    # ---------------------------------------------------------------------------
+    LOWER_B = {
+        "name": "b",
+        "unicode": "U+0062",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _ASC},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": BASELINE, "y1": _XH},
+            {"type": "hline", "y": _XH, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "hline", "y": BASELINE, "x0": _COL_L, "x1": _COL_R_NARROW},
+        ],
+    }
+
+    # -- d: ring + ascender stem on the right.
+    # ---------------------------------------------------------------------------
+    LOWER_D = {
+        "name": "d",
+        "unicode": "U+0064",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _XH},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": BASELINE, "y1": _ASC},
+            {"type": "hline", "y": _XH, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "hline", "y": BASELINE, "x0": _COL_L, "x1": _COL_R_NARROW},
+        ],
+    }
+
+    # -- g: ring + right stem descending + baseline-level hook bar turning
+    # left (squared descender hook -- no curve primitive, per the ruling).
+    # ---------------------------------------------------------------------------
+    LOWER_G = {
+        "name": "g",
+        "unicode": "U+0067",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _XH},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": _DESC, "y1": _XH},
+            {"type": "hline", "y": _XH, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "hline", "y": BASELINE, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "hline", "y": _DESC + HALF, "x0": _COL_L, "x1": _COL_R_NARROW},
+        ],
+    }
+
+    # -- p: ring + left stem descending.
+    # ---------------------------------------------------------------------------
+    LOWER_P = {
+        "name": "p",
+        "unicode": "U+0070",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": _DESC, "y1": _XH},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": BASELINE, "y1": _XH},
+            {"type": "hline", "y": _XH, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "hline", "y": BASELINE, "x0": _COL_L, "x1": _COL_R_NARROW},
+        ],
+    }
+
+    # -- q: ring + right stem descending (no hook -- that is g's marker).
+    # ---------------------------------------------------------------------------
+    LOWER_Q = {
+        "name": "q",
+        "unicode": "U+0071",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _XH},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": _DESC, "y1": _XH},
+            {"type": "hline", "y": _XH, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "hline", "y": BASELINE, "x0": _COL_L, "x1": _COL_R_NARROW},
+        ],
+    }
+
+    # -- a: squared TWO-STORY (8-bit aesthetic): top rail + upper-left stem +
+    # crossbar + full right stem + bottom rail. The crossbar and partial
+    # left stem distinguish it from o (the ROADMAP-flagged a/o collision).
+    # ---------------------------------------------------------------------------
+    _A2_BAR_Y = 195                            # crossbar (x-height mid-low)
+    LOWER_A = {
+        "name": "a",
+        "unicode": "U+0061",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": _A2_BAR_Y, "y1": _XH},
+            {"type": "vline", "x": _COL_R_NARROW, "y0": BASELINE, "y1": _XH},
+            {"type": "hline", "y": _XH, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "hline", "y": _A2_BAR_Y, "x0": _COL_L, "x1": _COL_R_NARROW},
+            {"type": "hline", "y": BASELINE, "x0": _COL_L, "x1": _COL_R_NARROW},
+        ],
+    }
+
+    # -- f: ascender stem + top hook rail + mid crossbar.
+    # ---------------------------------------------------------------------------
+    LOWER_F = {
+        "name": "f",
+        "unicode": "U+0066",
+        "advance": _advance(260),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _ASC},
+            {"type": "hline", "y": _ASC, "x0": _LEFT_EDGE, "x1": 350},
+            {"type": "hline", "y": _XH_MID, "x0": _LEFT_EDGE, "x1": 350},
+        ],
+    }
+
+    # -- t: stem slightly above x-height + crossbar.
+    # ---------------------------------------------------------------------------
+    LOWER_T = {
+        "name": "t",
+        "unicode": "U+0074",
+        "advance": _advance(260),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": 550},
+            {"type": "hline", "y": _XH_MID, "x0": _LEFT_EDGE, "x1": 350},
+        ],
+    }
+
+    # -- s: the uppercase S recipe re-solved for x-height: same columns,
+    # diagonal dx=dy=330, the verticals absorb the remaining (500-330)/2=85.
+    # ---------------------------------------------------------------------------
+    _XS_MID_Y = _XH_MID                          # 250
+    _XS_DIAG_TOP_Y = _XS_MID_Y + _S_DIAG_DY / 2  # 415
+    _XS_DIAG_BOT_Y = _XS_MID_Y - _S_DIAG_DY / 2  # 85
+    LOWER_S = {
+        "name": "s",
+        "unicode": "U+0073",
+        "advance": _advance(_bbox(_LEFT_EDGE, _S_RIGHT_EDGE)),
+        "primitives": [
+            {"type": "hline", "y": _XH, "x0": _S_MID_X, "x1": _S_RIGHT_X},
+            {"type": "hline", "y": BASELINE, "x0": _S_LEFT_X, "x1": _S_MID_X},
+            {"type": "vline", "x": _S_RIGHT_X, "y0": _XS_DIAG_TOP_Y, "y1": _XH},
+            {"type": "vline", "x": _S_LEFT_X, "y0": BASELINE, "y1": _XS_DIAG_BOT_Y},
+            {"type": "diag",
+             "top_y": _XS_DIAG_TOP_Y,
+             "top_x0": _S_RIGHT_X - HALF - _DIAG_OVERLAP,
+             "top_x1": _S_RIGHT_X + HALF + _DIAG_OVERLAP,
+             "bot_y": _XS_DIAG_BOT_Y,
+             "bot_x0": _S_LEFT_X - HALF - _DIAG_OVERLAP,
+             "bot_x1": _S_LEFT_X + HALF + _DIAG_OVERLAP},
+        ],
+    }
+
+    # -- j: right x-height stem descending + hook left + dot above.
+    # ---------------------------------------------------------------------------
+    LOWER_J = {
+        "name": "j",
+        "unicode": "U+006A",
+        "advance": _advance(_bbox(_LEFT_EDGE, _RIGHT_EDGE_NARROW)),
+        "primitives": [
+            {"type": "vline", "x": _COL_R_NARROW, "y0": _DESC, "y1": _XH},
+            {"type": "hline", "y": _DESC + HALF, "x0": _COL_L, "x1": _COL_R_NARROW},
+            *_square(_COL_R_NARROW, 645, STROKE),
+        ],
+    }
+
+    # -- k: stem + two 45-degree arms meeting on the stem (dy=dx=250).
+    # ---------------------------------------------------------------------------
+    _LK_ARM_DX = 250
+    _LK_MEET_Y = 250
+    _LK_TOP_X = _COL_L + _LK_ARM_DX               # 395 -- arm terminal center
+    LOWER_K = {
+        "name": "k",
+        "unicode": "U+006B",
+        "advance": _advance(_bbox(_LEFT_EDGE, _LK_TOP_X + HALF)),
+        "primitives": [
+            {"type": "vline", "x": _COL_L, "y0": BASELINE, "y1": _ASC},
+            {"type": "diag",
+             "top_y": _XH,
+             "top_x0": _LK_TOP_X - HALF - _DIAG_OVERLAP, "top_x1": _LK_TOP_X + HALF + _DIAG_OVERLAP,
+             "bot_y": _LK_MEET_Y,
+             "bot_x0": _COL_L - HALF - _DIAG_OVERLAP, "bot_x1": _COL_L + HALF + _DIAG_OVERLAP},
+            {"type": "diag",
+             "top_y": _LK_MEET_Y,
+             "top_x0": _COL_L - HALF - _DIAG_OVERLAP, "top_x1": _COL_L + HALF + _DIAG_OVERLAP,
+             "bot_y": BASELINE,
+             "bot_x0": _LK_TOP_X - HALF - _DIAG_OVERLAP, "bot_x1": _LK_TOP_X + HALF + _DIAG_OVERLAP},
+        ],
+    }
+
+    # -- v: two 45-degree legs meeting at a baseline apex. At x-height the
+    # 45-degree throw is 500 per leg, so v spans the full 90..1200 -- the
+    # same leg-to-height ratio as the uppercase V (2.58x), just scaled down.
+    # ---------------------------------------------------------------------------
+    _LV_DX = 500
+    _LV_TOP_L = _LEFT_EDGE                       # 90
+    _LV_APEX_X0 = _LV_TOP_L + _LV_DX             # 590
+    LOWER_V = {
+        "name": "v",
+        "unicode": "U+0076",
+        "advance": _advance(_bbox(_LV_TOP_L, _LV_APEX_X0 + _LV_DX + STROKE)),
+        "primitives": [
+            {"type": "diag",
+             "top_y": _XH,
+             "top_x0": _LV_TOP_L, "top_x1": _LV_TOP_L + STROKE,
+             "bot_y": BASELINE,
+             "bot_x0": _LV_APEX_X0, "bot_x1": _LV_APEX_X0 + STROKE},
+            {"type": "diag",
+             "top_y": _XH,
+             "top_x0": _LV_APEX_X0 + _LV_DX, "top_x1": _LV_APEX_X0 + _LV_DX + STROKE,
+             "bot_y": BASELINE,
+             "bot_x0": _LV_APEX_X0, "bot_x1": _LV_APEX_X0 + STROKE},
+        ],
+    }
+
+    # -- w: the W construction scaled to x-height: outer legs dx=500, inner
+    # peak rises to mid-height (dx=250), exactly the uppercase trade-off.
+    # ---------------------------------------------------------------------------
+    _LW_APEX1 = _LV_APEX_X0                      # 590
+    _LW_PEAK_X0 = _LW_APEX1 + 250                # 840
+    _LW_APEX2 = _LW_PEAK_X0 + 250                # 1090
+    LOWER_W = {
+        "name": "w",
+        "unicode": "U+0077",
+        "advance": _advance(_bbox(_LV_TOP_L, _LW_APEX2 + _LV_DX + STROKE)),
+        "primitives": [
+            {"type": "diag",
+             "top_y": _XH,
+             "top_x0": _LV_TOP_L, "top_x1": _LV_TOP_L + STROKE,
+             "bot_y": BASELINE,
+             "bot_x0": _LW_APEX1, "bot_x1": _LW_APEX1 + STROKE},
+            {"type": "diag",
+             "top_y": 250,
+             "top_x0": _LW_PEAK_X0, "top_x1": _LW_PEAK_X0 + STROKE,
+             "bot_y": BASELINE,
+             "bot_x0": _LW_APEX1, "bot_x1": _LW_APEX1 + STROKE},
+            {"type": "diag",
+             "top_y": 250,
+             "top_x0": _LW_PEAK_X0, "top_x1": _LW_PEAK_X0 + STROKE,
+             "bot_y": BASELINE,
+             "bot_x0": _LW_APEX2, "bot_x1": _LW_APEX2 + STROKE},
+            {"type": "diag",
+             "top_y": _XH,
+             "top_x0": _LW_APEX2 + _LV_DX, "top_x1": _LW_APEX2 + _LV_DX + STROKE,
+             "bot_y": BASELINE,
+             "bot_x0": _LW_APEX2, "bot_x1": _LW_APEX2 + STROKE},
+        ],
+    }
+
+    # -- x: two 45-degree diagonals crossing (dy=dx=350).
+    # ---------------------------------------------------------------------------
+    _LX_DX = 350
+    _LX_BOT_Y = _XH - _LX_DX                     # 150
+    LOWER_X = {
+        "name": "x",
+        "unicode": "U+0078",
+        "advance": _advance(_bbox(_LV_TOP_L, _LV_TOP_L + _LX_DX + STROKE)),
+        "primitives": [
+            {"type": "diag",
+             "top_y": _XH,
+             "top_x0": _LV_TOP_L, "top_x1": _LV_TOP_L + STROKE,
+             "bot_y": _LX_BOT_Y,
+             "bot_x0": _LV_TOP_L + _LX_DX, "bot_x1": _LV_TOP_L + _LX_DX + STROKE},
+            {"type": "diag",
+             "top_y": _XH,
+             "top_x0": _LV_TOP_L + _LX_DX, "top_x1": _LV_TOP_L + _LX_DX + STROKE,
+             "bot_y": _LX_BOT_Y,
+             "bot_x0": _LV_TOP_L, "bot_x1": _LV_TOP_L + STROKE},
+        ],
+    }
+
+    # -- y: Y's arm+stem trick at x-height: arms dx=250 meet at mid-height,
+    # stem descends to -200 (squared descender).
+    # ---------------------------------------------------------------------------
+    _LY_ARM_DX = 250
+    _LY_MEET_Y = _XH_MID                         # 250
+    _LY_TOP_L = _LEFT_EDGE
+    _LY_TOP_R = _LY_TOP_L + 2 * _LY_ARM_DX           # 590
+    LOWER_Y = {
+        "name": "y",
+        "unicode": "U+0079",
+        "advance": _advance(_bbox(_LY_TOP_L, _LY_TOP_R + STROKE)),
+        "primitives": [
+            {"type": "diag",
+             "top_y": _XH,
+             "top_x0": _LY_TOP_L, "top_x1": _LY_TOP_L + STROKE,
+             "bot_y": _LY_MEET_Y,
+             "bot_x0": _LY_TOP_L + _LY_ARM_DX, "bot_x1": _LY_TOP_L + _LY_ARM_DX + STROKE},
+            {"type": "diag",
+             "top_y": _XH,
+             "top_x0": _LY_TOP_R, "top_x1": _LY_TOP_R + STROKE,
+             "bot_y": _LY_MEET_Y,
+             "bot_x0": _LY_TOP_L + _LY_ARM_DX, "bot_x1": _LY_TOP_L + _LY_ARM_DX + STROKE},
+            {"type": "vline", "x": _LY_TOP_L + _LY_ARM_DX + HALF, "y0": _DESC, "y1": _LY_MEET_Y},
+        ],
+    }
+
+    # -- z: full-span rails + 45-degree diagonal (dx=dy=500), the Z recipe
+    # scaled to x-height.
+    # ---------------------------------------------------------------------------
+    _LZ_X1 = _LV_TOP_L + _LV_DX + STROKE         # 700
+    LOWER_Z = {
+        "name": "z",
+        "unicode": "U+007A",
+        "advance": _advance(_bbox(_LV_TOP_L, _LZ_X1)),
+        "primitives": [
+            {"type": "hline", "y": _XH, "x0": _LV_TOP_L, "x1": _LZ_X1},
+            {"type": "hline", "y": BASELINE, "x0": _LV_TOP_L, "x1": _LZ_X1},
+            {"type": "diag",
+             "top_y": _XH,
+             "top_x0": _LZ_X1 - STROKE, "top_x1": _LZ_X1,
+             "bot_y": BASELINE,
+             "bot_x0": _LV_TOP_L, "bot_x1": _LV_TOP_L + STROKE},
+        ],
+    }
+
     return [dict(g, _stroke=STROKE) for g in [
         # Uppercase Latin A-Z
         A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z,
@@ -2603,6 +3058,11 @@ def build_glyph_defs(stroke_width=STROKE_DEFAULT):
         BRACKETLEFT, BRACKETRIGHT, BRACELEFT, BRACERIGHT,
         MULTIPLY, DIVIDE, NOTEQUAL, APPROXEQUAL,
         EURO, STERLING, YEN, TILDE, ASCIICIRCUM,
+        # Lowercase a-z (v0.2, #6)
+        LOWER_A, LOWER_B, LOWER_C, LOWER_D, LOWER_E, LOWER_F, LOWER_G,
+        LOWER_H, LOWER_I, LOWER_J, LOWER_K, LOWER_L, LOWER_M, LOWER_N,
+        LOWER_O, LOWER_P, LOWER_Q, LOWER_R, LOWER_S, LOWER_T, LOWER_U,
+        LOWER_V, LOWER_W, LOWER_X, LOWER_Y, LOWER_Z,
     ]]
 
 
