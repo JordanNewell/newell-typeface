@@ -75,6 +75,19 @@
       <string>cross</string>
       <string>star</string>
       <string>starOutlined</string>
+      <string>bracketleft</string>
+      <string>bracketright</string>
+      <string>braceleft</string>
+      <string>braceright</string>
+      <string>multiply</string>
+      <string>divide</string>
+      <string>notequal</string>
+      <string>approxequal</string>
+      <string>euro</string>
+      <string>sterling</string>
+      <string>yen</string>
+      <string>tilde</string>
+      <string>asciicircum</string>
     </array>
   </dict>
 </plist>

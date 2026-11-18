@@ -186,11 +186,13 @@ to control the visibility of decorative diagonals.
 |-------------------------|------------------------------------------------|
 | Uppercase Latin         | A B C D E F G H I J K L M N O P Q R S T U V W X Y Z |
 | Digits                  | 0 1 2 3 4 5 6 7 8 9                            |
-| Punctuation             | . , ! ? ' ' " " : ; - — ( ) / @ # $ % & + = < > |
+| Punctuation             | . , ! ? ' ' " " : ; - — – ( ) [ ] { } / @ # $ % & + = < > × ÷ ≠ ≈ ~ ^ |
+| Currency                | € £ ¥                                          |
 | Space                   | space, nbsp                                    |
 | Notdef + zero-width     | .notdef, null                                  |
 
-v0.2 adds: lowercase Latin, extended punctuation, basic Latin
+v0.2 adds: lowercase Latin (in progress), extended punctuation and
+currency (shipped: brackets, braces, × ÷ ≠ ≈ ~ ^ € £ ¥), basic Latin
 diacritics.
 
 ## 11. Naming

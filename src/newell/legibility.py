@@ -142,9 +142,11 @@ def check_bbox_bounds(glyph_def, contours):
     # 2026-11-18 (fixing it means re-drawing every glyph; out of sweep
     # scope). The check encodes the shipped convention, not the ideal.
     # One's flag legitimately reaches the SPEC ascender (800); a
-    # cap-centered rail's ink reaches 700 + stroke/2. Ceiling = the
-    # larger of the two, per the glyph's own stroke width.
-    top_limit = max(800, 700 + width / 2) + _EPS
+    # cap-centered rail's ink reaches 700 + stroke/2; brackets/braces
+    # add a 15-unit overshoot past that (same allowance at every
+    # weight). Ceiling = the largest of the three, per the glyph's own
+    # stroke width.
+    top_limit = max(800, 700 + width / 2 + 15) + _EPS
     if y1 > top_limit:
         failures.append(f"{name}: bbox top {y1} above cap overshoot limit {top_limit}")
     return failures
