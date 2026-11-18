@@ -9,7 +9,7 @@ Outputs:
     releases/Newell-Regular.otf
     releases/Newell-Regular.ttf
     releases/Newell-Regular.woff2
-    releases/Newell[wght].ttf      (variable, wght 300-900)
+    releases/Newell-VF.ttf         (variable, wght 300-900)
     releases/Newell-{Light,Bold,Black}.ttf (static instances)
 """
 import shutil

@@ -2,7 +2,7 @@
 
 Builds the four SPEC section 9 masters from the parametric glyph
 definitions, writes a designspace, and runs fontmake twice:
-  -o variable  -> releases/Newell[wght].ttf   (weight axis 300-900)
+  -o variable  -> releases/Newell-VF.ttf      (weight axis 300-900)
   -o ttf       -> releases/Newell-{Light,Bold,Black}.ttf (static
                   instances; the Regular TTF comes from the single-UFO
                   compile in build_all.py and is intentionally NOT
@@ -123,7 +123,7 @@ def main():
           "-o", "variable",
           "--output-dir", str(RELEASES)])
 
-    vf_out = RELEASES / "Newell[wght].ttf"
+    vf_out = RELEASES / "Newell-VF.ttf"
     vf_built = None
     for candidate in ("Newell-VF.ttf", "Newell-Regular-variable.ttf",
                       "Newell-Variable.ttf"):
@@ -145,7 +145,7 @@ def main():
           "--output-dir", str(RELEASES)])
 
     print("\n=== Variable build summary ===")
-    for name in ("Newell[wght].ttf", "Newell-Light.ttf", "Newell-Bold.ttf",
+    for name in ("Newell-VF.ttf", "Newell-Light.ttf", "Newell-Bold.ttf",
                  "Newell-Black.ttf"):
         p = RELEASES / name
         if p.exists():
