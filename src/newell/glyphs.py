@@ -66,10 +66,15 @@ def _bbox(left_edge, right_edge):
 # geometrically forced -- a true 45-degree A spans 2x the diagonal
 # throw. Width is wider than the average cap; advance ~1690. Hero glyph.
 # ---------------------------------------------------------------------------
-_A_APEX_X = _COL_L + CAP_HEIGHT / 2     # 495 -- apex centerline
 _A_LEG_DX = CAP_HEIGHT                   # 700 -- horizontal throw per leg
-_A_LEFT_EDGE = _A_APEX_X - _A_LEG_DX - HALF  # -260
-_A_RIGHT_EDGE = _A_APEX_X + _A_LEG_DX + HALF  # 1250
+# Apex sits so the left leg's BASELINE terminal lands on the standard
+# left column (_LEFT_EDGE): ink spans 90..1605, bearings 90/90. The
+# v0.1.1 apex (495) put the left edge at -260 -- ink poked 350 units
+# left of the origin into the previous character's space. Caught by
+# the #11 legibility bbox check on its first run (2026-11-18).
+_A_APEX_X = _LEFT_EDGE + _A_LEG_DX + HALF  # 845 -- apex centerline
+_A_LEFT_EDGE = _LEFT_EDGE                 # 90
+_A_RIGHT_EDGE = _A_APEX_X + _A_LEG_DX + HALF  # 1605
 # At crossbar y=200, leg centers are at apex +/- (700-200) = apex +/- 500
 _A_CROSSBAR_Y = 200
 _A_CROSSBAR_DX = CAP_HEIGHT - _A_CROSSBAR_Y  # 500
@@ -673,9 +678,12 @@ U = {
 # width 1510 -- geometrically forced, same constraint as A. Reads as a
 # wide, sharp V. Hero glyph family member.
 # ---------------------------------------------------------------------------
-_V_APEX_X = _COL_L + CAP_HEIGHT / 2         # 495 -- apex centerline
 _V_LEG_DX = CAP_HEIGHT                       # 700
-_V_LEFT_EDGE = _V_APEX_X - _V_LEG_DX - HALF  # -260
+# Apex on the standard right-column line so ink spans 90..1600 with
+# 90/90 bearings (was 495 -> left edge -260, same origin-lean bug the
+# #11 bbox check caught in A; fixed 2026-11-18).
+_V_APEX_X = _LEFT_EDGE + _V_LEG_DX + HALF   # 845 -- apex centerline
+_V_LEFT_EDGE = _LEFT_EDGE                    # 90
 _V_RIGHT_EDGE = _V_APEX_X + _V_LEG_DX + HALF  # 1250
 V = {
     "name": "V",
@@ -713,13 +721,16 @@ V = {
 # with dy=700.) The result reads as a W with a shallower inner V than a
 # humanist W; this is a documented v0.1 trade-off.
 # ---------------------------------------------------------------------------
-_W_APEX1_X = _COL_L + CAP_HEIGHT / 2          # 495 -- left V apex (baseline)
-_W_APEX2_X = _W_APEX1_X + CAP_HEIGHT          # 1195 -- right V apex (baseline)
 _W_LEG_DX = CAP_HEIGHT                         # 700 -- outer leg horizontal throw
 _W_INNER_DX = CAP_HEIGHT / 2                   # 350 -- inner leg horizontal throw
-_W_CENTER_TOP_X = (_W_APEX1_X + _W_APEX2_X) / 2  # 845 -- shared inner peak (mid-height)
+# Apex1 on the standard left edge (ink starts at 90) -- was 495, which
+# put the left edge at -261: same origin-lean bug the #11 bbox check
+# caught in A and V (fixed 2026-11-18).
+_W_APEX1_X = _LEFT_EDGE + _W_LEG_DX + HALF + _DIAG_OVERLAP  # 846
+_W_APEX2_X = _W_APEX1_X + CAP_HEIGHT          # 1546 -- right V apex (baseline)
+_W_CENTER_TOP_X = (_W_APEX1_X + _W_APEX2_X) / 2  # 1196 -- shared inner peak (mid-height)
 _W_INNER_TOP_Y = _MID_Y                        # 350 -- inner peak y (45deg constraint)
-_W_LEFT_EDGE = _W_APEX1_X - _W_LEG_DX - HALF - _DIAG_OVERLAP  # -261
+_W_LEFT_EDGE = _LEFT_EDGE                      # 90
 _W_RIGHT_EDGE = _W_APEX2_X + _W_LEG_DX + HALF + _DIAG_OVERLAP  # 1951
 W = {
     "name": "W",
@@ -1252,7 +1263,10 @@ PERIOD = {
 # baseline. The tail dy=110, dx=110, ending at y=-110 (above the -200
 # descender limit). Reads as a squared comma.
 # ---------------------------------------------------------------------------
-_COMMA_CX = SIDE_BEARING + HALF              # 145
+# +111 shift vs the plain column: the tail's bottom-left ink edge
+# must land at x=90, not -21 (bearings violation caught by the #11
+# harness 2026-11-18).
+_COMMA_CX = SIDE_BEARING + HALF + 111        # 256
 _COMMA_CY = HALF                             # 55
 _COMMA_TAIL_DX = 110
 _COMMA_TAIL_X0 = _COMMA_CX                   # 145 -- top of tail (under square)
@@ -1412,7 +1426,8 @@ COLON = {
 # tail descending below baseline. We use the comma square position for the
 # bottom mark so the tail joins naturally.
 # ---------------------------------------------------------------------------
-_SEMI_CX = SIDE_BEARING + HALF                # 145
+# +111 shift, same reason as _COMMA_CX (tail ink edge at x=90).
+_SEMI_CX = SIDE_BEARING + HALF + 111          # 256
 _SEMI_TOP_CY = _MID_Y                         # 350
 _SEMI_BOT_CX = _SEMI_CX                       # 145
 _SEMI_BOT_CY = HALF                           # 55
@@ -1886,15 +1901,17 @@ GREATER = {
 
 
 # ---------------------------------------------------------------------------
-# -- en dash (U+2013): half-width horizontal at mid. Em dash spans 720 units
-# (x=90..810); en dash is half that = 360 units, centered on the em's center
-# (x=450). x0=270, x1=630.
+# -- en dash (U+2013): half-width horizontal at mid. Em dash ink spans
+# 720 units (x=90..810); en dash is half that = 360 units, left-aligned
+# with the em dash (x0=90) so the two dash glyphs share a left edge --
+# the previous centered placement (270..630) left a 20-unit right
+# bearing (caught by the #11 harness 2026-11-18).
 # ---------------------------------------------------------------------------
 _ENDASH_Y = _MID_Y                              # 350
-_ENDASH_X0 = 270
-_ENDASH_X1 = 630
-_ENDASH_LEFT_EDGE = _ENDASH_X0 - HALF           # 215
-_ENDASH_RIGHT_EDGE = _ENDASH_X1 + HALF          # 685
+_ENDASH_X0 = SIDE_BEARING                       # 90
+_ENDASH_X1 = _ENDASH_X0 + 360                   # 450
+_ENDASH_LEFT_EDGE = _ENDASH_X0                  # 90
+_ENDASH_RIGHT_EDGE = _ENDASH_X1                 # 450
 _ENDASH_BBOX = _bbox(_ENDASH_LEFT_EDGE, _ENDASH_RIGHT_EDGE)
 ENDASH = {
     "name": "endash",
@@ -1911,7 +1928,9 @@ ENDASH = {
 # period (110x110). Centered on the column-center x=310 so it reads as a
 # separator when flanked by spaces.
 # ---------------------------------------------------------------------------
-_MIDDLEDOT_CX = (_COL_L + _COL_R_NARROW) / 2    # 310
+# Period's column (was 310, which pushed the dot 75 units past its
+# 290-unit advance -- caught by the #11 harness 2026-11-18).
+_MIDDLEDOT_CX = SIDE_BEARING + HALF             # 145
 _MIDDLEDOT_CY = _MID_Y                          # 350
 _MIDDLEDOT_BBOX = STROKE                        # 110
 MIDDLEDOT = {
@@ -1927,7 +1946,9 @@ MIDDLEDOT = {
 # Side = 2*STROKE = 220 so it visibly outweighs both period and middle dot.
 # Centered on column-center x=310.
 # ---------------------------------------------------------------------------
-_BULLET_CX = (_COL_L + _COL_R_NARROW) / 2       # 310
+# Advance-box center (was 310, which pushed the bullet 20 units past
+# its 400-unit advance -- caught by the #11 harness 2026-11-18).
+_BULLET_CX = 200
 _BULLET_CY = 300
 _BULLET_SIDE = 2 * STROKE                       # 220
 _BULLET_HALF = _BULLET_SIDE / 2                 # 110
@@ -2120,8 +2141,11 @@ LIGHTNING = {
 # ---------------------------------------------------------------------------
 _CROSS_TOP_Y = 600
 _CROSS_BOT_Y = 200
-_CROSS_LEFT_X = 200
-_CROSS_RIGHT_X = 600
+# On the 90-bearing grid: ink 89..601 inside a 692-unit advance
+# (was 200..600, bearings 144/34 -- caught by the #11 harness
+# 2026-11-18).
+_CROSS_LEFT_X = 145
+_CROSS_RIGHT_X = 545
 _CROSS_DX = _CROSS_RIGHT_X - _CROSS_LEFT_X      # 400
 _CROSS_LEFT_EDGE = _CROSS_LEFT_X - HALF         # 145
 _CROSS_RIGHT_EDGE = _CROSS_RIGHT_X + HALF       # 655
@@ -2203,34 +2227,61 @@ STAR = {
 
 
 # ---------------------------------------------------------------------------
-# ☆ white star (U+2606): the outlined counterpart to ★. In pure rail+45-
-# degree vocabulary, "outline only" isn't expressible through primitive
-# union (the generator unions; it cannot subtract). Approximation: ship
-# ONLY the X (4 diagonals... wait, 2 diagonals = 4 points) without the
-# plus overlay. Reads as a 4-pointed sparkle/distinct from the 8-pointed
-# filled starburst of ★. Documented v0.1.1 trade-off per SPEC section 7.
+# ☆ white star (U+2606): outlined counterpart to ★. v0.1.1 shipped this as
+# "the X without the plus" -- which is byte-identical to the ✗ cross glyph
+# (same two diagonals, same coordinates). Caught 2026-11-18 by the #11
+# legibility harness on its first run. Rebuilt: hollow 8-point starburst =
+# square ring (the "outline" center) + 4 corner diagonals (the X points)
+# + 4 stub rails (the plus points). Union-only vocabulary: the ring gives
+# the hollow center the generator cannot subtract. Distinct from ✗ (no
+# ring), from ★ (hollow), and from O/D0 (square, star-pointed).
 # ---------------------------------------------------------------------------
-_STAR_OUTLINED_BBOX = _bbox(_STAR_LEFT_EDGE, _STAR_RIGHT_EDGE)
+# 155 (not 150) so the corner-arm tips land exactly on the 90
+# bearing grid inside a 690-unit advance (see #11 harness).
+_SOW = 155  # ring outer half-width from center
+_SO_LEFT = _STAR_CENTER_X - _SOW    # 250
+_SO_RIGHT = _STAR_CENTER_X + _SOW   # 550
+_SO_BOT = _STAR_CENTER_Y - _SOW     # 200
+_SO_TOP = _STAR_CENTER_Y + _SOW     # 500
+_SO_ARM = 100                       # arm throw (45-degree: dx = dy = 100)
+_STAR_OUTLINED_BBOX = _bbox(_SO_LEFT - _SO_ARM, _SO_RIGHT + _SO_ARM)
 STAR_OUTLINED = {
     "name": "starOutlined",
     "unicode": "U+2606",
     "advance": _advance(_STAR_OUTLINED_BBOX),
     "primitives": [
-        # X shape only: backslash + forward slash (no plus overlay)
+        # Square ring (hollow center): 4 rails, outer edges 250..550 x
+        # 200..500, stroke 110, inner hole ~80x80.
+        {"type": "vline", "x": _SO_LEFT + HALF, "y0": _SO_BOT, "y1": _SO_TOP},
+        {"type": "vline", "x": _SO_RIGHT - HALF, "y0": _SO_BOT, "y1": _SO_TOP},
+        {"type": "hline", "y": _SO_TOP - HALF, "x0": _SO_LEFT, "x1": _SO_RIGHT},
+        {"type": "hline", "y": _SO_BOT + HALF, "x0": _SO_LEFT, "x1": _SO_RIGHT},
+        # X: corner diagonals poking out of the ring corners at 45 deg.
         {"type": "diag",
-         "top_y": _STAR_TOP_Y,
-         "top_x0": _STAR_LEFT_X - HALF - _DIAG_OVERLAP,
-         "top_x1": _STAR_LEFT_X + HALF + _DIAG_OVERLAP,
-         "bot_y": _STAR_BOT_Y,
-         "bot_x0": _STAR_RIGHT_X - HALF - _DIAG_OVERLAP,
-         "bot_x1": _STAR_RIGHT_X + HALF + _DIAG_OVERLAP},
+         "top_y": _SO_TOP + _SO_ARM,
+         "top_x0": _SO_LEFT - _SO_ARM, "top_x1": _SO_LEFT,
+         "bot_y": _SO_TOP,
+         "bot_x0": _SO_LEFT, "bot_x1": _SO_LEFT + _SO_ARM},
         {"type": "diag",
-         "top_y": _STAR_TOP_Y,
-         "top_x0": _STAR_RIGHT_X - HALF - _DIAG_OVERLAP,
-         "top_x1": _STAR_RIGHT_X + HALF + _DIAG_OVERLAP,
-         "bot_y": _STAR_BOT_Y,
-         "bot_x0": _STAR_LEFT_X - HALF - _DIAG_OVERLAP,
-         "bot_x1": _STAR_LEFT_X + HALF + _DIAG_OVERLAP},
+         "top_y": _SO_TOP + _SO_ARM,
+         "top_x0": _SO_RIGHT, "top_x1": _SO_RIGHT + _SO_ARM,
+         "bot_y": _SO_TOP,
+         "bot_x0": _SO_RIGHT - _SO_ARM, "bot_x1": _SO_RIGHT},
+        {"type": "diag",
+         "top_y": _SO_BOT,
+         "top_x0": _SO_RIGHT - _SO_ARM, "top_x1": _SO_RIGHT,
+         "bot_y": _SO_BOT - _SO_ARM,
+         "bot_x0": _SO_RIGHT, "bot_x1": _SO_RIGHT + _SO_ARM},
+        {"type": "diag",
+         "top_y": _SO_BOT,
+         "top_x0": _SO_LEFT, "top_x1": _SO_LEFT + _SO_ARM,
+         "bot_y": _SO_BOT - _SO_ARM,
+         "bot_x0": _SO_LEFT - _SO_ARM, "bot_x1": _SO_LEFT},
+        # Plus: 4 stubs through the ring edges.
+        {"type": "vline", "x": _STAR_CENTER_X, "y0": _SO_TOP - 60, "y1": _SO_TOP + _SO_ARM},
+        {"type": "vline", "x": _STAR_CENTER_X, "y0": _SO_BOT - _SO_ARM, "y1": _SO_BOT + 60},
+        {"type": "hline", "y": _STAR_CENTER_Y, "x0": _SO_LEFT - _SO_ARM, "x1": _SO_LEFT + 80},
+        {"type": "hline", "y": _STAR_CENTER_Y, "x0": _SO_RIGHT - 80, "x1": _SO_RIGHT + _SO_ARM},
     ],
 }
 
