@@ -23,15 +23,18 @@ hand-drawn, so the entire alphabet inherits one visual grammar.
 - **Try it (interactive):** <https://jordannewell.github.io/newell-typeface/try.html>
 - **Technical specimen:** <https://jordannewell.github.io/newell-typeface/specimen/>
 - **Latest release:** <https://github.com/JordanNewell/newell-typeface/releases/latest>
-- **Roadmap:** [ROADMAP.md](ROADMAP.md)
+- **Roadmap:** vault `10_PROJECTS/newell-typeface/ROADMAP.md`
+  (removed from the repo per the plan-doc guard)
 
 ---
 
 ## Status
 
-**v0.1.1-alpha** — uppercase A–Z, digits 0–9, basic punctuation,
-common symbols (⚡ · → ← — ★ ☆ ✗). 71 glyphs total. Single weight
-(Regular). Static build (variable axes planned for v0.2).
+**v0.2.0-alpha** — uppercase A–Z, lowercase a–z, digits 0–9, extended
+punctuation (brackets, braces, × ÷ ≠ ≈ ~ ^), currency (€ £ ¥), and the
+v0.1.1 symbol set. **108 glyphs.** Ships a **variable font** with a
+weight axis (wght 300–900) plus static Light/Bold/Black instances —
+all metric-compatible, text does not reflow across weights.
 
 Treat v0.x as a tech preview. Each glyph follows the rules, but the
 rules themselves will tighten as the typeface matures.
@@ -121,6 +124,31 @@ newell-typeface/
 ```
 
 ---
+
+## Web usage
+
+`releases/Newell-Regular.woff2` (~2KB, full glyph set — already smaller
+than any subset would be, so no subsetting is needed or provided).
+
+```css
+@font-face {
+  font-family: "Newell";
+  src: url("Newell-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+```
+
+Variable alternative (any weight 300–900, `font-weight: 450` works):
+
+```css
+@font-face {
+  font-family: "Newell";
+  src: url("Newell-VF.ttf") format("truetype-variations");
+  font-weight: 300 900;
+}
+```
 
 ## Building
 
