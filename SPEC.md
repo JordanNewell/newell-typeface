@@ -191,9 +191,18 @@ to control the visibility of decorative diagonals.
 | Space                   | space, nbsp                                    |
 | Notdef + zero-width     | .notdef, null                                  |
 
-v0.2 adds: lowercase Latin (in progress), extended punctuation and
+v0.2 adds: lowercase Latin a-z (shipped), extended punctuation and
 currency (shipped: brackets, braces, × ÷ ≠ ≈ ~ ^ € £ ¥), basic Latin
 diacritics.
+
+Lowercase notes: x-height rails follow the uppercase centerline
+convention (ink overshoots the 500 metric by half a stroke).
+Diagonal letters (v w x y z k) inherit the 45-degree tyranny scaled
+down: v spans 90..1200 (same leg-to-height ratio as V), w mirrors W's
+mid-height inner peak, y uses Y's arm+stem trick. l carries a foot +
+upturned tail (bare stem = uppercase I; plain foot = uppercase L --
+both caught by the #11 harness). a is a squared two-story; g is a
+squared hook distinct from q (no hook).
 
 ## 11. Naming
 
