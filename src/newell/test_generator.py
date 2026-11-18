@@ -191,6 +191,26 @@ def test_legibility_heuristics():
     assert failures == [], "\n".join(failures)
 
 
+def test_build_at_all_weights():
+    # Issue #8: the same definitions must yield valid fonts at the SPEC
+    # section 9 master weights (Light 70 / Bold 170 / Black 220;
+    # Regular 110 is covered by every other test).
+    import tempfile
+
+    from newell.glyphs import build_glyph_defs
+    from newell.legibility import run_checks
+
+    for width in (70, 170, 220):
+        defs = build_glyph_defs(stroke_width=width)
+        names = [g["name"] for g in defs]
+        tmp = tempfile.mkdtemp(prefix=f"newell_w{width}_")
+        out = os.path.join(tmp, "font.ufo")
+        build_and_save(defs, out)
+        validate_ufo(out, names)
+        failures = run_checks(defs)
+        assert failures == [], f"stroke {width}: " + "\n".join(failures)
+
+
 def run_all():
     tests = [
         name for name in globals()
