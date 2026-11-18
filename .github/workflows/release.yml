@@ -34,8 +34,10 @@ jobs:
       - name: Verify binaries exist
         run: |
           set -e
-          for fmt in otf ttf woff2; do
-            f="releases/Newell-Regular.${fmt}"
+          for f in releases/Newell-Regular.otf releases/Newell-Regular.ttf \
+                   releases/Newell-Regular.woff2 'releases/Newell[wght].ttf' \
+                   releases/Newell-Light.ttf releases/Newell-Bold.ttf \
+                   releases/Newell-Black.ttf; do
             if [ ! -s "$f" ]; then
               echo "ERROR: $f missing or empty" >&2
               exit 1
@@ -98,7 +100,11 @@ jobs:
             --notes-file release_notes.md \
             releases/Newell-Regular.otf \
             releases/Newell-Regular.ttf \
-            releases/Newell-Regular.woff2
+            releases/Newell-Regular.woff2 \
+            'releases/Newell[wght].ttf' \
+            releases/Newell-Light.ttf \
+            releases/Newell-Bold.ttf \
+            releases/Newell-Black.ttf
 
       - name: Skip (release exists)
         if: steps.exists.outputs.exists == 'true'
