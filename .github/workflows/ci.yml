@@ -67,14 +67,19 @@ jobs:
       - name: Verify binaries exist
         run: |
           set -e
-          for fmt in otf ttf woff2; do
-            f="releases/Newell-Regular.${fmt}"
+          for f in releases/Newell-Regular.otf releases/Newell-Regular.ttf                    releases/Newell-Regular.woff2 'releases/Newell[wght].ttf'                    releases/Newell-Light.ttf releases/Newell-Bold.ttf                    releases/Newell-Black.ttf; do
             if [ ! -s "$f" ]; then
               echo "ERROR: $f missing or empty" >&2
               exit 1
             fi
             echo "ok: $f ($(stat -c%s "$f") bytes)"
           done
+          SIZE=$(stat -c%s "releases/Newell-Regular.woff2")
+          if [ "$SIZE" -ge 30720 ]; then
+            echo "ERROR: woff2 $SIZE bytes >= 30KB limit (#10)" >&2
+            exit 1
+          fi
+          echo "ok: woff2 size gate ($SIZE bytes < 30KB)"
 
       - name: Upload font binaries
         uses: actions/upload-artifact@v4
@@ -84,5 +89,9 @@ jobs:
             releases/Newell-Regular.otf
             releases/Newell-Regular.ttf
             releases/Newell-Regular.woff2
+            releases/Newell[wght].ttf
+            releases/Newell-Light.ttf
+            releases/Newell-Bold.ttf
+            releases/Newell-Black.ttf
           if-no-files-found: error
           retention-days: 14

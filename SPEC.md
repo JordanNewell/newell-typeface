@@ -164,12 +164,18 @@ v0.1 ships **Regular** only (stroke width 110).
 
 Planned for v0.2 as a variable font:
 
-| Weight   | Stroke | Use case              |
-|----------|--------|-----------------------|
-| Light    | 70     | Display, large sizes  |
-| Regular  | 110    | Body, default         |
-| Bold     | 170    | Emphasis              |
-| Black    | 220    | Hero, signage         |
+| Weight   | Stroke | wght axis | Use case              |
+|----------|--------|-----------|-----------------------|
+| Light    | 70     | 300       | Display, large sizes  |
+| Regular  | 110    | 400       | Body, default         |
+| Bold     | 170    | 700       | Emphasis              |
+| Black    | 220    | 900       | Hero, signage         |
+
+The stroke width is the variable-font design space: every glyph
+coordinate is a linear function of it, so masters are metric-compatible
+(identical advances) and the varLib interpolation is exact. VF masters
+are built from raw expanded primitives (no boolean union — union
+topology shifts with width), which varLib requires.
 
 A custom `NDI` (Newell Diagonal Intensity) axis may be added in v0.3
 to control the visibility of decorative diagonals.

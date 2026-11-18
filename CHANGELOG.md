@@ -8,6 +8,26 @@ Font releases use a `vMAJOR.MINOR.PATCH[-prerelease]` tag scheme.
 
 ## [Unreleased]
 
+### Added
+- Variable font `Newell[wght].ttf` with a wght axis (300-900) interpolated
+  from four metric-compatible masters (#8).
+- Static instances: `Newell-Light.ttf`, `Newell-Bold.ttf`, `Newell-Black.ttf`.
+- Legibility regression harness (#11): bbox-vs-advance bounds, pairwise
+  distinctness (12x12 ink-signature equality), contour sanity, and a CI
+  manifest gate (`sources/legibility-manifest.json`).
+
+### Fixed
+- A/V/W ink leaned ~350 units left of origin into the previous character's
+  space; recentred on the 90-bearing grid.
+- `starOutlined` (U+2606) was byte-identical to `cross` (U+2717); rebuilt
+  as a hollow starburst.
+- comma/semicolon tails poked 21 units left of origin; endash, middledot,
+  bullet, cross, star ink sat outside their advance boxes; hyphen
+  regridded and length-fixed (was collapsible into middledot at Black).
+
+
+## [Unreleased]
+
 ### Planned for v0.2
 - Lowercase Latin alphabet (a-z)
 - Class-based kerning for problem pairs (AV, AT, PA, YA, etc.)

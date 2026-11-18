@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<designspace format="5">
+  <axes>
+    <axis tag="wght" name="Weight" minimum="300" maximum="900" default="400" uservalue="400"/>
+  </axes>
+  <sources>
+    <source familyname="Newell" stylename="Light" filename="master_ufo/Newell-Light.ufo">
+      <location>
+        <dimension name="Weight" xvalue="300"/>
+      </location>
+    </source>
+    <source familyname="Newell" stylename="Regular" filename="master_ufo/Newell-Regular.ufo">
+      <location>
+        <dimension name="Weight" xvalue="400"/>
+      </location>
+    </source>
+    <source familyname="Newell" stylename="Bold" filename="master_ufo/Newell-Bold.ufo">
+      <location>
+        <dimension name="Weight" xvalue="700"/>
+      </location>
+    </source>
+    <source familyname="Newell" stylename="Black" filename="master_ufo/Newell-Black.ufo">
+      <location>
+        <dimension name="Weight" xvalue="900"/>
+      </location>
+    </source>
+  </sources>
+  <instances>
+    <instance familyname="Newell" stylename="Light" filename="../releases/Newell-Light.ttf">
+      <location>
+        <dimension name="Weight" xvalue="300"/>
+      </location>
+    </instance>
+    <instance familyname="Newell" stylename="Bold" filename="../releases/Newell-Bold.ttf">
+      <location>
+        <dimension name="Weight" xvalue="700"/>
+      </location>
+    </instance>
+    <instance familyname="Newell" stylename="Black" filename="../releases/Newell-Black.ttf">
+      <location>
+        <dimension name="Weight" xvalue="900"/>
+      </location>
+    </instance>
+  </instances>
+</designspace>

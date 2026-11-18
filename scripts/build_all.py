@@ -1,4 +1,5 @@
-"""End-to-end build: generate UFO from glyph defs, compile to OTF/TTF/WOFF2.
+"""End-to-end build: generate UFO from glyph defs, compile to OTF/TTF/WOFF2,
+plus the variable font and its static instances (issue #8).
 
 Usage:
     py scripts/build_all.py
@@ -8,6 +9,8 @@ Outputs:
     releases/Newell-Regular.otf
     releases/Newell-Regular.ttf
     releases/Newell-Regular.woff2
+    releases/Newell[wght].ttf      (variable, wght 300-900)
+    releases/Newell-{Light,Bold,Black}.ttf (static instances)
 """
 import shutil
 import subprocess
@@ -51,7 +54,10 @@ def main():
          [sys.executable, "-m", "fontTools.ttLib.woff2",
           "compress", str(RELEASES / "Newell-Regular.ttf")])
 
-    # 5. Summary.
+    # 5. Variable font + static instances (weight axis).
+    step("Variable font", [sys.executable, "scripts/build_variable.py"])
+
+    # 6. Summary.
     print("\n=== Build summary ===")
     for fmt in ("otf", "ttf", "woff2"):
         p = RELEASES / f"Newell-Regular.{fmt}"

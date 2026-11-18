@@ -12,17 +12,20 @@ STROKE_WIDTH = 110
 _HALF = STROKE_WIDTH / 2.0
 
 
-def expand_vline(spec):
+def expand_vline(spec, width=STROKE_WIDTH):
     """Rectangle centered horizontally on x, extending y0 -> y1.
 
-    Returns 4 corner points clockwise from lower-left.
+    width = stroke thickness (variable-font masters pass their own;
+    default = Regular 110). Returns 4 corner points clockwise from
+    lower-left.
     """
+    half = width / 2.0
     x = spec["x"]
     y0 = spec["y0"]
     y1 = spec["y1"]
     lo, hi = (y0, y1) if y0 <= y1 else (y1, y0)
-    left = x - _HALF
-    right = x + _HALF
+    left = x - half
+    right = x + half
     return [
         (left, lo),
         (right, lo),
@@ -31,17 +34,19 @@ def expand_vline(spec):
     ]
 
 
-def expand_hline(spec):
+def expand_hline(spec, width=STROKE_WIDTH):
     """Rectangle centered vertically on y, extending x0 -> x1.
 
-    Returns 4 corner points clockwise from lower-left.
+    width = stroke thickness. Returns 4 corner points clockwise from
+    lower-left.
     """
+    half = width / 2.0
     y = spec["y"]
     x0 = spec["x0"]
     x1 = spec["x1"]
     lo, hi = (x0, x1) if x0 <= x1 else (x1, x0)
-    bottom = y - _HALF
-    top = y + _HALF
+    bottom = y - half
+    top = y + half
     return [
         (lo, bottom),
         (hi, bottom),
@@ -50,7 +55,7 @@ def expand_hline(spec):
     ]
 
 
-def expand_diag(spec):
+def expand_diag(spec, width=STROKE_WIDTH):
     """45-degree parallelogram with horizontal terminal edges.
 
     The two terminals are horizontal edges (aligned with cap height /
@@ -116,11 +121,13 @@ _PRIMITIVE_EXPANDERS = {
 }
 
 
-def expand_primitive(spec):
+def expand_primitive(spec, width=STROKE_WIDTH):
     """Dispatch on spec['type'] to the matching expander.
 
-    Raises KeyError on unknown type (the spec dict lookup itself fails
-    with a clear message before that for genuinely missing 'type').
+    width = stroke thickness for the rail expanders (diag geometry is
+    fully determined by its own coordinates). Raises KeyError on
+    unknown type (the spec dict lookup itself fails with a clear
+    message before that for genuinely missing 'type').
     """
     try:
         kind = spec["type"]
@@ -130,4 +137,4 @@ def expand_primitive(spec):
         expander = _PRIMITIVE_EXPANDERS[kind]
     except KeyError:
         raise ValueError(f"unknown primitive type {kind!r}; spec={spec!r}")
-    return expander(spec)
+    return expander(spec, width)
