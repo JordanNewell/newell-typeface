@@ -42,8 +42,17 @@ def _char(glyph_def):
     if code is None:
         return None
     if isinstance(code, str):
-        from newell.generator import _parse_unicode
-        code = _parse_unicode(code)
+        # Inline parse — importing newell.generator would drag in
+        # booleanOperations, which the Pages job does not install.
+        t = code.strip()
+        if t.startswith(("U+", "u+")):
+            code = int(t[2:], 16)
+        elif t.startswith(("0x", "0X")):
+            code = int(t[2:], 16)
+        elif len(t) == 1:
+            code = ord(t)
+        else:
+            code = int(t, 16)
     return chr(code)
 
 
